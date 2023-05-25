@@ -1,0 +1,26 @@
+<div class="users-new-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-offset-4 col-md-4 users-new-container">
+        <h1 class="text-center text-black">プロフィール情報登録</h1>
+          <%= bootstrap_form_for(@user) do |f| %>
+            <%= f.text_field :user_id %> 
+            <%= f.text_field :profile_type %>　
+            <%= f.text_field :screen_name %>
+            <%= f.text_field :avatar_image %> 
+            <%= f.text_field :prefecture %>
+            <%= f.text_field :city %>
+            <%= f.text_area :about_region %>
+            <%= f.text_area :incubation %>
+            <%= f.text_area :immigration_support %>
+            <%= f.text_area :job %>
+            <%= f.text_area :skill %>
+            <%= f.text_area :interest %>
+            <%= f.text_area :other %>
+            <%= f.text_area :public_status_id %>
+            <%= f.submit %>
+          <% end %>
+     </div>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_22_065701) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_25_071856) do
+  create_table "user_profiles", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "profile_type"
+    t.string "screen_name"
+    t.string "avatar_image"
+    t.integer "prefecture"
+    t.string "city"
+    t.text "about_region"
+    t.text "incubation"
+    t.text "immigration_support"
+    t.text "job"
+    t.text "skill"
+    t.text "interest"
+    t.text "other"
+    t.integer "public_status_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
