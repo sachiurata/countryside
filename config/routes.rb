@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     :passwords => 'users/passwords'
    }
    
-   resources :user_profiles
+  resources :user_profiles
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

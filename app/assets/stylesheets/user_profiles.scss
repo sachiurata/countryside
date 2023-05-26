@@ -1,0 +1,3 @@
+.sbh1,.sbh2{display:none;}
+input[type="radio"]:checked#sbh1~div.sbh1 {display:block;}
+input[type="radio"]:checked#sbh2~div.sbh2 {display:block;}

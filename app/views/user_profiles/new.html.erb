@@ -1,26 +1,32 @@
-<div class="users-new-wrapper">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-offset-4 col-md-4 users-new-container">
-        <h1 class="text-center text-black">プロフィール情報登録</h1>
-          <%= bootstrap_form_for(@user) do |f| %>
-            <%= f.text_field :user_id %> 
-            <%= f.text_field :profile_type %>　
-            <%= f.text_field :screen_name %>
-            <%= f.text_field :avatar_image %> 
-            <%= f.text_field :prefecture %>
-            <%= f.text_field :city %>
-            <%= f.text_area :about_region %>
-            <%= f.text_area :incubation %>
-            <%= f.text_area :immigration_support %>
-            <%= f.text_area :job %>
-            <%= f.text_area :skill %>
-            <%= f.text_area :interest %>
-            <%= f.text_area :other %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-4 col-md-4 users-new-container">
+      <h1 class="text-center text-black">プロフィール情報登録</h1>
+        <%= bootstrap_form_for(@user_profile) do |f| %>
+        　<div>
+          　<p>どちらで登録するかお選びください</p>
+            <br><input type="radio" id="sbh1" name="test" value="ラジオボタン１"/><span>地域側</span></br>
+            <br><input type="radio" id="sbh2" name="test" value="ラジオボタン２"/><span>起業希望者</span></br>
+            
+            <%= f.text_field :screen_name, label:"表示名" %>
+            <%= f.text_field :avatar_image, label:"プロフィール画像" %> 
+            <%= f.text_field :prefecture, label:"都道府県" %>
+            <%= f.text_field :city, label:"市町村以下" %>
+            <div class="sbh1">地域側として登録する内容です。
+              <%= f.text_area :about_region, label:"地域について" %>
+              <%= f.text_area :incubation, label:"地域の起業支援" %>
+              <%= f.text_area :immigration_support, label:"地域の移住支援"  %>
+            </div>
+            <div class="sbh2">起業希望者として登録する内容です。
+              <%= f.text_area :job, label:"職業" %>
+              <%= f.text_area :skill, label:"得意なこと" %>
+              <%= f.text_area :interest, label:"興味のあること" %>
+            </div>
+            <%= f.text_area :other, label:"その他"  %>
             <%= f.text_area :public_status_id %>
             <%= f.submit %>
-          <% end %>
-     </div>
-    </div>
+          </div>
+        <% end %>
+   </div>
   </div>
 </div>
