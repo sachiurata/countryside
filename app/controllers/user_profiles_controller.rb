@@ -1,4 +1,6 @@
 class UserProfilesController < ApplicationController
+  before_action :authenticate_user!
+  
   def new
     @user_profile = UserProfile.new
   end
@@ -7,15 +9,27 @@ class UserProfilesController < ApplicationController
     @user_profile = UserProfile.new(user_profile_params)
   
     if @user_profile.save
-       redirect_to root_path, success: '登録が完了しました'
+       redirect_to root_path
     else
-      flash.now[:danger] = "登録に失敗しました"
       render :new
+    end
+  end
+  
+  def edit
+    @user_profile = UserProfile.find(params[:id])
+  end
+  
+  def update
+    @user_profile = UserProfile.find(params[:id])
+    if @user_profile.update(user_profile_params)
+      redirect_to root_path
+    else
+      render :edit
     end
   end
   
   private
   def user_profile_params
-    params.require(:user_profile).permit(:user_id, :profile_type, :screen_name, :avatar_image, :prefecture, :city, :about_region, :incubation,:immigration_support,:job, :skill, :interest,:other, :public_status_id)
+    params.require(:user_profile).permit(:user_id, :profile_type, :screen_name, :avatar, :prefecture, :city, :about_region, :incubation,:immigration_support,:job, :skill, :interest,:other1, :other2, :public_status_id)
   end
 end

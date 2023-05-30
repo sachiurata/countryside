@@ -4,8 +4,7 @@ class CreateUserProfiles < ActiveRecord::Migration[7.0]
       t.integer :user_id
       t.integer :profile_type
       t.string :screen_name
-      t.string :avatar_image
-      t.integer :prefecture
+      t.string :prefecture
       t.string :city
       t.text :about_region
       t.text :incubation
@@ -13,7 +12,8 @@ class CreateUserProfiles < ActiveRecord::Migration[7.0]
       t.text :job
       t.text :skill
       t.text :interest
-      t.text :other
+      t.text :other1
+      t.text :other2
       t.integer :public_status_id
       
       t.timestamps
