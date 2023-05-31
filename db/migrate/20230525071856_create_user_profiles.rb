@@ -2,7 +2,8 @@ class CreateUserProfiles < ActiveRecord::Migration[7.0]
   def change
     create_table :user_profiles do |t|
       t.integer :user_id
-      t.integer :profile_type
+      t.boolean :profile_type1
+      t.boolean :profile_type2
       t.string :screen_name
       t.string :prefecture
       t.string :city

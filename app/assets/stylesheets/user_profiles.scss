@@ -1,4 +1,12 @@
-.sbh1,.sbh2,.sbh3,{display:none;}
-input[type="radio"]:checked#sbh1~div.sbh1 {display:block;}
-input[type="radio"]:checked#sbh2~div.sbh2 {display:block;}
-
+div.user_profile_profile_type1 {
+  display:none;
+}
+input[type=checkbox]:checked ~ div.user_profile_profile_type1 {
+  display:block;
+}
+div.user_profile_profile_type2 {
+  display:none;
+}
+input[type=checkbox]:checked ~ div.user_profile_profile_type2 {
+  display:block;
+}
