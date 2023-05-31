@@ -23,6 +23,6 @@ module Countryside
      config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     # config.eager_load_paths << Rails.root.join("extras")
     
-    config.active_storage.variant_processor = :vips
+    config.active_storage.variant_processor = :mini_magick
   end
 end
