@@ -27,6 +27,9 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user_profiles/new">プロフィール登録</a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="/user_profiles" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             ユーザー一覧
@@ -45,8 +48,8 @@
           <a class="nav-link" href="/users/sign_in">ログイン</a>
         </li>
         <li class="nav-item">
+          <!--<a class="nav-link" href="/users/sign_out">ログアウト</a>-->
           <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
-          <!--<a class="nav-link" href="destroy_user_session_path">ログアウト</a>-->
         </li>
       </ul>
     </div>
