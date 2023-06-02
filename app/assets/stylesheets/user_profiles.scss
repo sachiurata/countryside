@@ -10,3 +10,8 @@ div.user_profile_profile_type2 {
 input[type=checkbox]:checked ~ div.user_profile_profile_type2 {
   display:block;
 }
+
+.profile-avatar {
+  border-radius: 200px;
+  width: 100%;
+}
