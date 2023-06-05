@@ -1,0 +1,17 @@
+div.post_post_type1 {
+  display:none;
+}
+input[type=checkbox]:checked ~ div.post_post_type1 {
+  display:block;
+}
+
+div.post_post_type2 {
+  display:none;
+}
+input[type=checkbox]:checked ~ div.post_post_type2 {
+  display:block;
+}
+
+.label {
+  font-weight:bold
+}
