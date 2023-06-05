@@ -9,9 +9,9 @@ class UserProfilesController < ApplicationController
     @user_profile = UserProfile.new(user_profile_params)
   
     if @user_profile.save
-       redirect_to root_path
+       redirect_to root_path, notice:"登録が完了しました"
     else
-      render :new
+      render :new, notice:"登録に失敗しました"
     end
   end
   
@@ -24,7 +24,7 @@ class UserProfilesController < ApplicationController
     
     @user_profile = UserProfile.find(params[:id])
     if @user_profile.update(user_profile_params)
-      redirect_to root_path
+      redirect_to root_path, notice:"更新しました"
     else
       render :edit
     end
