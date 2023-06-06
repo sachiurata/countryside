@@ -1,6 +1,16 @@
 class PostsController < ApplicationController
-  def new
+  def new_1
     @post = Post.new
+    @user_profile = current_user.user_profile
+    @profile_type1_flag = true
+    @profile_type2_flag = false
+  end
+  
+  def new_2
+    @post = Post.new
+    @user_profile = current_user.user_profile
+    @profile_type1_flag = false
+    @profile_type2_flag = true
   end
   
   def create

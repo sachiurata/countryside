@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+     <%= render "layouts/post_place", post: @post %>
+     <div>
+      <%= bootstrap_form_for(@post) do |f| %>
+      <div class="post_form">
+        <%= f.text_area :body1, label:"やりたいことなど", size: "40x15", placeholder:"" %>
+      </div>
+      <% end %>
+      <%= render "layouts/user_profile", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, profile_type2_flag: @profile_type2_flag %>
+     </div>
+   </div>
+  </div>
+</div>
+
+            

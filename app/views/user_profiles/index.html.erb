@@ -1,2 +1,9 @@
-<%= render "layouts/user", user_profiles: @user_profiles %>
-
+<div class="container">
+  <div class="row">
+   <% @user_profiles.each do |user_profile| %>
+   <div class="card"> 
+   <%= render "layouts/user_profile", user_profile: user_profile, profile_type1_flag: @profile_type1_flag, profile_type2_flag: @profile_type2_flag %>
+    </div>
+   <% end %>
+  </div>
+</div>

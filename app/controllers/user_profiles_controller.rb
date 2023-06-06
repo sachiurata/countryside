@@ -32,6 +32,8 @@ class UserProfilesController < ApplicationController
   
   def index
     @user_profiles = UserProfile.all
+    @profile_type1_flag = current_user.user_profile.profile_type1
+    @profile_type2_flag = current_user.user_profile.profile_type2
   end
   
   private
