@@ -3,6 +3,11 @@
   width: 100%;
 }
 
+.profile-avatar-small {
+  border-radius: 200px;
+  width: 100%;
+}
+
 .label {
   font-weight: bold;
 }
@@ -15,3 +20,10 @@
   margin: 100px;
 }
 
+.title {
+  
+}
+
+label.required:after {
+  content:" *";
+}
