@@ -1,6 +1,7 @@
 <div class="container">
  <div class="row g-0">
   <div class="col-md-10">
+   
     <h2 class="title"><%= post.title %></h2>
     <%#= image_tag post.user.user_profile.avatar.variant(:thumb), class: "profile-avatar" if post.user.user_profile.avatar.attached? %>
     <% if post.images.attached? %>
@@ -10,6 +11,7 @@
    <% end %>
     <p class="name"><%= post.user.user_profile.screen_name %></p>
     <P class="place"><%= post.prefecture%><%= post.city %></P>
+     <% type_flag %>
      <% if post.post_type == 1 %>
       <span class="badge text-bg-success">地域側</span>
       <P class="label"></P>
@@ -31,5 +33,6 @@
   <% if post.user_id == current_user.id %> 
    <%= link_to '編集', edit_post_path(post.id) %>
   <% end %> 
+  
   <%= render "layouts/user_profile", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, profile_type2_flag: @profile_type2_flag %>
  </div>

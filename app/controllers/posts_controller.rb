@@ -1,34 +1,36 @@
 class PostsController < ApplicationController
+  include PostsHelper
+  
   before_action :authenticate_user!, except:[:index]
   before_action :ensure_user, only:[:edit, :update]
   
-  def new_1
-    @post = Post.new
-    @user_profile = current_user.user_profile
-    @post_type_flag = 1
-    @profile_type1_flag = true
-    @profile_type2_flag = false
-  end
+  # def new_1
+  #   @post = Post.new
+  #   @user_profile = current_user.user_profile
+  #   @post_type_flag = 1
+  #   @profile_type1_flag = true
+  #   @profile_type2_flag = false
+  # end
   
-  def new_2
-    @post = Post.new
-    @user_profile = current_user.user_profile
-    @post_type_flag = 2
-    @profile_type1_flag = false
-    @profile_type2_flag = true
-  end
+  # def new_2
+  #   @post = Post.new
+  #   @user_profile = current_user.user_profile
+  #   @post_type_flag = 2
+  #   @profile_type1_flag = false
+  #   @profile_type2_flag = true
+  # end
   
-  def create
-    @post = Post.new(post_params)
-    @user_profile = current_user.user_profile
+  # def create
+  #   @post = Post.new(post_params)
+  #   @user_profile = current_user.user_profile
     
-    if @post.save
-      redirect_to ({action: :show, id: @post.id}), notice:"登録が完了しました"
-    else
-      render :new_1, notice:"登録に失敗しました"  
-      #空欄以外で登録失敗ってある？空欄だと画面が遷移しない。
-    end
-  end
+  #   if @post.save
+  #     redirect_to ({action: :show, id: @post.id}), notice:"登録が完了しました"
+  #   else
+  #     render :root_path, notice:"登録に失敗しました"  
+  #     #空欄以外で登録失敗ってある？空欄だと画面が遷移しない。
+  #   end
+  # end
   
   def edit
     @post = Post.find(params[:id])
@@ -36,13 +38,13 @@ class PostsController < ApplicationController
     @edit_flag = true
     
     if @post.post_type == 1
-     @profile_type1_flag = true
-     @post_type_flag = 1
+      #@profile_type1_flag = true
+      @post_type_flag = 1
     end
     
     if @post.post_type == 2
-     @profile_type2_flag = true
-     @post_type_flag = 2
+      #@profile_type2_flag = true
+      @post_type_flag = 2
     end
   end
   
@@ -61,13 +63,13 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @user_profile = UserProfile.find(@post.user.user_profile.id)
     
-    if @post.post_type == 1
-     @profile_type1_flag = true
-    end
+    # if @post.post_type == 1
+    # @profile_type1_flag = true
+    # end
     
-    if @post.post_type == 2
-     @profile_type2_flag = true
-    end
+    # if @post.post_type == 2
+    # @profile_type2_flag = true
+    # end
     
   end
   
@@ -85,5 +87,5 @@ class PostsController < ApplicationController
     unless @post.user_id == current_user.id
       redirect_to action: :show, id: @post.id
     end
-  end
+  end  
 end

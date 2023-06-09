@@ -13,6 +13,7 @@
               <% array << [i, i] %>
             <% end %>
             <%= f.select :prefecture, array, class: 'btn', label:"都道府県", required: true  %>
+            <%#= f.select :prefecture, [["Apple", 1], ["Grape", 2]], { label: "Choose your favorite fruit:", wrapper: { class: 'has-warning', data: { foo: 'bar' } } }, { class: "selectpicker" } %>
             <%= f.text_field :city, label:"市町村以下" %>
             <p>どちらで登録するかお選びください</p>
             <div>
