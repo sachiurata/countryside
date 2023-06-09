@@ -9,11 +9,6 @@ class CreatePosts < ActiveRecord::Migration[7.0]
       t.text :body1
       t.text :body2
       t.text :feature
-      t.string :main_image
-      t.string :sub_image1
-      t.string :sub_image2
-      t.string :sub_image3
-      t.string :sub_image4
       t.string :attachment
       t.string :realizability
       t.string :earnest

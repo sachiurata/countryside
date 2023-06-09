@@ -13,4 +13,16 @@ module ApplicationHelper
     return text
   end
   
+  def type_flag()
+    if @post.post_type == 1
+        @profile_type1_flag = true
+        @post_type_flag = 1
+    end
+  
+    if @post.post_type == 2
+      @profile_type2_flag = true
+      @post_type_flag = 2
+    end
+  end
+  
 end
