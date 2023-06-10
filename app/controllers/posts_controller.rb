@@ -52,6 +52,10 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @user_profile = current_user.user_profile
     
+    # unless @post.images.attached?
+    # @post.images = @post.images.attach(params[:images])
+    # end
+    
     if @post.update(post_params)
       redirect_to ({action: :show, id: @post.id}), notice:"更新しました"
     else
