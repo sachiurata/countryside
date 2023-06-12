@@ -10,7 +10,7 @@ class UserProfilesController < ApplicationController
     @user_profile = UserProfile.new(user_profile_params)
   
     if @user_profile.save
-       redirect_to root_path, notice:"登録が完了しました"
+       redirect_to user_profiles_path, notice:"登録が完了しました"
     else
       render :new, notice:"登録に失敗しました"
     end
@@ -25,16 +25,32 @@ class UserProfilesController < ApplicationController
     
     @user_profile = UserProfile.find(params[:id])
     if @user_profile.update(user_profile_params)
-      redirect_to root_path, notice:"更新しました"
+      redirect_to user_profiles_path, notice:"更新しました"
     else
       render :edit
     end
   end
   
+  def show
+    @user_profile = UserProfile.find(params[:id])
+    # @profile_type1_flag = true
+    # @profile_type2_flag = true
+  end
+  
   def index
     @user_profiles = UserProfile.all
-    @profile_type1_flag = current_user.user_profile.profile_type1
-    @profile_type2_flag = current_user.user_profile.profile_type2
+    @profile_type1_flag = true
+    @profile_type2_flag = true
+    # @profile_type1_flag = current_user.user_profile.profile_type1
+    # @profile_type2_flag = current_user.user_profile.profile_type2
+    
+    # if @post.post_type == 1
+    # @profile_type1_flag = true
+    # end
+    
+    # if @post.post_type == 2
+    # @profile_type2_flag = true
+    # end
   end
   
   private
