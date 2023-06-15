@@ -1,0 +1,12 @@
+<div class="container">
+ <div class="row g-0">
+  <div class="col-md-10">
+    <%= bootstrap_form_with model:[@post, @comment] do |f| %>
+     <%= f.text_area :content, hide_label: true, size: "40x5", placeholder:"コメント" %>
+     <div class="submit">
+       <%= f.submit "投稿" %>
+     </div>
+    <% end %> 
+    </div>
+  </div>
+</div>  
