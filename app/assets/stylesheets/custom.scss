@@ -1,6 +1,6 @@
 .profile-avatar {
   border-radius: 200px;
-  width: 100%;
+   width: 50%;
 }
 
 .profile-avatar-small {
@@ -26,4 +26,10 @@
 
 label.required:after {
   content:" *";
+}
+
+.screen_name {
+  color: grey;
+  font-size: x-small;
+  text-decoration-line: none;
 }

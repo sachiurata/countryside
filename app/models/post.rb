@@ -1,5 +1,7 @@
 class Post < ApplicationRecord
   belongs_to :user
+  has_many :comments
+  has_one :user_profile, through: :user, source: 'user_profile'
   
   has_many_attached :images
   

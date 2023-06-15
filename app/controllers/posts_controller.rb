@@ -52,8 +52,11 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @user_profile = current_user.user_profile
     
-    # unless @post.images.attached?
-    # @post.images = @post.images.attach(params[:images])
+    # if params[:post][:images]
+    #   params[:post][:images].each do |image|
+    #     image = @post.images.find(image.id)
+    #     image.purge
+    #   end
     # end
     
     if @post.update(post_params)
@@ -66,6 +69,7 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @user_profile = UserProfile.find(@post.user.user_profile.id)
+    @comment = Comment.new
     
     # if @post.post_type == 1
     # @profile_type1_flag = true

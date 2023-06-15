@@ -23,11 +23,13 @@ Rails.application.routes.draw do
 #   delete 'posts/:id', to: 'posts#destroy'
 # end
  
- resources :posts, except: [:new, :create]
-  
+  resources :posts, except: [:new, :create]
   resources :posts_region
-  
   resources :posts_business
+  
+  resources :post do
+     resources :comments, except: [:show, :index]
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
