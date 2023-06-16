@@ -11,7 +11,7 @@ class PostsRegionController < ApplicationController
   end
   
   def create
-    @post = Post.new(post_params)
+    @post = Post.create!(post_params)
     @user_profile = current_user.user_profile
     
     if @post.save

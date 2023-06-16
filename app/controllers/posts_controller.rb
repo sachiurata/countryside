@@ -49,18 +49,33 @@ class PostsController < ApplicationController
   end
   
   def update
+    
     @post = Post.find(params[:id])
     @user_profile = current_user.user_profile
+    #@post.images.attach(params[:image_id])
     
-    # if params[:post][:images]
-    #   params[:post][:images].each do |image|
-    #     image = @post.images.find(image.id)
-    #     image.purge
-    #   end
-    # end
+  # if params[:post][:images]
+  #     params[:post][:images].each do |image_id|
+  #     puts "ここを見ろ"
+  #     puts image_id
+  #     #image = @user.images.find(image_id)
+  #     @post.images.attach(params[:image])
+  #   end
+  #end  
+    if params[:post][:image_ids]
+      params[:post][:image_ids].each do |image_id|
+       puts "ここを見ろ"
+       puts image_id
+        # if image_id != 0 || image_id.empty? == false
+          image = @post.images.find(image_id)
+          image.purge
+        #end
+      end
+    end
     
     if @post.update(post_params)
-      redirect_to ({action: :show, id: @post.id}), notice:"更新しました"
+     flash[:notice] = "更新しました"
+     redirect_to ({action: :show, id: @post.id}), status: :see_other
     else
       render :edit
     end

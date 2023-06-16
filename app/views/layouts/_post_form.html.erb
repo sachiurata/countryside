@@ -2,7 +2,7 @@
  <div class="row">
   <div class="col-md-8 offset-md-2">
     <% type_flag %>
-    <%= bootstrap_form_for(post) do |f| %>  
+    <%= bootstrap_form_with(model: post, local: true) do |f| %>  
       <div class="post_form">
         <%= f.hidden_field :user_id, value: current_user.id %>
         <% if post_type_flag == 1 %>
@@ -22,19 +22,19 @@
           <%= f.text_area :body2, label:"やりたいことなど", size: "40x15", placeholder:"", required: true %>
         <% end %> 
         <%= f.file_field :images, multiple: true, label:"画像" %>
-        <!--<%# if post.images.attached? %>-->
-        <!--  <p>選択済みの画像（削除する画像にチェックをつけてください）</p>-->
-        <!--  <div style="display: flex; flex-wrap: wrap; width: 750px;">-->
-        <!--  <%# post.images.each do |image| %>-->
-        <!--    <div style="display: flex; margin:5px 5px 5px 0;">-->
-        <!--      <%#= f.check_box :images, {multiple: true }, image.id %>-->
-        <!--      <label for="post_image_ids_<%#= image.id %>" > -->
-        <!--        <#%= image_tag image, size: '300x200' %>-->
-        <!--      </label>-->
-        <!--    </div>-->
-        <!--  <%# end %>-->
-        <!--  </div>-->
-        <!--<%# end %>-->
+        <% if post.images.attached? %>
+        <p>選択済みの画像（削除する画像にチェックをつけてください）</p>
+        <div style="display: flex; flex-wrap: wrap; width: 750px;">
+        <% post.images.each do |image| %>
+          <div style="display: flex; margin:5px 5px 5px 0;">
+            <%= f.check_box :image_ids, { multiple: true }, image.id, false %>
+            <label for="user_image_ids_<%= image.id %>" > 
+              <%= image_tag image, size: '300x200' %>
+            </label>
+          </div>
+        <% end %>
+        </div>
+      <% end %>
         <%= f.text_field :realizability, label:"実現可能性" %>
         <%= f.text_field :earnest, label:"本気度" %>
         <div class="public_status">
