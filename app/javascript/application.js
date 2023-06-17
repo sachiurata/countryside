@@ -2,6 +2,12 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
+/*global bootstrap*/
+document.addEventListener('DOMContentLoaded', () => {
+  const carousel = document.querySelector('#carouselExample');
+  new bootstrap.Carousel(carousel);
+});
+
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
