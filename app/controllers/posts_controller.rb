@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   include PostsHelper
   
-  before_action :authenticate_user!, except:[:index]
+  before_action :authenticate_user!, except:[:index, :show]
   before_action :ensure_user, only:[:edit, :update]
   
   # def new_1
@@ -64,8 +64,6 @@ class PostsController < ApplicationController
   #end  
     if params[:post][:image_ids]
       params[:post][:image_ids].each do |image_id|
-       puts "ここを見ろ"
-       puts image_id
         # if image_id != 0 || image_id.empty? == false
           image = @post.images.find(image_id)
           image.purge
@@ -74,8 +72,7 @@ class PostsController < ApplicationController
     end
     
     if @post.update(post_params)
-     flash[:notice] = "更新しました"
-     redirect_to ({action: :show, id: @post.id}), status: :see_other
+     redirect_to @post, action: "show", id: @post.id, notice:"更新しました", status: :see_other
     else
       render :edit
     end
@@ -108,7 +105,7 @@ class PostsController < ApplicationController
   def ensure_user
     @post = Post.find(params[:id])
     unless @post.user_id == current_user.id
-      redirect_to action: :show, id: @post.id
+      redirect_to "show", id: @post.id
     end
   end  
 end

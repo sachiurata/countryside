@@ -1,89 +1,88 @@
-<div class="container">
- <div class="row g-0">
-  <div class="col-md-10">
-   
-    <h2 class="title"><%= @post.title %></h2>
-    <%#= image_tag post.user.user_profile.avatar.variant(:thumb), class: "profile-avatar" if post.user.user_profile.avatar.attached? %>
-  <div class="row offset-sm-3 col-sm-6 mt-2">
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <% if @post.images.attached? %>   
-         <% @post.images.each_with_index do |image, index| %>
-          <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
-            <%= image_tag image.variant(resize_to_limit: [1000, 350]) %>
-          </div>
-         <% end %>
-        <% end %>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </div>
-    
-    <p class="name"><%= @post.user.user_profile.screen_name %></p>
-    <P class="place"><%= @post.prefecture%><%= @post.city %></P>
-     <% type_flag %>
-     <% if @post.post_type == 1 %>
-      <span class="badge text-bg-success">地域側</span>
-      <P class="label"></P>
-      <P><%= text_url_to_link(safe_join((h(@post.body1)).split("\n"),tag(:br))).html_safe %></P>
-      <p class="label">地域の特色</p>
-      <P><%= text_url_to_link(safe_join((h(@post.feature)).split("\n"),tag(:br))).html_safe %></P>
-     <% end %>
-     <% if @post.post_type == 2 %>
-      <span class="badge text-bg-danger">起業希望者</span>
-      <p class="label">やりたいこと</p>
-      <p><%= text_url_to_link(safe_join((h(@post.body2)).split("\n"),tag(:br))).html_safe %></p>
-     <% end %>
-     <p class="label">実現可能性</p>
-      <P><%= @post.realizability %></p>
-     <p class="label">本気度</p>
-      <p><%= @post.earnest %></p>
-   </div> 
-  </div>
-  <% if @post.user_id == current_user.id %> 
-   <%= link_to '編集', edit_post_path(@post.id) %>
-  <% end %> 
-  <div>
-  <div>
-   <% @post.comments.each do |comment| %>
-   <div class="row">
-    <div class="col-md-1">
-     <%= link_to user_profile_path(current_user.user_profile.id) do %>
-      <%= image_tag current_user.user_profile.avatar.variant(:thumb_s), class: "profile-avatar" if current_user.user_profile.avatar.attached? %><br>
-      <p class="screen_name"><%= current_user.user_profile.screen_name %></p>
-     <% end %> 
-    </div>
-    <div class="col-md-8">
-     <%= text_url_to_link(safe_join((h(comment.content)).split("\n"),tag(:br))).html_safe %>
-    </div>
-    <div class="col-md-2">
-     <%= link_to '編集', edit_post_comment_path(@post.id, comment.id) %><br>
-     <%= link_to '削除', post_comment_path(@post.id, comment.id), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+<% if @post.public_status_id == 1 %> 
+ <div class="container">
+  <div class="row g-0">
+   <div class="col-md-10">
+     <h2 class="title"><%= @post.title %></h2>
+      <%#= image_tag post.user.user_profile.avatar.variant(:thumb), class: "profile-avatar" if post.user.user_profile.avatar.attached? %>
+     <div class="row offset-sm-3 col-sm-6 mt-2">
+       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+         <div class="carousel-inner">
+           <% if @post.images.attached? %>   
+            <% @post.images.each_with_index do |image, index| %>
+             <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
+               <%= image_tag image.variant(resize_to_limit: [1000, 350]) %>
+             </div>
+            <% end %>
+           <% end %>
+         </div>
+         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+         <span class="visually-hidden">Previous</span>
+         </button>
+         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+         <span class="carousel-control-next-icon" aria-hidden="true"></span>
+         <span class="visually-hidden">Next</span>
+         </button>
+       </div>
+     </div>       
+     
+     <p class="name"><%= @post.user.user_profile.screen_name %></p>
+     <P class="place"><%= @post.prefecture%><%= @post.city %></P>
+      <% type_flag %>
+      <% if @post.post_type == 1 %>
+       <span class="badge text-bg-success">地域側</span>
+       <P class="label"></P>
+       <P><%= text_url_to_link(safe_join((h(@post.body1)).split("\n"),tag(:br))).html_safe %></P>
+       <p class="label">地域の特色</p>
+       <P><%= text_url_to_link(safe_join((h(@post.feature)).split("\n"),tag(:br))).html_safe %></P>
+      <% end %>
+      <% if @post.post_type == 2 %>
+       <span class="badge text-bg-danger">起業希望者</span>
+       <p class="label">やりたいこと</p>
+       <p><%= text_url_to_link(safe_join((h(@post.body2)).split("\n"),tag(:br))).html_safe %></p>
+      <% end %>
+      <p class="label">実現可能性</p>
+       <P><%= @post.realizability %></p>
+      <p class="label">本気度</p>
+       <p><%= @post.earnest %></p>
     </div> 
    </div>
-   <% end %>
-  <%= bootstrap_form_with model:[@post, @comment] do |f| %>
-  <div class="row">
-   <div class="col-md-8">
-     <%= f.text_area :content, size: "40x5", hide_label: true, placeholder:"コメント", required: true %>
-   </div>
-   <div class="col-md-2">
-     <div class="submit">
-       <%= f.submit "投稿" %>
+   <% if user_signed_in? && @post.user_id == current_user.id %> 
+    <%= link_to '編集', edit_post_path(@post.id) %>
+   <% end %> 
+   <div>
+    <% @post.comments.each do |comment| %>
+    <div class="row">
+     <div class="col-md-1">
+      <%= link_to user_profile_path(comment.user.user_profile.id) do %>
+       <%= image_tag comment.user.user_profile.avatar.variant(:thumb_s), class: "profile-avatar" if comment.user.user_profile.avatar.attached? %><br>
+       <p class="screen_name"><%= comment.user.user_profile.screen_name %></p>
+      <% end %> 
      </div>
-   </div>
-  </div> 
-  <% end %> 
-  
-
-</div> 
-  
-  <%= render "layouts/user_profile", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, profile_type2_flag: @profile_type2_flag %>
+     <div class="col-md-8">
+      <%= text_url_to_link(safe_join((h(comment.content)).split("\n"),tag(:br))).html_safe %>
+     </div>
+     <div class="col-md-2">
+      <% if user_signed_in? && comment.user_id == current_user.id %> 
+       <%= link_to '編集', edit_post_comment_path(@post.id, comment.id) %><br>
+       <%= link_to '削除', post_comment_path(@post.id, comment.id), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+      <% end %> 
+     </div> 
+    </div>
+    <% end %>
+   <%= bootstrap_form_with model:[@post, @comment] do |f| %>
+   <div class="row">
+    <div class="col-md-8">
+      <%= f.text_area :content, size: "40x5", hide_label: true, placeholder:"コメント", required: true %>
+    </div>
+    <div class="col-md-2">
+      <div class="submit">
+        <%= f.submit "投稿" %>
+      </div>
+    </div>
+   </div> 
+   <% end %> 
+ </div> 
+   <%= render "layouts/user_profile", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, profile_type2_flag: @profile_type2_flag %>
  </div>
+<% end %>

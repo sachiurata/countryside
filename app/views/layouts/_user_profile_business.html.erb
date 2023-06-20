@@ -28,7 +28,7 @@
      <p class="label">その他</p>
      <p><%= text_url_to_link(safe_join((h(user_profile.other2)).split("\n"),tag(:br))).html_safe %></p>
     <%# end %>
-    <% if user_profile.user_id == current_user.id %> 
+    <% if user_signed_in? && user_profile.user_id == current_user.id %> 
      <%= link_to '編集', edit_user_profile_path(user_profile.id) %>
     <% end %> 
    </div> 

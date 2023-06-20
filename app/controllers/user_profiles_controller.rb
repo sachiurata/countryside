@@ -1,5 +1,5 @@
 class UserProfilesController < ApplicationController
-  before_action :authenticate_user!, except:[:index]
+  before_action :authenticate_user!, except:[:index, :show]
   before_action :ensure_user, only:[:edit, :update]
   
   def new
@@ -10,9 +10,9 @@ class UserProfilesController < ApplicationController
     @user_profile = UserProfile.new(user_profile_params)
   
     if @user_profile.save
-       redirect_to user_profiles_path, notice:"登録が完了しました"
+       redirect_to @user_profile, notice:"登録が完了しました"
     else
-      render :new, notice:"登録に失敗しました"
+      render :"new", notice:"登録に失敗しました"
     end
   end
   
@@ -25,9 +25,9 @@ class UserProfilesController < ApplicationController
     
     @user_profile = UserProfile.find(params[:id])
     if @user_profile.update(user_profile_params)
-      redirect_to user_profiles_path, notice:"更新しました"
+      redirect_to @user_profile, notice:"更新しました"
     else
-      render :edit
+      render "edit"
     end
   end
   

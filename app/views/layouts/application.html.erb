@@ -35,22 +35,16 @@
           </li>
           <li class="nav-item">
            <%# if user_profile_nil?(current_user) %>  
-            <!--<a class="nav-link" href="/user_profiles/new">プロフィール登録</a>-->
-            <%= link_to "プロフィール登録", new_user_profile_path %>
+            <a class="nav-link" href="/user_profiles/new">プロフィール登録</a>
+            <%#= link_to "プロフィール登録", new_user_profile_path %>
            <%# else %>
             <%#= link_to "プロフィール編集", edit_user_profile_path(current_user.user_profile.id) %>
            <%# end %>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/user_profiles" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link" href="/user_profiles">
               ユーザー一覧
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">地域側</a></li>
-              <li><a class="dropdown-item" href="#">起業希望者</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/posts_region/new">投稿作成(地域)</a>
@@ -79,17 +73,18 @@
           <!--    <li><hr class="dropdown-divider"></li>-->
           <!--  </ul>-->
           <!--</li>-->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              投稿一覧
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">地域側</a></li>
-              <li><a class="dropdown-item" href="#">起業希望者</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
+          <li class="nav-item">
+           <a class="nav-link" href="/posts">投稿一覧</a>
+          </li> 
+          <!--<li class="nav-item dropdown">-->
+          <!--  <a class="nav-link dropdown-toggle" href="/posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+          <!--    投稿一覧-->
+          <!--  </a>-->
+          <!--  <ul class="dropdown-menu">-->
+          <!--    <li><a class="dropdown-item" href="#">地域側</a></li>-->
+          <!--    <li><a class="dropdown-item" href="#">起業希望者</a></li>-->
+          <!--  </ul>-->
+          <!--</li>-->
           <li class="nav-item">
             <a class="nav-link disabled">Disabled</a>
           </li>

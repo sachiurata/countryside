@@ -15,9 +15,9 @@ class PostsRegionController < ApplicationController
     @user_profile = current_user.user_profile
     
     if @post.save
-      redirect_to ({controller: :posts, action: :show, id: @post.id}), notice:"登録が完了しました"
+      redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
     else
-      render :new, status: :unprocessable_entity, notice:"登録に失敗しました"  
+      render "new", notice:"登録に失敗しました"  
       #空欄以外で登録失敗ってある？空欄だと画面が遷移しない。
     end
   end
@@ -59,7 +59,7 @@ class PostsRegionController < ApplicationController
   def ensure_user
     @post = Post.find(params[:id])
     unless @post.user_id == current_user.id
-      redirect_to action: :show, id: @post.id
+      redirect_to "show", id: @post.id
     end
   end
 end

@@ -1,18 +1,20 @@
-<% if @user_profile.profile_type1 %>
- <%= render "layouts/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag %>
-<% end %> 
-<% if @user_profile.profile_type2 %>
- <%= render "layouts/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag %>
-<% end %>
-<% @posts.each do |post| %>
-<%#= render "layouts/post_card", post: post %>
-<div class="container">
- <div class="card mb-3" style="max-width: 800px;">
-  <div class="row g-0">
-    <% if post.public_status_id == 1 %>
-     <%= post.title %>
-    <% end %>
+<% if @user_profile.public_status_id == 1 %>
+ <% if @user_profile.profile_type1 %>
+  <%= render "layouts/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag %>
+ <% end %> 
+ <% if @user_profile.profile_type2 %>
+  <%= render "layouts/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag %>
+ <% end %>
+ <% @posts.each do |post| %>
+ <%#= render "layouts/post_card", post: post %>
+ <div class="container">
+  <div class="card mb-3" style="max-width: 800px;">
+   <div class="row g-0">
+     <% if post.public_status_id == 1 %>
+      <%= post.title %>
+     <% end %>
+   </div>
   </div>
- </div>
-</div> 
+ </div> 
+ <% end %>
 <% end %>
