@@ -33,3 +33,14 @@ label.required:after {
   font-size: x-small;
   text-decoration-line: none;
 }
+
+.icon-heart {
+  width: 15px;
+  height: 15px;
+}
+
+.icon-liked-heart {
+  width: 15px;
+  height: 15px;
+  filter: invert(15%) sepia(95%) saturate(6932%) hue-rotate(358deg) brightness(95%) contrast(112%);
+}

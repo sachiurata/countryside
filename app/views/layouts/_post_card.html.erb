@@ -9,12 +9,22 @@
            <% end %>  
           <% end %>
         <% end %>
-        
-        
       </div>
       <div class="col-md-8">
         <div class="card-body">
           <h5 class="card-title"><%= post.title %></h5>
+          <% if !user_signed_in? %>
+           <%= image_tag "heart-black.png", class: "icon-heart" %>
+          <% elsif !post.favorite_users.include?(current_user) %>
+           <%= link_to favorites_path(post_id: post.id), data: { turbo_method: :post } do %>
+            <%= image_tag "heart-black.png", class: "icon-heart" %>
+           <% end %>
+          <% else %> 
+           <%= link_to favorite_path(post), data: { turbo_method: :delete } do %>
+            <%= image_tag "heart.png", class: "icon-liked-heart" %>
+           <% end %>
+          <% end %>
+          <nobr><%= post.favorite_users.size %></nobr>
           <p class="card-text"><%= post.user.user_profile.screen_name %></p>
           <p class="card-text"><%= post.prefecture %><%= post.city %></p>
           <p class="card-text"><small class="text-body-secondary"><%= l post.updated_at %></small></p>
