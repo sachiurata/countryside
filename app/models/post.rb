@@ -1,7 +1,9 @@
 class Post < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy
-  has_one :user_profile, through: :user, source: 'user_profile', dependent: :destroy
+  has_one :user_profile, through: :users, source: 'user_profile', dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_users, through: :favorites, source: 'user', dependent: :destroy
   
   has_many_attached :images
   

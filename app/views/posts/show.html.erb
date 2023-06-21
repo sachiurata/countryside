@@ -28,6 +28,21 @@
      
      <p class="name"><%= @post.user.user_profile.screen_name %></p>
      <P class="place"><%= @post.prefecture%><%= @post.city %></P>
+     <div>
+      <%# if user_signed_in? && @post.favorite.user_id.include?(current_user.id) これではだめな理由は？%>
+      <% if !user_signed_in? %>
+       <%= image_tag "heart-black.png", class: "icon-heart" %>
+      <% elsif !@post.favorite_users.include?(current_user) %>
+       <%= link_to favorites_path(post_id: @post.id), data: { turbo_method: :post } do %>
+        <%= image_tag "heart-black.png", class: "icon-heart" %>
+       <% end %>
+      <% else %> 
+       <%= link_to favorite_path(@post), data: { turbo_method: :delete } do %>
+        <%= image_tag "heart.png", class: "icon-liked-heart" %>
+       <% end %>
+      <% end %>
+      <nobr><%= @post.favorite_users.size %></nobr>
+     </div>
       <% type_flag %>
       <% if @post.post_type == 1 %>
        <span class="badge text-bg-success">地域側</span>
