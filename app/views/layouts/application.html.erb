@@ -33,14 +33,6 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
           </li>
-          <li class="nav-item">
-           <%# if user_profile_nil?(current_user) %>  
-            <a class="nav-link" href="/user_profiles/new">プロフィール登録</a>
-            <%#= link_to "プロフィール登録", new_user_profile_path %>
-           <%# else %>
-            <%#= link_to "プロフィール編集", edit_user_profile_path(current_user.user_profile.id) %>
-           <%# end %>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link" href="/user_profiles">
               ユーザー一覧
@@ -88,13 +80,26 @@
           <li class="nav-item">
             <a class="nav-link disabled">Disabled</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/users/sign_in">ログイン</a>
-          </li>
-          <li class="nav-item">
-            <!--<a class="nav-link" href="/users/sign_out">ログアウト</a>-->
+          <% if !user_signed_in? %>
+            <li class="nav-item">
+              <a class="nav-link" href="/users/sign_in">ログイン</a>
+            </li>
+          <% elsif current_user.user_profile.nil? %>  
+            <li class="nav-item">
+              <%= link_to "プロフィール登録", controller: "user_profiles", action: "new" %>
+            </li>
+           <li class="nav-item">
             <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
-          </li>
+            </li>
+          <% else %>  
+            <li class="nav-item">
+              <%= link_to "マイページ", controller: "accounts", action: "show", id: current_user.id %>
+            </li>
+            <li class="nav-item">
+              <!--<a class="nav-link" href="/users/sign_out">ログアウト</a>-->
+              <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+            </li>
+          <% end %>  
         </ul>
       </div>
     </div>

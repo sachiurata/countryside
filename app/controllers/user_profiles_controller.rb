@@ -12,7 +12,7 @@ class UserProfilesController < ApplicationController
     if @user_profile.save
        redirect_to @user_profile, notice:"登録が完了しました"
     else
-      render :"new", notice:"登録に失敗しました"
+      render "new", notice:"登録に失敗しました"
     end
   end
   
