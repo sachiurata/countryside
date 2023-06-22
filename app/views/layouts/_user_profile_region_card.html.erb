@@ -1,0 +1,19 @@
+<div class="container">
+ <div class="row g-0">
+  <div class="col-md-2">
+   <%= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar" if user_profile.avatar.attached? %>
+  </div>
+  <div class="col-md-10">
+    <span class="badge text-bg-success">地域側</span>
+    <p class="name"><%= user_profile.screen_name %></p>
+    <P class="place"><%= user_profile.prefecture%><%= user_profile.city %></P>
+    <P class="last_sign_in"><%= current_user.last_sign_in_at %></P>
+     <P class="label">地域について</P>
+     <P class="label">地域の移住支援</P>
+     <P class="label">地域の移住支援</P>
+    <% if user_signed_in? && user_profile.user_id == current_user.id %> 
+     <%= link_to '編集', edit_user_profile_path(user_profile.id) %>
+    <% end %> 
+   </div> 
+  </div>
+ </div>
