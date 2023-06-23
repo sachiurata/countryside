@@ -85,18 +85,22 @@
      </div> 
     </div>
     <% end %>
-   <%= bootstrap_form_with model:[@post, @comment] do |f| %>
-   <div class="row">
-    <div class="col-md-8">
-      <%= f.text_area :content, size: "40x5", hide_label: true, placeholder:"コメント", required: true %>
-    </div>
-    <div class="col-md-2">
-      <div class="submit">
-        <%= f.submit "投稿" %>
+    <% if !user_signed_in? || current_user.user_profile.nil? %>
+     <small class="text-body-secondary">コメントするには先にプロフィール登録をお済ませください。</small>
+    <% else %> 
+     <%= bootstrap_form_with model:[@post, @comment] do |f| %>
+     <div class="row">
+      <div class="col-md-8">
+        <%= f.text_area :content, size: "40x5", hide_label: true, placeholder:"コメント", required: true %>
       </div>
-    </div>
-   </div> 
-   <% end %> 
+      <div class="col-md-2">
+        <div class="submit">
+          <%= f.submit "投稿" %>
+        </div>
+      </div>
+     </div> 
+     <% end %>  
+    <% end %>
  </div> 
    <%= render "layouts/user_profile", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, profile_type2_flag: @profile_type2_flag %>
  </div>

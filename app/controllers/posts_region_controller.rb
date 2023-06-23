@@ -1,6 +1,7 @@
 class PostsRegionController < ApplicationController
   
   before_action :authenticate_user!, except:[:index]
+  before_action :user_profile_nil?
   
   def new
     @post = Post.new
@@ -62,4 +63,11 @@ class PostsRegionController < ApplicationController
       redirect_to "show", id: @post.id
     end
   end
+  
+  def user_profile_nil?
+    if current_user.user_profile.nil?
+     flash.now[:notice] = "先にプロフィール登録をお済ませください"
+     render template: "user_profiles/new"
+    end 
+  end  
 end

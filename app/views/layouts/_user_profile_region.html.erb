@@ -7,7 +7,7 @@
    <span class="badge text-bg-success">地域側</span>
     <p class="name"><%= user_profile.screen_name %></p>
     <P class="place"><%= user_profile.prefecture %><%= user_profile.city %></P>
-    <small class="text-body-secondary">最終ログイン日　<%= l user_profile.user.last_sign_in_at, format: :only_date %></small></P>
+    <small class="text-body-secondary">最終ログイン日　<%= l user_profile.user.last_sign_in_at, format: :only_date %></small>
     <%# if profile_type1_flag %>
     <P class="label">地域について</P>
     <P><%= text_url_to_link(safe_join((h(user_profile.about_region)).split("\n"),tag(:br))).html_safe %></P>
