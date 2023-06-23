@@ -1,0 +1,16 @@
+<div class="container">
+ <div class="row g-0">
+  <P class="label">メールアドレス</P>
+  <P><%= current_user.email %></P>
+ </div>
+</div> 
+<%= render "layouts/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag %>
+<%= render "layouts/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag %>
+
+<div class="container">
+  <div class="card mb-3" style="max-width: 800px;">
+    <% @posts.each do |post| %>
+     <%= render "layouts/post_card", post: post %>
+    <% end %>
+  </div>
+</div> 
