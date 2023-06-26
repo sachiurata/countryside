@@ -99,7 +99,17 @@
               <!--<a class="nav-link" href="/users/sign_out">ログアウト</a>-->
               <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
             </li>
-          <% end %>  
+          <% end %> 
+          <% if !admin_signed_in? %>
+            <li class="nav-item">
+              <a class="nav-link" href="/admins/sign_in">Adminログイン</a>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <!--<a class="nav-link" href="/users/sign_out">ログアウト</a>-->
+              <%= button_to 'Adminログアウト', destroy_admin_session_path, method: :delete %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </div>
