@@ -28,7 +28,12 @@
           <p class="card-text"><%= post.user.user_profile.screen_name %></p>
           <p class="card-text"><%= post.prefecture %><%= post.city %></p>
           <p class="card-text"><small class="text-body-secondary"><%= l post.updated_at %></small></p>
-          <%= link_to "もっと見る", post_path(post) %>
+          <% post.post_category_resources.each do |post_category_resource| %>
+           <span class="badge text-bg-secondary">
+            <%= post_category_resource.category_resource.tag_name %>
+           </span>
+          <% end %>
+          <br><%= link_to "もっと見る", post_path(post) %></br>
         </div>
       </div>
     <% end %>

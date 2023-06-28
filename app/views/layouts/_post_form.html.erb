@@ -37,6 +37,8 @@
       <% end %>
         <%= f.text_field :realizability, label:"実現可能性" %>
         <%= f.text_field :earnest, label:"本気度" %>
+        
+  
         <div class="public_status">
           <%= f.radio_button :public_status_id, 1, label:"公開", inline: true %>
           <%= f.radio_button :public_status_id, 2, label:"非公開", inline: true %>
@@ -47,6 +49,14 @@
       </div>
       <div class="submit"><%= f.submit %></div>
      <% end %>
+     <%= bootstrap_form_for(@post_category_resource, url: {controller: 'posts_region', action: 'create'}) do |f|  %>
+          <% @category_resources.each do |category_resource| %>
+            <%= f.check_box :category_resource_id, value: category_resource.id %>
+             <label><%= category_resource.tag_name %></label>
+            <%= f.hidden_field :post_id, value: @post.id %>
+          <% end %>
+          <div class="submit"><%= f.submit %></div>
+    <% end %>  
    </div>
    <%= render "layouts/user_profile", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, profile_type2_flag: @profile_type2_flag %>
   </div>

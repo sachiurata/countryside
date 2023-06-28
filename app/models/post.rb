@@ -4,6 +4,8 @@ class Post < ApplicationRecord
   has_one :user_profile, through: :users, source: 'user_profile', dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorite_users, through: :favorites, source: 'user', dependent: :destroy
+  has_many :post_category_resources, dependent: :destroy
+  accepts_nested_attributes_for :post_category_resources, allow_destroy: true
   
   has_many_attached :images
   

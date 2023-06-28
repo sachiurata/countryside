@@ -1,0 +1,7 @@
+ <%= bootstrap_form_for(@post_category_resource, url: {controller: 'post_category_resources', action: 'create'}) do |f|  %>
+  <%= f.text_field :post_id, required: false %>
+  <% @category_resources.each do |category_resource| %>
+    <%= f.check_box :category_resource_id, { label: category_resource.tag_name, required: false}, category_resource.id, false %>
+  <% end %>
+  <div class="submit"><%= f.submit %></div>
+ <% end %> 

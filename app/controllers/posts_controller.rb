@@ -36,6 +36,8 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @user_profile = current_user.user_profile
     @edit_flag = true
+    @post_category_resource = PostCategoryResource.new
+    @category_resources = CategoryResource.all
     
     if @post.post_type == 1
       #@profile_type1_flag = true
@@ -95,6 +97,7 @@ class PostsController < ApplicationController
   
   def index
     @posts = Post.all
+    @category_resources = CategoryResource.all
   end
   
   private

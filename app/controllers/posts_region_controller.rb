@@ -8,6 +8,9 @@ class PostsRegionController < ApplicationController
     @user_profile = current_user.user_profile
     @post_type_flag = 1
     @profile_type1_flag = true
+    #@post.post_category_resources.new
+    @post_category_resource = PostCategoryResource.new
+    @category_resources = CategoryResource.all
     # @profile_type2_flag = false
   end
   
@@ -54,7 +57,7 @@ class PostsRegionController < ApplicationController
   
   private
   def post_params
-   params.require(:post).permit(:user_id, :post_type, :title, :prefecture, :city, :body1, :body2, :feature, :attachment, :realizability, :earnest, :public_status_id, images: [])
+   params.require(:post).permit(:user_id, :post_type, :title, :prefecture, :city, :body1, :body2, :feature, :attachment, :realizability, :earnest, :public_status_id, images: [], category_resources_attributes: [:id, :post_id, :category_resource_id])
   end
 
   def ensure_user

@@ -5,6 +5,7 @@ class AccountsController < ApplicationController
   def show
     @user_profile = current_user.user_profile
     @posts = current_user.posts
+    @category_resources = CategoryResource.all
   end
   
   private

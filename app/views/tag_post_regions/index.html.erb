@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+    <h1 class="text-center text-black">タグ登録（地域側投稿）</h1>  
+     <%= bootstrap_form_with(model: @category_resource, url: category_resources_path, local: true) do |f| %>
+      <%= f.text_field :tag_name, label:"地域資源" %>
+      <%= f.submit "登録" %>
+     <% end %>
+     
+     <h5>登録済のタグ</h5>
+     <% @category_resources.each do |category_resource| %>
+     <div>
+      <%= category_resource.tag_name %>
+      <%= link_to "編集", controller: "category_resources", action: "edit", id: category_resource %>
+      <%= link_to "削除", category_resource_path(category_resource), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+      <%#= link_to "削除", controller: "tag_post_regions", action: "destroy", id: category_resource %> 
+        <!--これだとなぜかgetになってしまう。-->
+     <% end %>
+     </div> 
+     <%= bootstrap_form_with(model: @category_issue, url: category_issues_path, local: true) do |f| %>
+      <%= f.text_field :tag_name, label:"地域資源" %>
+      <%= f.submit "登録" %>
+     <% end %>
+     <h5>登録済のタグ</h5>
+     <% @category_issues.each do |category_issue| %>
+     <div>
+      <%= category_issue.tag_name %>
+      <%= link_to "編集", controller: "category_issues", action: "edit", id: category_issue %>
+      <%= link_to "削除", category_issue_path(category_issue), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+     <% end %>
+     </div> 
+    </div>
+  </div> 
+</div>   

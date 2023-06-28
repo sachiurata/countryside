@@ -1,0 +1,2 @@
+module CategoryIssuesHelper
+end

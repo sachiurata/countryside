@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  devise_for :admins
   root to: "home#index"
   
   devise_for :users, :controllers => {
@@ -8,6 +7,8 @@ Rails.application.routes.draw do
     :sessions => 'users/sessions',
     :passwords => 'users/passwords'
    }
+   
+  devise_for :admins 
    
   resources :user_profiles
   
@@ -22,13 +23,14 @@ Rails.application.routes.draw do
   resources :favorites, only: [:create, :destroy]
   
   resources :accounts, only: [:show]
+
+  scope :admins do
+    resources :tag_post_regions, only: [:new, :index]
+    resources :category_resources, only: [:create, :edit, :update, :destroy]
+    resources :category_issues, only: [:create, :edit, :update, :destroy]
+  end
   
-  resources :tag_post_regions
-  # get '/admin/tag/post_regions/new', to: 'tag_post_regions#new'
-  # get '/admin/tag/post_regions', to: 'tag_post_regions#show'
-  # post '/admin/tag/post_regions', to: 'tag_post_regions#create'
-  # get '/admin/tag/post_regions/edit', to: 'tag_post_regions#edit'
-  # patch '/admin/tag/post_regions', to: 'tag_post_regions#update'
+  resources :post_category_resources
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
