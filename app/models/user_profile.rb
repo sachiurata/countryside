@@ -1,7 +1,7 @@
 class UserProfile < ApplicationRecord
   
   belongs_to :user
-  has_many :posts, through: :users , dependent: :destroy
+  has_many :posts, through: :user , dependent: :destroy
  
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_limit: [400, 400], gravity: "center", crop: "400x400+0+0"

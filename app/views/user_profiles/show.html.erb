@@ -6,14 +6,15 @@
   <%= render "layouts/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag %>
  <% end %>
  <% @posts.each do |post| %>
- <div class="container">
-  <div class="card mb-3" style="max-width: 800px;">
-   <div class="row g-0">
-     <% if post.public_status_id == 1 %>
-      <%= render "layouts/post_card", post: post %>
-     <% end %>
+  <div class="container">
+   <div class="card mb-3" style="max-width: 800px;">
+    <div class="row g-0">
+      <% if post.public_status_id == 1 %>
+       <%= render "layouts/post_card", post: post %>
+      <% end %>
+    </div>
    </div>
-  </div>
- </div> 
+  </div> 
  <% end %>
 <% end %>
+ 

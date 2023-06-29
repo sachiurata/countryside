@@ -33,11 +33,11 @@
           <!--<li class="nav-item">-->
           <!--  <a class="nav-link" href="#">Link</a>-->
           <!--</li>-->
-          <!--<li class="nav-item dropdown">-->
-          <!--  <a class="nav-link" href="/user_profiles">-->
-          <!--    ユーザー一覧-->
-          <!--  </a>-->
-          <!--</li>-->
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="/user_profiles">
+              ユーザー一覧
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="/posts_region/new">投稿作成(地域)</a>
           </li>
@@ -97,7 +97,7 @@
             </li>
             <li class="nav-item">
               <!--<a class="nav-link" href="/users/sign_out">ログアウト</a>-->
-              <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+              <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete } %>
             </li>
           <% end %> 
           <% if !admin_signed_in? %>
@@ -106,7 +106,7 @@
             </li>
           <% else %>
             <li class="nav-item">
-              <%= link_to 'Adminログアウト', destroy_admin_session_path, method: :delete %>
+              <%= link_to 'Adminログアウト', destroy_admin_session_path, data: { turbo_method: :delete } %>
             </li>
           <% end %>
           <li class="nav-item">

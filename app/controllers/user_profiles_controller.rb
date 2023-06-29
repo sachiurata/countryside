@@ -4,12 +4,10 @@ class UserProfilesController < ApplicationController
   
   def new
     @user_profile = UserProfile.new
-    @category_resouce = CategoryResource.new
   end
   
   def create
     @user_profile = UserProfile.new(user_profile_params)
-    @category_resource = CategoryResource.new(category_resource_params)
   
     if @user_profile.save
        redirect_to @user_profile, notice:"登録が完了しました"
@@ -17,11 +15,6 @@ class UserProfilesController < ApplicationController
       render "new", notice:"登録に失敗しました"
     end
     
-    if @category_resource.save
-     redirect_to new_tag_post_region_path, notice:"登録が完了しました"
-    else
-     render new_tag_post_region_path, notice:"登録に失敗しました"
-    end  
   end
   
   def edit
@@ -66,7 +59,6 @@ class UserProfilesController < ApplicationController
   private
   def user_profile_params
     params.require(:user_profile).permit(:user_id, :profile_type1, :profile_type2, :screen_name, :avatar, :prefecture, :city, :about_region, :incubation,:immigration_support,:job, :skill, :interest,:other1, :other2, :public_status_id)
-    params.require(:category_resource).permit(:tag_name)
   end
   
   def ensure_user
