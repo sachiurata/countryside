@@ -33,6 +33,22 @@
             <%= post_category_resource.category_resource.tag_name %>
            </span>
           <% end %>
+          <% post.post_category_issues.each do |post_category_issue| %>
+           <span class="badge text-bg-secondary">
+            <%= post_category_issue.category_issue.tag_name %>
+           </span>   
+          <% end %>
+          <% post.post_category_markets.each do |post_category_market| %>
+           <span class="badge text-bg-secondary">
+            <%= post_category_market.category_market.tag_name %>
+           </span>
+          <% end %>
+          <% post.post_category_features.each do |post_category_feature| %>
+           <span class="badge text-bg-secondary">
+            <%= post_category_feature.category_feature.tag_name %>
+           </span>  
+          <% end %>  
+        
           <br><%= link_to "もっと見る", post_path(post) %></br>
         </div>
       </div>

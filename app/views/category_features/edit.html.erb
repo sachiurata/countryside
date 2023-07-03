@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+     <h1 class="text-center text-black">タグ登録（地域側投稿）</h1>  
+     <%= bootstrap_form_with(model: @category_feature, url: category_feature_path, action: :update, local: true) do |f| %>
+      <%= f.text_field :tag_name, label:"地域の特色" %>
+      <%= f.submit "登録" %>
+     <% end %>
+     
+     <h5>登録済のタグ</h5>
+     <% @category_features.each do |category_feature| %>
+     <div>
+      <%= category_feature.tag_name %>
+     <% end %>
+     </div> 
+    </div>
+  </div> 
+</div>   

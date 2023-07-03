@@ -16,6 +16,18 @@
         <%= f.text_field :city, label:"市町村以下" %>
         <% if post_type_flag == 1 %>  
           <%= f.text_area :body1, label:"地域資源・地域課題など", size: "40x15", placeholder:"", required: true %>
+          <div class="category">地域資源<br>
+        <% @category_resources.each_with_index do |category_resource, index| %>
+          <% @post_category_resources.each do |post_category_resource| %>
+            <% if post_category_resource.category_resource_id == index+1 %>
+            <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" checked >
+           <% else %>
+            <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" >
+           <% end %>  
+            <%= category_resource.tag_name %>
+           <% end %>
+          <% end %> 
+          </div>  
           <%= f.text_area :feature, label:"地域の特色", size: "40x15", placeholder:"" %>
         <% end %> 
         <% if post_type_flag == 2 %>  
@@ -49,14 +61,6 @@
       </div>
       <div class="submit"><%= f.submit %></div>
      <% end %>
-     <%= bootstrap_form_for(@post_category_resource, url: {controller: 'posts_region', action: 'create'}) do |f|  %>
-          <% @category_resources.each do |category_resource| %>
-            <%= f.check_box :category_resource_id, value: category_resource.id %>
-             <label><%= category_resource.tag_name %></label>
-            <%= f.hidden_field :post_id, value: @post.id %>
-          <% end %>
-          <div class="submit"><%= f.submit %></div>
-    <% end %>  
    </div>
    <%= render "layouts/user_profile", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, profile_type2_flag: @profile_type2_flag %>
   </div>

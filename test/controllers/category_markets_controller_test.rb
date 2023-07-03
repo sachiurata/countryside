@@ -1,6 +1,6 @@
 require "test_helper"
 
-class PostCategoryResourcesControllerTest < ActionDispatch::IntegrationTest
+class CategoryMarketsControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

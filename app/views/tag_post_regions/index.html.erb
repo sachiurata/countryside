@@ -1,34 +1,94 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-    <h1 class="text-center text-black">タグ登録（地域側投稿）</h1>  
-     <%= bootstrap_form_with(model: @category_resource, url: category_resources_path, local: true) do |f| %>
-      <%= f.text_field :tag_name, label:"地域資源" %>
-      <%= f.submit "登録" %>
-     <% end %>
+     <h1 class="text-center text-black">タグ登録（地域側投稿）</h1>
+      <div class="card">
+       <div class="card-body">
+        <%= bootstrap_form_with(model: @category_resource, url: category_resources_path, local: true) do |f| %>
+         <%= f.text_field :tag_name, label:"地域資源" %>
+         <%= f.submit "登録" %>
+        <% end %>
+        <h6>登録済のタグ</h6>
+        <% @category_resources.each do |category_resource| %>
+         <div>
+           <%= category_resource.tag_name %>
+          <%= link_to "編集", controller: "category_resources", action: "edit", id: category_resource %>
+          <%= link_to "削除", category_resource_path(category_resource), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+          <%#= link_to "削除", controller: "tag_post_regions", action: "destroy", id: category_resource %> 
+            <!--これだとなぜかgetになってしまう。-->
+         </div> 
+        <% end %>
+       </div> 
+      </div>
+      
+      <div class="card">
+       <div class="card-body">  
+        <%= bootstrap_form_with(model: @category_issue, url: category_issues_path, local: true) do |f| %>
+         <%= f.text_field :tag_name, label:"地域課題" %>
+         <%= f.submit "登録" %>
+        <% end %>
+        <h>登録済のタグ</h6>
+        <% @category_issues.each do |category_issue| %>
+         <div>
+          <%= category_issue.tag_name %>
+          <%= link_to "編集", controller: "category_issues", action: "edit", id: category_issue %>
+          <%= link_to "削除", category_issue_path(category_issue), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+         </div> 
+        <% end %>
+       </div> 
+      </div>
      
-     <h5>登録済のタグ</h5>
-     <% @category_resources.each do |category_resource| %>
-     <div>
-      <%= category_resource.tag_name %>
-      <%= link_to "編集", controller: "category_resources", action: "edit", id: category_resource %>
-      <%= link_to "削除", category_resource_path(category_resource), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
-      <%#= link_to "削除", controller: "tag_post_regions", action: "destroy", id: category_resource %> 
-        <!--これだとなぜかgetになってしまう。-->
-     <% end %>
-     </div> 
-     <%= bootstrap_form_with(model: @category_issue, url: category_issues_path, local: true) do |f| %>
-      <%= f.text_field :tag_name, label:"地域資源" %>
-      <%= f.submit "登録" %>
-     <% end %>
-     <h5>登録済のタグ</h5>
-     <% @category_issues.each do |category_issue| %>
-     <div>
-      <%= category_issue.tag_name %>
-      <%= link_to "編集", controller: "category_issues", action: "edit", id: category_issue %>
-      <%= link_to "削除", category_issue_path(category_issue), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
-     <% end %>
-     </div> 
-    </div>
+      <div class="card">
+       <div class="card-body">  
+        <%= bootstrap_form_with(model: @category_market, url: category_markets_path, local:true) do |f| %>
+         <%= f.text_field :tag_name, label:"需要" %>
+         <%= f.submit "登録" %>
+        <% end %>
+        <h6>登録済のタグ</h6>
+        <% @category_markets.each do |category_market| %>
+         <div>
+          <%= category_market.tag_name %>
+          <%= link_to "編集", controller: "category_markets", action: "edit", id: category_market %>
+          <%= link_to "削除", category_market_path(category_market), date: {turbo_method: :delete, turbo_confirm: "削除しますか？"} %>
+         </div>
+        <% end %>
+       </div> 
+      </div> 
+     
+      <div class="card">
+       <div class="card-body">
+        <%= bootstrap_form_with(model: @category_feature, url: category_features_path, loacal:true) do |f| %>
+         <%= f.text_field :tag_name, label:"地域の特色" %>
+         <%= f.submit "登録" %>
+        <% end %>
+        <h6>登録済のタグ</h6>
+        <% @category_features.each do |category_feature| %>
+         <div>
+          <%= category_feature.tag_name %>
+          <%= link_to "編集", controller: "category_features", action: "edit", id: category_feature %>
+          <%= link_to "削除", category_feature_path(category_feature), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+         </div>
+        <% end %> 
+       </div> 
+      </div>
+      
+      <div class="card">
+       <div class="card-body">
+        <%= bootstrap_form_with(model: @category_realizability, url: category_realizabilities_path, loacal:true) do |f| %>
+         <%= f.text_field :tag_name, label:"実現可能性" %>
+         <%= f.submit "登録" %>
+        <% end %>
+        <h6>登録済のタグ</h6>
+        <div>
+        <% @category_realizabilities.each do |category_realizability| %>
+         <div>
+          <%= category_realizability.tag_name %>
+          <%= link_to "編集", controller: "category_realizabilities", action: "edit", id: category_realizability %>
+          <%= link_to "削除", category_realizability_path(category_realizability), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+         </div>
+        <% end %> 
+       </div> 
+      </div>
+    </div>           
   </div> 
 </div>   

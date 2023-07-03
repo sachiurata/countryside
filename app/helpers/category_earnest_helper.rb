@@ -1,0 +1,2 @@
+module CategoryEarnestHelper
+end

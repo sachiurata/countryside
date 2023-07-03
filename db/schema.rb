@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_27_051719) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_03_035734) do
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -51,13 +51,43 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_051719) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "category_earnests", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "category_features", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "category_issues", charset: "utf8mb4", force: :cascade do |t|
     t.string "tag_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "category_markets", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "category_realizabilities", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "category_resources", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "category_wants", charset: "utf8mb4", force: :cascade do |t|
     t.string "tag_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -78,9 +108,51 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_051719) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "post_category_earnests", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "category_earnest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "post_category_features", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "category_feature_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "post_category_issues", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "category_issue_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "post_category_markets", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "category_market_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "post_category_realizabilities", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "category_realizability_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "post_category_resources", charset: "utf8mb4", force: :cascade do |t|
     t.integer "post_id"
     t.integer "category_resource_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "post_category_wants", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "category_want_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

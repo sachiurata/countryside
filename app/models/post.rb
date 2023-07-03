@@ -5,7 +5,12 @@ class Post < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :favorite_users, through: :favorites, source: 'user', dependent: :destroy
   has_many :post_category_resources, dependent: :destroy
-  accepts_nested_attributes_for :post_category_resources, allow_destroy: true
+  has_many :post_category_issues, dependent: :destroy
+  has_many :post_category_markets, dependent: :destroy
+  has_many :post_category_features, dependent: :destroy
+  has_many :post_category_wants, dependent: :destroy
+  has_many :post_category_realizabilities, dependent: :destroy
+  has_many :post_category_earnests, dependent: :destroy
   
   has_many_attached :images
   

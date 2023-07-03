@@ -28,6 +28,11 @@ Rails.application.routes.draw do
     resources :tag_post_regions, only: [:new, :index]
     resources :category_resources, only: [:create, :edit, :update, :destroy]
     resources :category_issues, only: [:create, :edit, :update, :destroy]
+    resources :category_markets, only: [:create, :edit, :update, :destroy]
+    resources :category_features, only: [:create, :edit, :update, :destroy]
+    resources :category_wants, only: [:create, :edit, :update, :destroy]
+    resources :category_realizabilities, only: [:create, :edit, :update, :destroy]
+    resources :category_earnest, only: [:create, :edit, :update, :destroy]
   end
   
   resources :post_category_resources

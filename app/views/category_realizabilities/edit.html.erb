@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+     <h1 class="text-center text-black">タグ登録（地域側投稿）</h1>  
+     <%= bootstrap_form_with(model: @category_realizability, url: category_realizability_path, action: :update, local: true) do |f| %>
+      <%= f.text_field :tag_name, label:"地域資源" %>
+      <%= f.submit "登録" %>
+     <% end %>
+     
+     <h5>登録済のタグ</h5>
+     <% @category_realizabilities.each do |category_realizability| %>
+     <div>
+      <%= category_realizability.tag_name %>
+     <% end %>
+     </div> 
+    </div>
+  </div> 
+</div>   

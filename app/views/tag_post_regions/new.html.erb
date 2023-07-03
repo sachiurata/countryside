@@ -6,8 +6,24 @@
       <%= f.text_field :tag_name, label:"地域資源" %>
       <%= f.submit "登録" %>
      <% end %>
+     
      <%= bootstrap_form_with(model: @category_issue, url: category_issues_path, local: true) do |f| %>
       <%= f.text_field :tag_name, label:"地域課題" %>
+      <%= f.submit "登録" %>
+     <% end %>
+     
+     <%= bootstrap_form_with(model: @category_market, url: category_markets_path, local: true) do |f| %>
+      <%= f.text_field :tag_name, label:"需要" %>
+      <%= f.submit "登録" %>
+     <% end %>  
+     
+     <%= bootstrap_form_with(model: @category_feature, url: category_features_path, local: true) do |f| %>
+      <%= f.text_field :tag_name, label:"地域の特色" %>
+      <%= f.submit "登録" %>
+     <% end %>
+     
+     <%= bootstrap_form_with(model: @category_realizability, url: category_realizabilities_path, local: true) do |f| %>
+      <%= f.text_field :tag_name, label:"実現可能性" %>
       <%= f.submit "登録" %>
      <% end %>
     </div>

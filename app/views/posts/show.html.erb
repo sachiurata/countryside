@@ -46,6 +46,7 @@
       <% type_flag %>
       <% if @post.post_type == 1 %>
        <span class="badge text-bg-success">地域側</span>
+      
        <P class="label"></P>
        <P><%= text_url_to_link(safe_join((h(@post.body1)).split("\n"),tag(:br))).html_safe %></P>
        <p class="label">地域の特色</p>
