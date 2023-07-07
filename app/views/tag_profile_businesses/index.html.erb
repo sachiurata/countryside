@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+     <h1 class="text-center text-black">タグ登録（起業希望者ユーザー）</h1>
+      <div class="card">
+       <div class="card-body">
+        <%= render partial: "layouts/tag_form", locals: { model: @category_job, url: category_jobs_path, title: "職業" } %>
+        <% @category_jobs.each do |category_job| %>
+         <div>
+         <%= category_job.tag_name %>
+         <%= link_to "編集", controller: "category_jobs", action: "edit", id: category_job %>
+         <%= link_to "削除", category_job_path(category_job), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+         </div> 
+        <% end %>
+       </div>
+      </div>          
+      <div class="card">
+       <div class="card-body">
+        <%= render partial: "layouts/tag_form", locals: { model: @category_skill, url: category_skills_path, title: "得意なこと" } %>
+        <% @category_skills.each do |category_skill| %>
+         <div>
+         <%= category_skill.tag_name %>
+         <%= link_to "編集", controller: "category_skills", action: "edit", id: category_skill %>
+         <%= link_to "削除", category_skill_path(category_skill), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %> 
+         </div>
+        <% end %>
+       </div> 
+      </div>
+      <div class="card">
+       <div class="card-body">
+        <%= render partial: "layouts/tag_form", locals: { model: @category_interest, url: category_interests_path, title: "興味のあること" } %>
+        <% @category_interests.each do |category_interest| %>
+         <div>
+         <%= category_interest.tag_name %>
+         <%= link_to "編集", controller: "category_interests", action: "edit", id: category_interest %>
+         <%= link_to "削除", category_interest_path(category_interest), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %> 
+         </div>
+        <% end %>
+       </div> 
+      </div>
+  </div> 
+</div>   

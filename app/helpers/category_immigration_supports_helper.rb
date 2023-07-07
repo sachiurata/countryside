@@ -1,0 +1,2 @@
+module CategoryImmigrationSupportsHelper
+end

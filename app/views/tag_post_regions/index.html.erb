@@ -11,7 +11,7 @@
         <h6>登録済のタグ</h6>
         <% @category_resources.each do |category_resource| %>
          <div>
-           <%= category_resource.tag_name %>
+          <%= category_resource.tag_name %>
           <%= link_to "編集", controller: "category_resources", action: "edit", id: category_resource %>
           <%= link_to "削除", category_resource_path(category_resource), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
           <%#= link_to "削除", controller: "tag_post_regions", action: "destroy", id: category_resource %> 

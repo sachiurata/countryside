@@ -1,8 +1,4 @@
 class CategoryResourcesController < ApplicationController
-#   def new
-#     @category_resource = CategoryResource.new
-#   end
-  
   def create
     @category_resource = CategoryResource.new(category_resource_params)
     if @category_resource.save
@@ -11,10 +7,6 @@ class CategoryResourcesController < ApplicationController
      render new_category_resource_path, notice:"登録に失敗しました"
     end    
   end
-  
-#   def index
-#     @category_resources = CategoryResource.all
-#   end
   
   def edit
     @category_resources = CategoryResource.all

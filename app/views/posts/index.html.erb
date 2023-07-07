@@ -1,5 +1,11 @@
 <div class="container">
   <div class="row">
+    <form action="/posts">
+      <input type="search" name="keyword" placeholder="フリーキーワードを入れてください"> 
+      <input type="submit" value="検索">
+    </form>
+  </div>
+  <div class="row">
     <% @posts.each do |post| %>
      <% if post.public_status_id == 1 %>
       <%= render "layouts/post_card", post: post %>

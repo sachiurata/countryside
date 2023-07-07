@@ -110,7 +110,16 @@
             </li>
           <% end %>
           <li class="nav-item">
-           <%= link_to 'タグ管理', new_tag_post_region_path %>
+           <%= link_to 'タグ(投稿/地域)', new_tag_post_region_path %>
+          </li>
+          <li class="nav-item">
+           <%= link_to 'タグ(投稿/起業)', new_tag_post_business_path %>
+          </li>
+          <li class="nav-item">
+           <%= link_to 'タグ(ユーザー/地域)', new_tag_profile_region_path %>
+          </li>
+          <li class="nav-item">
+           <%= link_to 'タグ(ユーザー/起業)', new_tag_profile_business_path %>
           </li>
         </ul>
       </div>

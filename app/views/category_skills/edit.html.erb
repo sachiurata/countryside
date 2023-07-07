@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+     <h1 class="text-center text-black">タグ登録（起業希望者投稿）</h1> 
+     <%= render partial: "layouts/tag_form", locals: { model: @category_skill, url: category_skill_path, title: "地域について" } %>
+     <h5>登録済のタグ</h5>
+     <% @category_skills.each do |category_skill| %>
+      <div>
+       <%= category_skill.tag_name %>
+    <% end %>
+      </div>   
+    </div>
+  </div> 
+</div>   

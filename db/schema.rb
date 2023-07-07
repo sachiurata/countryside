@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_03_035734) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_05_023637) do
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -51,6 +51,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_035734) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "category_about_regions", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "category_earnests", charset: "utf8mb4", force: :cascade do |t|
     t.string "tag_name"
     t.datetime "created_at", null: false
@@ -63,7 +69,31 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_035734) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "category_immigration_supports", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "category_incubations", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "category_interests", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "category_issues", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "category_jobs", charset: "utf8mb4", force: :cascade do |t|
     t.string "tag_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -82,6 +112,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_035734) do
   end
 
   create_table "category_resources", charset: "utf8mb4", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "category_skills", charset: "utf8mb4", force: :cascade do |t|
     t.string "tag_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -170,6 +206,48 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_035734) do
     t.string "realizability"
     t.string "earnest"
     t.integer "public_status_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "profile_category_about_regions", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_profile_id"
+    t.integer "category_about_region_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "profile_category_immigration_supports", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_profile_id"
+    t.integer "category_immigration_support_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "profile_category_incubations", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_profile_id"
+    t.integer "category_incubation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "profile_category_interests", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_profile_id"
+    t.integer "category_interest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "profile_category_jobs", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_profile_id"
+    t.integer "category_job_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "profile_category_skills", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_profile_id"
+    t.integer "category_skill_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

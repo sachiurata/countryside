@@ -22,8 +22,26 @@
               <input class="form-check-input" type="checkbox" value="1" name="user_profile[profile_type1]" id="user_profile_profile_type1" /><label class="form-check-label" for="user_profile_profile_type1">地域側</label>
               <div class="user_profile_profile_type1">地域側として登録する内容です。
                 <%= f.text_area :about_region, label:"地域について", size: "40x15", placeholder:"" %>
+                <div class="category">地域について<br>
+                 <% category_about_regions.each_with_index do |category_about_region, index| %>
+                  <input class="form-check-input", type="checkbox", name="category_about_region_id[]", value="<%= category_about_region.id %>" <%= check_flags_profile_category_about_region[index] ? "checked" : "" %> >
+                  <%= category_about_region.tag_name %>
+                 <% end %>
+                </div>
                 <%= f.text_area :incubation, label:"地域の起業支援", size: "40x15", placeholder:"自治体の起業支援等についてお書きください。" %>
+                <div class="category">起業支援<br>
+                 <% category_incubations.each_with_index do |category_incubation, index| %>
+                  <input class="form-check-input", type="checkbox", name="category_incubation_id[]", value="<%= category_incubation.id %>" <%= check_flags_profile_category_incubation[index] ? "checked" : "" %> >
+                  <%= category_incubation.tag_name %>
+                 <% end %>
+                </div>
                 <%= f.text_area :immigration_support, label:"地域の移住支援", size: "40x15", placeholder:""  %>
+                <div class="category">移住支援<br>
+                 <% category_immigration_supports.each_with_index do |category_immigration_support, index| %>
+                  <input class="form-check-input", type="checkbox", name="category_immigration_support_id[]", value="<%= category_immigration_support.id %>" <%= check_flags_profile_category_immigration_support[index] ? "checked" : "" %> >
+                  <%= category_immigration_support.tag_name %>
+                 <% end %>
+                </div>
                 <%= f.text_area :other1, label:"その他", size: "40x15", placeholder:"" %>
               </div>
             </div>
@@ -33,8 +51,26 @@
             <input class="form-check-input" type="checkbox" value="1" name="user_profile[profile_type2]" id="user_profile_profile_type2" /><label class="form-check-label" for="user_profile_profile_type2">起業希望者</label>
               <div class="user_profile_profile_type2">起業希望者として登録する内容です。
                 <%= f.text_area :job, label:"職業", size: "40x15", placeholder:"" %>
+                <div class="category">職業<br>
+                 <% category_jobs.each_with_index do |category_job, index| %>
+                  <input class="form-check-input", type="checkbox", name="category_job_id[]", value="<%= category_job.id %>" <%= check_flags_profile_category_job[index] ? "checked" : "" %> >
+                  <%= category_job.tag_name %>
+                 <% end %>
+                </div>
                 <%= f.text_area :skill, label:"得意なこと", size: "40x15", placeholder:"" %>
+                <div class="category">得意なこと<br>
+                 <% category_skills.each_with_index do |category_skill, index| %>
+                  <input class="form-check-input", type="checkbox", name="category_skill_id[]", value="<%= category_skill.id %>" <%= check_flags_profile_category_skill[index] ? "checked" : "" %> >
+                  <%= category_skill.tag_name %>
+                 <% end %>
+                </div>
                 <%= f.text_area :interest, label:"興味のあること", size: "40x15", placeholder:"" %>
+                <div class="category">興味のあること<br>
+                 <% category_interests.each_with_index do |category_interest, index| %>
+                  <input class="form-check-input", type="checkbox", name="category_interest_id[]", value="<%= category_interest.id %>" <%= check_flags_profile_category_interest[index] ? "checked" : "" %> >
+                  <%= category_interest.tag_name %>
+                 <% end %>
+                </div>
                 <%= f.text_area :other2, label:"その他", size: "40x15", placeholder:""  %>
               </div>
             </div>  

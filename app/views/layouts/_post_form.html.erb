@@ -17,22 +17,38 @@
         <% if post_type_flag == 1 %>  
           <%= f.text_area :body1, label:"地域資源・地域課題など", size: "40x15", placeholder:"", required: true %>
           <div class="category">地域資源<br>
-        <% @category_resources.each_with_index do |category_resource, index| %>
-          <% @post_category_resources.each do |post_category_resource| %>
-            <% if post_category_resource.category_resource_id == index+1 %>
-            <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" checked >
-           <% else %>
-            <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" >
-           <% end %>  
-            <%= category_resource.tag_name %>
-           <% end %>
-          <% end %> 
+            <% category_resources.each_with_index do |category_resource, index| %>
+             <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" <%= check_flags_post_category_resource[index] ? 'checked' : '' %> >
+             <%= category_resource.tag_name %>
+            <% end %> 
           </div>  
+          <div class="category">地域課題<br>
+           <% category_issues.each_with_index do |category_issue, index| %>
+            <input class="form-check-input" type="checkbox", name="category_issue_id[]" value="<%= category_issue.id %>" <%= check_flags_post_category_issue[index] ? "checked" : "" %> >
+            <%= category_issue.tag_name %>
+           <% end %>  
+          </div>
+          <div class="category">需要<br>
+           <% @category_markets.each_with_index do |category_market, index| %>
+             <input class="form-check-input" type="checkbox" name="category_market_id[]" value="<%= category_market.id %>" <%= check_flags_post_category_market[index] ? "checked" : "" %> >
+             <%= category_market.tag_name %>
+           <% end %>
+          </div>
           <%= f.text_area :feature, label:"地域の特色", size: "40x15", placeholder:"" %>
+           <div class="category">地域の特色<br>
+            <% category_features.each_with_index do |category_feature, index| %>
+             <input class="form-check-input" type="checkbox" name="category_feature_id[]" value="<%= category_feature.id %>" <%= check_flags_post_category_feature[index] ? "checked" : "" %> >
+             <%= category_feature.tag_name %>
+            <% end %> 
+           </div> 
         <% end %> 
         <% if post_type_flag == 2 %>  
           <%= f.text_area :body2, label:"やりたいことなど", size: "40x15", placeholder:"", required: true %>
-        <% end %> 
+          <% category_wants.each_with_index do |category_want, index| %>
+           <input class="form-check-input" type="checkbox" name="category_want_id[]" value="<%= category_want.id %>" <%= check_flags_post_category_want[index] ? "checked" : "" %> >
+           <%= category_want.tag_name %>
+          <% end %>
+        <% end %>    
         <%= f.file_field :images, multiple: true, label:"画像" %>
         <% if post.images.attached? %>
         <p>選択済みの画像（削除する画像にチェックをつけてください）</p>
@@ -47,8 +63,19 @@
         <% end %>
         </div>
       <% end %>
+      <% if post_type_flag == 1 %>  
         <%= f.text_field :realizability, label:"実現可能性" %>
+        <% category_realizabilities.each_with_index do |category_realizability, index| %>
+          <input class="form-check-input", type="checkbox", name="category_realizability_id[]", value="<%= category_realizability.id %>" <%= check_flags_post_category_realizability[index] ? "checked" : "" %> >
+          <%= category_realizability.tag_name %>
+        <% end %>
+      <% else %>  
         <%= f.text_field :earnest, label:"本気度" %>
+        <% category_earnests.each_with_index do |category_earnest, index| %>
+         <input class="form-check-input" type="checkbox" name="category_earnest_id[]" value="<%= category_earnest.id %>" <%= check_flags_post_category_earnest[index] ? "checked" : "" %>  >
+         <%= category_earnest.tag_name %>
+        <% end %> 
+      <% end %>  
         
   
         <div class="public_status">

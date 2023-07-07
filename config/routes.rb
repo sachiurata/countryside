@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   scope :admins do
     resources :tag_post_regions, only: [:new, :index]
+    resources :tag_post_businesses, only: [:new, :index]
     resources :category_resources, only: [:create, :edit, :update, :destroy]
     resources :category_issues, only: [:create, :edit, :update, :destroy]
     resources :category_markets, only: [:create, :edit, :update, :destroy]
@@ -33,6 +34,14 @@ Rails.application.routes.draw do
     resources :category_wants, only: [:create, :edit, :update, :destroy]
     resources :category_realizabilities, only: [:create, :edit, :update, :destroy]
     resources :category_earnest, only: [:create, :edit, :update, :destroy]
+    resources :tag_profile_regions, only: [:new, :index]
+    resources :tag_profile_businesses, only: [:new, :index]
+    resources :category_about_regions, only: [:create, :edit, :update, :destroy]
+    resources :category_incubations, only: [:create, :edit, :update, :destroy]
+    resources :category_immigration_supports, only: [:create, :edit, :update, :destroy]
+    resources :category_jobs, only: [:create, :edit, :update, :destroy]
+    resources :category_skills, only: [:create, :edit, :update, :destroy]
+    resources :category_interests, only: [:create, :edit, :update, :destroy]
   end
   
   resources :post_category_resources

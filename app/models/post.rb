@@ -10,7 +10,13 @@ class Post < ApplicationRecord
   has_many :post_category_features, dependent: :destroy
   has_many :post_category_wants, dependent: :destroy
   has_many :post_category_realizabilities, dependent: :destroy
-  has_many :post_category_earnests, dependent: :destroy
+  has_many :post_category_earnest, dependent: :destroy
+  has_many :profile_category_about_regions, dependent: :destroy
+  has_many :profile_category_incubations, dependent: :destroy
+  has_many :profile_category_immigration_supports, dependent: :destroy
+  has_many :profile_category_jobs, dependent: :destroy
+  has_many :profile_category_skills, dependent: :destroy
+  has_many :profile_category_interests, dependent: :destroy
   
   has_many_attached :images
   

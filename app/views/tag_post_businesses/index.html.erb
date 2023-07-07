@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+     <h1 class="text-center text-black">タグ登録（起業希望者投稿）</h1>
+      <div class="card">
+       <div class="card-body">
+        <%= bootstrap_form_with(model: @category_want, url: category_wants_path, local: true) do |f| %>
+         <%= f.text_field :tag_name, label: "やりたいこと" %>
+         <%= f.submit "登録" %>
+        <% end %>
+        <h6>登録済のタグ</h6>
+        <% @category_wants.each do |category_want| %>
+          <div>
+           <%= category_want.tag_name %>
+           <%= link_to "編集", controller: "category_wants", action: "edit", id: category_want %>
+           <%= link_to "削除", category_want_path(category_want), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+          </div>  
+        <% end %>
+       </div> 
+      </div>  
+      <div class="card">
+       <div class="card-body">
+        <%= bootstrap_form_with(model: @category_earnest, url: category_earnest_index_path, local: true) do |f| %>
+         <%= f.text_field :tag_name, label: "本気度" %>
+         <%= f.submit "登録" %>
+        <% end %>
+        <h6>登録済のタグ</h6>
+        <% @category_earnest.each do |category_earnest| %>
+          <div>
+           <%= category_earnest.tag_name %>
+           <%= link_to "編集", controller: "category_earnest", action: "edit", id: category_earnest %>
+           <%= link_to "削除", category_earnest_path(category_earnest), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+          </div>  
+        <% end %> 
+       </div> 
+      </div>
+    </div>           
+  </div> 
+</div>   

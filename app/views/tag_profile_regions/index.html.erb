@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+     <h1 class="text-center text-black">タグ登録（地域側ユーザー）</h1>
+      <div class="card">
+       <div class="card-body">
+        <%= render partial: "layouts/tag_form", locals: { model: @category_about_region, url: category_about_regions_path, title: "地域について" } %>
+        <% @category_about_regions.each do |category_about_region| %>
+         <div>
+         <%= category_about_region.tag_name %>
+         <%= link_to "編集", controller: "category_about_regions", action: "edit", id: category_about_region %>
+         <%= link_to "削除", category_about_region_path(category_about_region), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>        
+         <%#= render "layouts/tag_destroy", controller: "category_about_regions", category_name: category_about_region, id: category_about_region, link: category_about_region_path(category_about_region) %> 
+         <!--上記とどちらが良い？-->
+         </div> 
+        <% end %>
+       </div>
+      </div>          
+      <div class="card">
+       <div class="card-body">
+        <%= render partial: "layouts/tag_form", locals: { model: @category_incubation, url: category_incubations_path, title: "起業支援" } %>
+        <% @category_incubations.each do |category_incubation| %>
+         <div>
+         <%= category_incubation.tag_name %>
+         <%= link_to "編集", controller: "category_incubations", action: "edit", id: category_incubation %>
+         <%= link_to "削除", category_incubation_path(category_incubation), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %> 
+         <!--上記とどちらが良い？-->
+         </div>
+        <% end %>
+       </div> 
+      </div>
+      <div class="card">
+       <div class="card-body">
+        <%= render partial: "layouts/tag_form", locals: { model: @category_immigration_support, url: category_immigration_supports_path, title: "移住支援" } %>
+        <% @category_immigration_supports.each do |category_immigration_support| %>
+         <div>
+         <%= category_immigration_support.tag_name %>
+         <%= link_to "編集", controller: "category_immigration_supports", action: "edit", id: category_immigration_support %>
+         <%= link_to "削除", category_immigration_support_path(category_immigration_support), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %> 
+         </div>
+        <% end %>
+       </div> 
+      </div>
+  </div> 
+</div>   

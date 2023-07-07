@@ -5,19 +5,17 @@ class PostsRegionController < ApplicationController
   
   def new
     @post = Post.new
-    @user_profile = current_user.user_profile
-    @post_type_flag = 1
-    @profile_type1_flag = true
     @category_resources = CategoryResource.all
     @category_issues = CategoryIssue.all
     @category_markets = CategoryMarket.all
     @category_features = CategoryFeature.all
     @category_realizabilities = CategoryRealizability.all
-    # @profile_type2_flag = false
+    @user_profile = current_user.user_profile
+    @post_type_flag = 1
+    @profile_type1_flag = true
   end
   
   def create
-    #@post = Post.create!(post_params)
     @post = Post.new(post_params)
     @user_profile = current_user.user_profile
     

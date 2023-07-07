@@ -5,6 +5,8 @@ class PostsBusinessController < ApplicationController
   
    def new
     @post = Post.new
+    @category_earnests = CategoryEarnest.all
+    @category_wants = CategoryWant.all
     @user_profile = current_user.user_profile
     @post_type_flag = 2
     @profile_type2_flag = true
@@ -15,7 +17,23 @@ class PostsBusinessController < ApplicationController
     @post = Post.new(post_params)
     @user_profile = current_user.user_profile
     
+    category_wants_ids = params[:category_want_id]
+    category_earnest_ids = params[:category_earnest_id]
+    
     if @post.save
+     if category_wants_ids.present?
+       category_wants_ids.each do |category_wants_id|
+        category_wants = @post.post_category_wants.build(category_want_id: category_wants_id)
+        category_wants.save
+       end
+     end   
+     if category_earnest_ids.present?
+      category_earnest_ids.each do |category_earnest_id|
+        category_earnest = @post.post_category_earnest.build(category_earnest_id: category_earnest_id)
+        category_earnest.save
+      end
+     end  
+     
       redirect_to @post, action: :show, id: @post.id, notice:"登録が完了しました"
     else
       render "new", notice:"登録に失敗しました"  

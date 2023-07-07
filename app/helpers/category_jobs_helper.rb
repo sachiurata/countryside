@@ -1,0 +1,2 @@
+module CategoryJobsHelper
+end

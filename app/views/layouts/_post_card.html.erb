@@ -12,6 +12,11 @@
       </div>
       <div class="col-md-8">
         <div class="card-body">
+          <% if post.post_type == 1 %>
+           <span class="badge text-bg-success">地域側</span>
+          <% else %>
+           <span class="badge text-bg-danger">起業希望者</span>
+          <% end %>
           <h5 class="card-title"><%= post.title %></h5>
           <% if !user_signed_in? %>
            <%= image_tag "heart-black.png", class: "icon-heart" %>

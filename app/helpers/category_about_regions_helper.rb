@@ -1,0 +1,2 @@
+module CategoryAboutRegionsHelper
+end

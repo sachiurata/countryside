@@ -1,0 +1,2 @@
+module CategoryIncubationsHelper
+end
