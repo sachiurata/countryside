@@ -3,18 +3,12 @@ class PostsController < ApplicationController
   
   before_action :authenticate_user!, except:[:index, :show]
   before_action :ensure_user, only:[:edit, :update]
+  before_action :all, only:[:edit, :index]
   
   def edit
     @post = Post.find(params[:id])
     @user_profile = current_user.user_profile
     @edit_flag = true
-    @category_resources = CategoryResource.all
-    @category_issues = CategoryIssue.all
-    @category_markets = CategoryMarket.all
-    @category_features = CategoryFeature.all
-    @category_wants = CategoryWant.all
-    @category_realizabilities = CategoryRealizability.all
-    @category_earnests = CategoryEarnest.all
     
     @check_flags_post_category_resource = []
     #全カテゴリーサーチ
@@ -26,8 +20,6 @@ class PostsController < ApplicationController
         @check_flags_post_category_resource[index] = true
       end  
     end
-    puts "ここ"
-    p @check_flags
     
     @check_flags_post_category_feature = []
     @category_features.each_with_index do |category_feature, index|
@@ -220,15 +212,200 @@ class PostsController < ApplicationController
   end
   
   def index
+    @category_resource = CategoryResource.new
+    @category_issue = CategoryResource.new
+    @category_market = CategoryMarket.new
+    @category_feature = CategoryFeature.new
+    prefecture = params[:prefecture]
     keyword = params[:keyword]
-    puts "ここを見ろ"
-    p keyword
-    if keyword.nil?
-     @posts = Post.all
-    else
-     keyword = '%' + keyword + '%'
-     @posts = Post.where("title like ?", keyword)
-    end
+    category_resource_ids = params[:category_resource_id]
+    category_issue_ids = params[:category_issue_id]
+    category_market_ids = params[:category_market_id]
+    category_feature_ids = params[:category_feature_id]
+    search_type = params[:search_type]
+    @posts = []
+    @check_flags_category_resources = []
+    
+    if search_type.nil? || search_type == "1"
+      #OR検索
+      if  prefecture.nil? && keyword.nil? && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
+        @posts = Post.all
+        
+      else
+        if prefecture.present?
+          @post_prefecture = Post.where(prefecture: prefecture)
+          @post_prefecture.each do |post_prefecture|
+            @posts = @posts.append(post_prefecture)
+          end
+        end 
+        
+        if category_resource_ids.present?
+          category_resource_ids.each do |category_resource_id|  
+            @post_category_resources = Post.joins(:post_category_resources).where(post_category_resources: {category_resource_id: category_resource_id})
+            @post_category_resources.each do |post_category_resource|
+             @posts = @posts.append(post_category_resource)
+            end
+          end
+          
+          # 以下、チェック済のボックスにチェックを入れて検索結果を表示するため。
+          # 他の項目は未実装。
+          @check_flags_category_resources = []
+          @category_resources.each_with_index do |category_resource, index|
+            if category_resource_ids.include?(category_resource.id.to_s)
+             @check_flags_category_resources[index] = true
+            else
+             @check_flags_category_resources[index] = false
+            end
+          end
+        end  
+      
+        if category_issue_ids.present?
+          category_issue_ids.each do |category_issue_id|  
+            @post_category_issues = Post.joins(:post_category_issues).where(post_category_issues: {category_issue_id: category_issue_id})
+            @post_category_issues.each do |post_category_issue|
+             @posts = @posts.append(post_category_issue)
+            end
+          end
+        end 
+        
+        if category_market_ids.present?
+          category_market_ids.each do |category_market_id|  
+            @post_category_markets = Post.joins(:post_category_markets).where(post_category_markets: {category_market_id: category_market_id})
+            @post_category_markets.each do |post_category_market|
+             @posts = @posts.append(post_category_market)
+            end
+          end
+        end  
+        
+        if category_feature_ids.present?
+          category_feature_ids.each do |category_feature_id|  
+            @post_category_features = Post.joins(:post_category_features).where(post_category_features: {category_feature_id: category_feature_id})
+            @post_category_features.each do |post_category_feature|
+             @posts = @posts.append(post_category_feature)
+            end
+          end 
+        end 
+        
+        if keyword.present?
+          keyword = '%' + keyword + '%'
+          if category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
+            @posts = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword))
+          else
+            @post_ids = @posts.pluck(:id)
+            @posts = Post.where("body1 like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @post_ids)
+          end
+        end 
+      end
+      
+    elsif search_type == "2"
+      #AND検索
+      if  prefecture.nil? && keyword.nil? && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
+        @posts = Post.all
+      else
+        @post_ids = []
+        if prefecture.present?
+          @prefecture_posts = Post.where(prefecture: prefecture)
+          @prefecture_posts_ids = @prefecture_posts.pluck(:id)
+          @post_ids = @prefecture_posts_ids
+          puts "ここを見ろ"
+          p @post_ids
+        end 
+        
+        if category_resource_ids.present?
+          @category_resource_posts_all = []
+          category_resource_ids.each do |category_resource_id|  
+            @category_resource_posts = Post.joins(:post_category_resources).where(post_category_resources: {category_resource_id: category_resource_id})
+            @category_resource_posts.each do|category_resource_post|
+             @category_resource_posts_all = @category_resource_posts_all.append(category_resource_post)
+            end
+             @category_resource_posts_ids = @category_resource_posts_all.pluck(:id).uniq
+             if @post_ids.empty?
+               @post_ids = @category_resource_posts_ids
+             else 
+               @post_ids = @post_ids & @category_resource_posts_ids
+             end   
+             puts "ここを見ろ"
+             p @category_resource_posts_ids
+             p @post_ids
+          end
+          
+          # 以下、チェック済のボックスにチェックを入れて検索結果を表示するため。
+          # 他の項目は未実装。
+          @check_flags_category_resources = []
+          @category_resources.each_with_index do |category_resource, index|
+            if category_resource_ids.include?(category_resource.id.to_s)
+             @check_flags_category_resources[index] = true
+            else
+             @check_flags_category_resources[index] = false
+            end
+          end
+        end
+        
+        if category_issue_ids.present?
+          @category_issue_posts_all = []
+          category_issue_ids.each do |category_issue_id|  
+            @category_issue_posts = Post.joins(:post_category_issues).where(post_category_issues: {category_issue_id: category_issue_id})
+            @category_issue_posts.each do|category_issue_post|
+             @category_issue_posts_all = @category_issue_posts_all.append(category_issue_post)
+            end
+             @category_issue_posts_ids = @category_issue_posts_all.pluck(:id).uniq
+             if @post_ids.empty?
+               @post_ids = @category_issue_posts_ids
+             else 
+              @post_ids = @post_ids & @category_issue_posts_ids
+             end  
+             puts "ここを見ろ"
+             p @category_issue_posts_ids
+             p @post_ids
+          end
+        end
+        
+        if category_market_ids.present?
+        @category_market_posts_all = []
+          category_market_ids.each do |category_market_id|  
+            @category_market_posts = Post.joins(:post_category_markets).where(post_category_markets: {category_market_id: category_market_id})
+            @category_market_posts.each do|category_market_post|
+             @category_market_posts_all = @category_market_posts_all.append(category_market_post)
+            end
+             @category_market_posts_ids = @category_market_posts_all.pluck(:id).uniq
+             if @post_ids.empty?
+               @post_ids = @category_market_posts_ids
+             else  
+               @post_ids = @post_ids & @category_market_posts_ids
+             end   
+          end
+        end    
+        
+        if category_feature_ids.present?
+        @category_feature_posts_all = []
+          category_feature_ids.each do |category_feature_id|  
+            @category_feature_posts = Post.joins(:post_category_features).where(post_category_features: {category_feature_id: category_feature_id})
+            @category_feature_posts.each do|category_feature_post|
+             @category_feature_posts_all = @category_feature_posts_all.append(category_feature_post)
+            end
+             @category_feature_posts_ids = @category_feature_posts_all.pluck(:id).uniq
+             if @post_ids.empty?
+               @post_ids = @category_feature_posts_ids
+             else  
+               @post_ids = @post_ids & @category_feature_posts_ids
+             end
+             
+          end
+        end 
+        
+        @posts = Post.where(id: @post_ids)
+       
+        if keyword.present?
+         keyword = '%' + keyword + '%'
+         if category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
+           @posts = Post.where("title like ?", keyword)
+         else
+           @post_ids = @posts.pluck(:id)
+           @posts = Post.where("title like ?", keyword).where(id: @post_ids)
+         end
+        end 
+      end  
+    end  
   end
   
   def destroy
@@ -252,5 +429,15 @@ class PostsController < ApplicationController
     unless @post.user_id == current_user.id
       redirect_to "show", id: @post.id
     end
-  end  
+  end 
+  
+  def all
+    @category_resources = CategoryResource.all
+    @category_issues = CategoryIssue.all
+    @category_markets = CategoryMarket.all
+    @category_features = CategoryFeature.all
+    @category_wants = CategoryWant.all
+    @category_realizabilities = CategoryRealizability.all
+    @category_earnests = CategoryEarnest.all
+  end
 end
