@@ -1,10 +1,58 @@
 <div class="container">
   <div class="row">
+   <div class="mb-3" style="max-width: 800px;">  
     <form action="/posts">
-      <input type="search" name="keyword" placeholder="フリーキーワードを入れてください"> 
-      <input type="submit" value="検索">
-    </form>
+     <input class="form-control" type="search" name="keyword" placeholder="フリーキーワードを入れてください"> 
+     <% prefectures = ['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'] %>
+     <label class="form-label" for="prefecture">都道府県</label>
+      <select class="form-select selectpicker" name="prefecture">
+       <option value="">都道府県</option>
+       <% prefectures.each do |prefecture| %>
+        <option value="<%= prefecture %>"><%= prefecture %></option>
+       <% end %>
+      </select>
+     <div class="category"><span class="badge text-bg-primary">地域資源</span><br>
+      <% if @check_flags_category_resources.empty? %>
+       <% @category_resources.each do |category_resource| %>
+         <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>"  >  
+         <%= category_resource.tag_name %>
+       <% end %>
+      <% else %>   
+       <% @category_resources.each_with_index do |category_resource, index| %>
+         <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" <%= @check_flags_category_resources[index] ? 'checked' : '' %> >
+         <%= category_resource.tag_name %>
+       <% end %>
+      <% end %> 
+     </div>
+     <div class="category"><span class="badge text-bg-secondary">地域課題 </span><br>
+       <% @category_issues.each do |category_issue| %>
+        <input class="form-check-input" type="checkbox" name="category_issue_id[]" value="<%= category_issue.id %>" >
+        <%= category_issue.tag_name %>
+       <% end %>
+     </div> 
+     <div class="category"><span class="badge text-bg-warning">需要</span><br>
+      <% @category_markets.each do |category_market| %>
+        <input class="form-check-input" type="checkbox" name="category_market_id[]" value="<%= category_market.id %>" >
+        <%= category_market.tag_name %>
+      <% end %>
+     </div>
+     <div class="category"><span class="badge text-bg-info">地域の特色 </span><br>
+      <% @category_features.each do |category_feature| %>
+       <input class="form-check-input", type="checkbox", name="category_feature_id[]", value="<%= category_feature.id %>" >
+       <%= category_feature.tag_name %>
+      <% end %>
+      <h6>検索方法</6>
+      <div><input class="form-check-input", type="checkbox", name="search_type", value="1" >OR検索（選択したタグを含む投稿をすべて表示）</div>
+      <div><input class="form-check-input", type="checkbox", name="search_type", value="2" >AND検索（選択したタグをすべて含む投稿を表示）</div>
+     </div>
+     <input class="btn btn-secondary" type="submit" value="検索">
+    </form> 
+   </div>
   </div>
+  
+  <% if @not_found_flag %>
+  　<h5>検索結果が見つかりませんでした</h5>
+  <% end %>　
   <div class="row">
     <% @posts.each do |post| %>
      <% if post.public_status_id == 1 %>

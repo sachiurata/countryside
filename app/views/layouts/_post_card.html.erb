@@ -34,7 +34,7 @@
           <p class="card-text"><%= post.prefecture %><%= post.city %></p>
           <p class="card-text"><small class="text-body-secondary"><%= l post.updated_at %></small></p>
           <% post.post_category_resources.each do |post_category_resource| %>
-           <span class="badge text-bg-secondary">
+           <span class="badge text-bg-primary">
             <%= post_category_resource.category_resource.tag_name %>
            </span>
           <% end %>
@@ -44,12 +44,12 @@
            </span>   
           <% end %>
           <% post.post_category_markets.each do |post_category_market| %>
-           <span class="badge text-bg-secondary">
+           <span class="badge text-bg-warning">
             <%= post_category_market.category_market.tag_name %>
            </span>
           <% end %>
           <% post.post_category_features.each do |post_category_feature| %>
-           <span class="badge text-bg-secondary">
+           <span class="badge text-bg-info">
             <%= post_category_feature.category_feature.tag_name %>
            </span>  
           <% end %>  
