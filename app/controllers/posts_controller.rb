@@ -226,19 +226,13 @@ class PostsController < ApplicationController
     @posts = []
     @check_flags_category_resources = []
     
+     #「地域資源」「地域課題」「需要」「地域の特色」の各項目についてOR検索
     if search_type.nil? || search_type == "1"
-      #OR検索
-      if  prefecture.nil? && keyword.nil? && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
+     
+      if  prefecture == "" && keyword == "" && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
         @posts = Post.all
         
       else
-        if prefecture.present?
-          @post_prefecture = Post.where(prefecture: prefecture)
-          @post_prefecture.each do |post_prefecture|
-            @posts = @posts.append(post_prefecture)
-          end
-        end 
-        
         if category_resource_ids.present?
           category_resource_ids.each do |category_resource_id|  
             @post_category_resources = Post.joins(:post_category_resources).where(post_category_resources: {category_resource_id: category_resource_id})
@@ -291,6 +285,15 @@ class PostsController < ApplicationController
           end 
         end 
         
+        if prefecture.present?
+          @post_prefecture = Post.where(prefecture: prefecture)
+          if @posts.empty?
+           @posts = @post_prefecture
+          else
+           @posts = @posts & @post_prefecture
+          end  
+        end 
+        
         if keyword.present?
           keyword = '%' + keyword + '%'
           if category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
@@ -301,13 +304,16 @@ class PostsController < ApplicationController
           end
         end 
       end
-      
+    
+    #「地域資源」「地域課題」「需要」「地域の特色」の各項目についてAND検索  
     elsif search_type == "2"
-      #AND検索
-      if  prefecture.nil? && keyword.nil? && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
+      #全項目が入力もしくは選択されていない
+      if  prefecture == "" && keyword == "" && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
         @posts = Post.all
       else
+        puts "いずれかの項目が一つでも入力もしくは選択されている"
         @post_ids = []
+        #都道府県が選択された場合
         if prefecture.present?
           @prefecture_posts = Post.where(prefecture: prefecture)
           @prefecture_posts_ids = @prefecture_posts.pluck(:id)
@@ -315,7 +321,7 @@ class PostsController < ApplicationController
           puts "ここを見ろ"
           p @post_ids
         end 
-        
+        #「地域資源」のチェックボックスが一つでもチェックされた場合
         if category_resource_ids.present?
           @category_resource_posts_all = []
           category_resource_ids.each do |category_resource_id|  
@@ -324,28 +330,42 @@ class PostsController < ApplicationController
              @category_resource_posts_all = @category_resource_posts_all.append(category_resource_post)
             end
              @category_resource_posts_ids = @category_resource_posts_all.pluck(:id).uniq
-             if @post_ids.empty?
-               @post_ids = @category_resource_posts_ids
-             else 
-               @post_ids = @post_ids & @category_resource_posts_ids
-             end   
+             
+            # #都道府県が選択されなかった場合　
+            # if @post_ids.empty? && category_resource_ids.nil?
+            #   @post_ids = @category_resource_posts_ids
+            # #都道府県の検索結果が存在する場合 または　選択したが該当結果がなかった場合
+            # else 
+            #   @post_ids = @post_ids & @category_resource_posts_ids
+            # end   
+             
+              #都道府県の検索結果が存在する場合 または　選択したが該当結果がなかった場合
+              if @post_ids.present? || prefecture.present? and @post_ids.empty?
+                @post_ids = @post_ids & @category_resource_posts_ids
+              #都道府県が選択されなかった場合  
+              else
+                @post_ids = @category_resource_posts_ids
+              end
+            
              puts "ここを見ろ"
              p @category_resource_posts_ids
              p @post_ids
           end
           
-          # 以下、チェック済のボックスにチェックを入れて検索結果を表示するため。
+          # チェック済のボックスにチェックを入れて検索結果を表示するため。
           # 他の項目は未実装。
           @check_flags_category_resources = []
           @category_resources.each_with_index do |category_resource, index|
+            #
             if category_resource_ids.include?(category_resource.id.to_s)
-             @check_flags_category_resources[index] = true
+            @check_flags_category_resources[index] = true
             else
-             @check_flags_category_resources[index] = false
+            @check_flags_category_resources[index] = false
             end
           end
         end
         
+        #「地域課題」のチェックボックスが一つでもチェックされた場合
         if category_issue_ids.present?
           @category_issue_posts_all = []
           category_issue_ids.each do |category_issue_id|  
@@ -354,17 +374,24 @@ class PostsController < ApplicationController
              @category_issue_posts_all = @category_issue_posts_all.append(category_issue_post)
             end
              @category_issue_posts_ids = @category_issue_posts_all.pluck(:id).uniq
-             if @post_ids.empty?
-               @post_ids = @category_issue_posts_ids
-             else 
+            #「都道府県」「地域資源」を一つも選択しなかった場合
+            if @post_ids.empty? || prefecture == "" && category_resource_ids.nil? 
+              @post_ids = @category_issue_posts_ids
+            #「都道府県」「地域資源」を選択したが該当する投稿がない場合　または「都道府県」「地域資源」を選択した場合
+            else 
               @post_ids = @post_ids & @category_issue_posts_ids
-             end  
-             puts "ここを見ろ"
-             p @category_issue_posts_ids
-             p @post_ids
+            end
+            # #「都道府県」と「地域資源」の両方の選択にマッチする検索結果が存在する場合 または　選択したが該当結果がなかった場合
+            # if @post_ids.present? || prefecture.present? and category_resource_ids.present? and @post_ids.empty? 
+            #     @post_ids = @post_ids & @category_resource_posts_ids
+            # #「都道府県」と「地域資源」両方が選択されなかった場合  
+            # else
+            #     @post_ids = @category_resource_posts_ids
+            # end
           end
         end
         
+        #「需要」のチェックボックスが一つでもチェックされた場合
         if category_market_ids.present?
         @category_market_posts_all = []
           category_market_ids.each do |category_market_id|  
@@ -373,14 +400,17 @@ class PostsController < ApplicationController
              @category_market_posts_all = @category_market_posts_all.append(category_market_post)
             end
              @category_market_posts_ids = @category_market_posts_all.pluck(:id).uniq
-             if @post_ids.empty?
-               @post_ids = @category_market_posts_ids
-             else  
-               @post_ids = @post_ids & @category_market_posts_ids
-             end   
+            #「都道府県」「地域資源」「地域課題」を一つも選択しなかった場合
+            if @post_ids.empty? || prefecture == "" && category_resource_ids.nil? && category_issue_ids.nil?
+              @post_ids = @category_market_posts_ids
+            #「都道府県」「地域資源」「地域課題」を選択したが該当する投稿がない場合　または「都道府県」「地域資源」「地域課題」を選択した場合
+            else 
+              @post_ids = @post_ids & @category_market_posts_ids
+            end
           end
         end    
         
+        #「地域の特色」のチェックボックスが一つでもチェックされた場合
         if category_feature_ids.present?
         @category_feature_posts_all = []
           category_feature_ids.each do |category_feature_id|  
@@ -389,21 +419,26 @@ class PostsController < ApplicationController
              @category_feature_posts_all = @category_feature_posts_all.append(category_feature_post)
             end
              @category_feature_posts_ids = @category_feature_posts_all.pluck(:id).uniq
-             if @post_ids.empty?
-               @post_ids = @category_feature_posts_ids
-             else  
-               @post_ids = @post_ids & @category_feature_posts_ids
-             end
+             #「都道府県」「地域資源」「地域課題」「需要」を一つも選択しなかった場合
+            if @post_ids.empty? || prefecture == "" && category_resource_ids.nil? && category_issue_ids.nil? && category_feature_ids.nil?
+              @post_ids = @category_feature_posts_ids
+            #「都道府県」「地域資源」「地域課題」「需要」を選択したが該当する投稿がない場合　または「都道府県」「地域資源」「地域課題」「需要」を選択した場合
+            else 
+              @post_ids = @post_ids & @category_feature_posts_ids
+            end
              
           end
         end 
         
         @posts = Post.where(id: @post_ids)
-       
+        
+        #キーワードが入力された場合　
         if keyword.present?
          keyword = '%' + keyword + '%'
+         #キーワード以外が選択されていない場合
          if category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
            @posts = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword))
+         #キーワード以外が選択されている場合   
          else
            @post_ids = @posts.pluck(:id)
            @posts = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @post_ids)
