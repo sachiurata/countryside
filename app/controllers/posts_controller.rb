@@ -227,7 +227,7 @@ class PostsController < ApplicationController
     @check_flags_category_resources = []
     
      #「地域資源」「地域課題」「需要」「地域の特色」の各項目についてOR検索
-    if search_type.nil? || search_type == "1"
+    if search_type == "1"
      
       if  prefecture == "" && keyword == "" && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
         @posts = Post.all
@@ -288,15 +288,18 @@ class PostsController < ApplicationController
         if prefecture.present?
           @post_prefecture = Post.where(prefecture: prefecture)
           if @posts.empty?
-           @posts = @post_prefecture
+          @posts = @post_prefecture
           else
-           @posts = @posts & @post_prefecture
+          @posts = @posts & @post_prefecture
           end  
         end 
         
+        @post_ids = @posts.pluck(:id)
+        @posts = Post.where(id: @post_ids)
+        
         if keyword.present?
           keyword = '%' + keyword + '%'
-          if category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
+          if prefecture.blank? && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
             @posts = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword))
           else
             @post_ids = @posts.pluck(:id)
@@ -445,6 +448,8 @@ class PostsController < ApplicationController
          end
         end 
       end  
+    else
+      @posts = Post.all
     end  
   end
   
