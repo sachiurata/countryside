@@ -249,13 +249,18 @@ class PostsController < ApplicationController
           
           # 以下、チェック済のボックスにチェックを入れて検索結果を表示するため。
           # 他の項目は未実装。
-          @check_flags_category_resources = []
           @category_resources.each_with_index do |category_resource, index|
             if category_resource_ids.include?(category_resource.id.to_s)
              @check_flags_category_resources[index] = true
             else
              @check_flags_category_resources[index] = false
             end
+          end
+          
+        else
+          @check_flags_category_resources = []
+          @category_resources.each_with_index do |category_resource, index|
+             @check_flags_category_resources[index] = false
           end
         end  
       
@@ -398,10 +403,10 @@ class PostsController < ApplicationController
         if keyword.present?
          keyword = '%' + keyword + '%'
          if category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
-           @posts = Post.where("title like ?", keyword)
+           @posts = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword))
          else
            @post_ids = @posts.pluck(:id)
-           @posts = Post.where("title like ?", keyword).where(id: @post_ids)
+           @posts = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @post_ids)
          end
         end 
       end  
