@@ -222,7 +222,7 @@ class PostsController < ApplicationController
     category_issue_ids = params[:category_issue_id]
     category_market_ids = params[:category_market_id]
     category_feature_ids = params[:category_feature_id]
-    search_type = params[:search_type]
+    @search_type = params[:search_type]
     @posts = []
     @check_flags_category_resources = []
     @check_flags_category_issues = []
@@ -230,7 +230,7 @@ class PostsController < ApplicationController
     @check_flags_category_features =[]
     
      #「地域資源」「地域課題」「需要」「地域の特色」の各項目についてOR検索
-    if search_type == "1"
+    if @search_type == "1"
      
       #全項目が入力もしくは選択されていない
       if  @prefecture == "" && @keyword == "" && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
@@ -349,7 +349,7 @@ class PostsController < ApplicationController
       end
     
     #「地域資源」「地域課題」「需要」「地域の特色」の各項目についてAND検索  
-    elsif search_type == "2"
+    elsif @search_type == "2"
       #全項目が入力もしくは選択されていない
       if  @prefecture == "" && @keyword == "" && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
         @posts = Post.all
