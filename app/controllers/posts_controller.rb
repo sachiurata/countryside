@@ -216,6 +216,7 @@ class PostsController < ApplicationController
     @category_issue = CategoryResource.new
     @category_market = CategoryMarket.new
     @category_feature = CategoryFeature.new
+    @post_type = params[:post_type]
     @prefecture = params[:prefecture]
     @keyword = params[:keyword]
     category_resource_ids = params[:category_resource_id]
@@ -224,44 +225,67 @@ class PostsController < ApplicationController
     category_feature_ids = params[:category_feature_id]
     @search_type = params[:search_type]
     @posts = []
+    @posts_post_type_prefecture = []
+    @posts_post_type_prefecture_ids = []
     @check_flags_category_resources = []
     @check_flags_category_issues = []
     @check_flags_category_markets = []
     @check_flags_category_features =[]
+    @posts_post_type = []
+    @post_type_ids = []
+    @posts_post_type_keyword = []
+    @posts_post_type_ids = []
+    @posts_post_type_keyword_prefecture = []
+    @posts_post_type_keyword_prefecture_ids = []
+    @category_resource_posts_all = []
+    @category_issue_posts_all = []
+    @category_market_posts_all = []
+     @category_feature_posts_all = []
+    @posts_tag = []
+    @post_tag_ids = []
+    
+    #「全ての投稿」が選択された場合
+    if @post_type == "0"
+     @posts_post_type = Post.all
+    #「地域側投稿」または「起業希望者投稿」が選択された場合 
+    else  
+     @posts_post_type = Post.where(post_type: @post_type)
+    end
+    @posts_post_type_ids = @posts_post_type.pluck(:id)
+    
+    #キーワードが入力された場合　
+    if @keyword.present?
+     keyword = '%' + @keyword + '%'
+     @posts_post_type_keyword = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @posts_post_type_ids)
+    else
+     @posts_post_type_keyword = @posts_post_type
+    end 
+      
+    #「都道府県」が選択された場合
+    if @prefecture.present?
+      @post_prefecture = Post.where(prefecture: @prefecture)
+      @posts_post_type_keyword_prefecture = @posts_post_type_keyword & @post_prefecture 
+    else
+      @posts_post_type_keyword_prefecture = @posts_post_type_keyword
+    end 
+    
+    #「投稿タイプ」と「キーワード」と「都道府県」の条件を満たす投稿のid
+    @posts_post_type_keyword_prefecture_ids = @posts_post_type_keyword_prefecture.pluck(:id)
     
      #「地域資源」「地域課題」「需要」「地域の特色」の各項目についてOR検索
-    if @search_type == "1"
-     
-      #全項目が入力もしくは選択されていない
-      if  @prefecture == "" && @keyword == "" && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
-        @posts = Post.all
-        
+    if @search_type == "1"   
+      #「キーワード」「地域資源」「地域課題」「需要」「地域の特色」が入力もしくは選択されていない場合
+      if category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
+        @posts = @posts_post_type_keyword_prefecture
       else
         #「地域資源」のチェックボックスが一つでもチェックされた場合
         if category_resource_ids.present?
           category_resource_ids.each do |category_resource_id|  
             @post_category_resources = Post.joins(:post_category_resources).where(post_category_resources: {category_resource_id: category_resource_id})
             @post_category_resources.each do |post_category_resource|
-             @posts = @posts.append(post_category_resource)
+             @posts_tag = @posts_tag.append(post_category_resource)
             end
           end
-          
-          # チェック済のボックスにチェックを入れて検索結果を表示するため。
-          @category_resources.each_with_index do |category_resource, index|
-            if category_resource_ids.include?(category_resource.id.to_s)
-             @check_flags_category_resources[index] = true
-            else
-             @check_flags_category_resources[index] = false
-            end
-          end
-          
-        #「地域資源」のチェックボックスが一つも選択されなかった場合、チェックボックスにチェックをいれずに表示させるため
-        # これいらない? posts/indexの16行目の@check_flags_category_resourcesは空でもいいの？
-        # else
-        #   @check_flags_category_resources = []
-        #   @category_resources.each_with_index do |category_resource, index|
-        #     @check_flags_category_resources[index] = false
-        #   end
         end  
       
         #「地域課題」のチェックボックスが一つでもチェックされた場合
@@ -269,16 +293,7 @@ class PostsController < ApplicationController
           category_issue_ids.each do |category_issue_id|  
             @post_category_issues = Post.joins(:post_category_issues).where(post_category_issues: {category_issue_id: category_issue_id})
             @post_category_issues.each do |post_category_issue|
-             @posts = @posts.append(post_category_issue)
-            end
-          end
-          
-          # チェック済のボックスにチェックを入れて検索結果を表示するため。
-          @category_issues.each_with_index do |category_issue, index|
-            if category_issue_ids.include?(category_issue.id.to_s)
-             @check_flags_category_issues[index] = true
-            else
-             @check_flags_category_issues[index] = false
+              @posts_tag = @posts_tag.append(post_category_issue)
             end
           end
         end 
@@ -288,16 +303,7 @@ class PostsController < ApplicationController
           category_market_ids.each do |category_market_id|  
             @post_category_markets = Post.joins(:post_category_markets).where(post_category_markets: {category_market_id: category_market_id})
             @post_category_markets.each do |post_category_market|
-             @posts = @posts.append(post_category_market)
-            end
-          end
-          
-          # チェック済のボックスにチェックを入れて検索結果を表示するため。
-          @category_markets.each_with_index do |category_market, index|
-            if category_market_ids.include?(category_market.id.to_s)
-             @check_flags_category_markets[index] = true
-            else
-             @check_flags_category_markets[index] = false
+             @posts_tag = @posts_tag.append(post_category_market)
             end
           end
         end  
@@ -307,199 +313,135 @@ class PostsController < ApplicationController
           category_feature_ids.each do |category_feature_id|  
             @post_category_features = Post.joins(:post_category_features).where(post_category_features: {category_feature_id: category_feature_id})
             @post_category_features.each do |post_category_feature|
-             @posts = @posts.append(post_category_feature)
-            end
-          end 
-          
-           # チェック済のボックスにチェックを入れて検索結果を表示するため。
-          @category_features.each_with_index do |category_feature, index|
-            if category_feature_ids.include?(category_feature.id.to_s)
-             @check_flags_category_features[index] = true
-            else
-             @check_flags_category_features[index] = false
+             @posts_tag = @posts_tag.append(post_category_feature)
             end
           end
-        end 
-        
-        #「都道府県」が選択された場合
-        if @prefecture.present?
-          @post_prefecture = Post.where(prefecture: @prefecture)
-          if @posts.empty?
-          @posts = @post_prefecture
-          else
-          @posts = @posts & @post_prefecture
-          end
-        end 
-        
-        @post_ids = @posts.pluck(:id)
-        @posts = Post.where(id: @post_ids)
-        
-        #「キーワード」が入力された場合
-        if @keyword.present?
-          keyword = '%' + @keyword + '%'
-          #「都道府県」「地域資源」「地域課題」「需要」「地域の特色」が一つも選択されなかった場合
-          if @prefecture.blank? && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
-            @posts = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword))
-          #「都道府県」「地域資源」「地域課題」「需要」「地域の特色」が一つでも選択された場合  
-          else
-            @post_ids = @posts.pluck(:id)
-            @posts = Post.where("body1 like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @post_ids)
-          end
-        end 
+        end
+        @posts = @posts_tag & @posts_post_type_keyword_prefecture
       end
     
     #「地域資源」「地域課題」「需要」「地域の特色」の各項目についてAND検索  
     elsif @search_type == "2"
-      #全項目が入力もしくは選択されていない
-      if  @prefecture == "" && @keyword == "" && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
-        @posts = Post.all
+      #「キーワード」「地域資源」「地域課題」「需要」「地域の特色」が入力もしくは選択されていない
+      if category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
+        @posts = @posts_post_type_keyword_prefecture
       else
-        puts "いずれかの項目が一つでも入力もしくは選択されている"
-        @post_ids = []
-        #「都道府県」が選択された場合
-        if @prefecture.present?
-          @prefecture_posts = Post.where(prefecture: @prefecture)
-          @prefecture_posts_ids = @prefecture_posts.pluck(:id)
-          @post_ids = @prefecture_posts_ids
-          puts "ここを見ろ"
-          p @post_ids
-        end 
-        
         #「地域資源」のチェックボックスが一つでもチェックされた場合
         if category_resource_ids.present?
-          @category_resource_posts_all = []
           category_resource_ids.each do |category_resource_id|  
             @category_resource_posts = Post.joins(:post_category_resources).where(post_category_resources: {category_resource_id: category_resource_id})
             @category_resource_posts.each do|category_resource_post|
              @category_resource_posts_all = @category_resource_posts_all.append(category_resource_post)
             end
              @category_resource_posts_ids = @category_resource_posts_all.pluck(:id).uniq
-             
-            #「都道府県」が選択されなかった場合　
-            if @prefecture.blank?
-              @post_ids = @category_resource_posts_ids
-            #都道府県の検索結果が存在する場合 または　選択したが該当結果がなかった場合
-            else 
-              @post_ids = @post_ids & @category_resource_posts_ids
-            end   
-             
-              # #「都道府県」の検索結果が存在する場合 または　「都道府県」が選択されたが該当結果がなかった場合
-              # if @post_ids.present? || prefecture.present? and @post_ids.empty?
-              #   @post_ids = @post_ids & @category_resource_posts_ids
-              # #「都道府県」が選択されなかった場合  
-              # else
-              #   @post_ids = @category_resource_posts_ids
-              # end
-            
-             puts "ここを見ろ"
-             p @category_resource_posts_ids
-             p @post_ids
-          end
-          
-          # チェック済のボックスにチェックを入れて検索結果を表示するため。
-          # 他の項目は未実装。
-          @check_flags_category_resources = []
-          @category_resources.each_with_index do |category_resource, index|
-            #
-            if category_resource_ids.include?(category_resource.id.to_s)
-            @check_flags_category_resources[index] = true
-            else
-            @check_flags_category_resources[index] = false
-            end
+             @post_tag_ids = @category_resource_posts_ids
           end
         end
         
         #「地域課題」のチェックボックスが一つでもチェックされた場合
         if category_issue_ids.present?
-          @category_issue_posts_all = []
           category_issue_ids.each do |category_issue_id|  
             @category_issue_posts = Post.joins(:post_category_issues).where(post_category_issues: {category_issue_id: category_issue_id})
             @category_issue_posts.each do|category_issue_post|
              @category_issue_posts_all = @category_issue_posts_all.append(category_issue_post)
             end
              @category_issue_posts_ids = @category_issue_posts_all.pluck(:id).uniq
-            #「都道府県」「地域資源」が選択されなかった場合
-            if @prefecture == "" && category_resource_ids.nil? 
-              @post_ids = @category_issue_posts_ids
-            #「都道府県」「地域資源」が選択されたが該当する投稿がない場合　または「都道府県」「地域資源」が選択された場合
-            else 
-              @post_ids = @post_ids & @category_issue_posts_ids
-            end
-            # #「都道府県」と「地域資源」の両方の選択にマッチする検索結果が存在する場合 または　選択したが該当結果がなかった場合
-            # if @post_ids.present? || prefecture.present? and category_resource_ids.present? and @post_ids.empty? 
-            #     @post_ids = @post_ids & @category_resource_posts_ids
-            # #「都道府県」と「地域資源」両方が選択されなかった場合  
-            # else
-            #     @post_ids = @category_resource_posts_ids
-            # end
+             if @post_tag_ids.empty?
+              @post_tag_ids = @category_issue_posts_ids
+             else  
+              @post_tag_ids = @post_tag_ids & @category_issue_posts_ids
+             end
           end
-          puts "ここを見ろ"
-             p @category_issue_posts_ids
-             p @post_ids
         end
         
         #「需要」のチェックボックスが一つでもチェックされた場合
         if category_market_ids.present?
-         @category_market_posts_all = []
           category_market_ids.each do |category_market_id|  
             @category_market_posts = Post.joins(:post_category_markets).where(post_category_markets: {category_market_id: category_market_id})
             @category_market_posts.each do|category_market_post|
              @category_market_posts_all = @category_market_posts_all.append(category_market_post)
             end
              @category_market_posts_ids = @category_market_posts_all.pluck(:id).uniq
-            #「都道府県」「地域資源」「地域課題」を一つも選択しなかった場合
-            if @prefecture == "" && category_resource_ids.nil? && category_issue_ids.nil?
-              @post_ids = @category_market_posts_ids
-            #「都道府県」「地域資源」「地域課題」を選択したが該当する投稿がない場合　または「都道府県」「地域資源」「地域課題」を選択した場合
-            else 
-              @post_ids = @post_ids & @category_market_posts_ids
-            end
+             if @post_tag_ids.empty?
+              @post_tag_ids = @category_market_posts_ids
+             else  
+              @post_tag_ids = @post_tag_ids & @category_market_posts_ids
+             end
           end
         end    
         
         #「地域の特色」のチェックボックスが一つでもチェックされた場合
         if category_feature_ids.present?
-        @category_feature_posts_all = []
           category_feature_ids.each do |category_feature_id|  
             @category_feature_posts = Post.joins(:post_category_features).where(post_category_features: {category_feature_id: category_feature_id})
             @category_feature_posts.each do|category_feature_post|
              @category_feature_posts_all = @category_feature_posts_all.append(category_feature_post)
             end
              @category_feature_posts_ids = @category_feature_posts_all.pluck(:id).uniq
-             #「都道府県」「地域資源」「地域課題」「需要」を一つも選択しなかった場合
-            if @prefecture == "" && category_resource_ids.nil? && category_issue_ids.nil? && category_feature_ids.nil?
-              @post_ids = @category_feature_posts_ids
-            #「都道府県」「地域資源」「地域課題」「需要」を選択したが該当する投稿がない場合　または「都道府県」「地域資源」「地域課題」「需要」を選択した場合
-            else 
-              @post_ids = @post_ids & @category_feature_posts_ids
-            end
+             if @post_tag_ids.empty?
+              @post_tag_ids = @category_feature_posts_ids
+             else  
+              @post_tag_ids = @post_tag_ids & @category_feature_posts_ids
+             end
           end
-          puts "ここを見ろ"
-             p @category_feature_posts_ids
-             p @post_ids
         end 
         
+        @post_ids = @posts_post_type_keyword_prefecture_ids & @post_tag_ids
         @posts = Post.where(id: @post_ids)
-        
-        #キーワードが入力された場合　
-        if @keyword.present?
-         keyword = '%' + @keyword + '%'
-         #キーワード以外が選択されていない場合
-         if @prefecture.blank? && category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil?
-           @posts = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword))
-         #キーワード以外が選択されている場合   
-         else
-           @post_ids = @posts.pluck(:id)
-           @posts = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @post_ids)
-          
-         end
-        end 
       end
-    
-    #投稿一覧をクリックした場合  
+      
+    #検索条件をクリアした場合  
     else
       @posts = Post.all
-    end  
+    end
+    
+ # チェック済のボックスにチェックを入れて検索結果を表示するため。
+   if category_resource_ids.present?
+    @category_resources.each_with_index do |category_resource, index|
+      if category_resource_ids.include?(category_resource.id.to_s)
+       @check_flags_category_resources[index] = true
+      else
+       @check_flags_category_resources[index] = false
+      end
+    end
+   end   
+    #「地域資源」のチェックボックスが一つも選択されなかった場合、チェックボックスにチェックをいれずに表示させるため
+    # これいらない? posts/indexの16行目の@check_flags_category_resourcesは空でもいいの？
+    # else
+    #   @check_flags_category_resources = []
+    #   @category_resources.each_with_index do |category_resource, index|
+    #     @check_flags_category_resources[index] = false
+    #   end
+   
+   if category_issue_ids.present?
+    @category_issues.each_with_index do |category_issue, index|
+      if category_issue_ids.include?(category_issue.id.to_s)
+       @check_flags_category_issues[index] = true
+      else
+       @check_flags_category_issues[index] = false
+      end
+    end
+   end
+   
+   if category_market_ids.present?
+    @category_markets.each_with_index do |category_market, index|
+      if category_market_ids.include?(category_market.id.to_s)
+       @check_flags_category_markets[index] = true
+      else
+       @check_flags_category_markets[index] = false
+      end
+    end
+   end
+   
+   if category_feature_ids.present?
+     @category_features.each_with_index do |category_feature, index|
+      if category_feature_ids.include?(category_feature.id.to_s)
+       @check_flags_category_features[index] = true
+      else
+       @check_flags_category_features[index] = false
+      end
+    end
+   end
   end
   
   def destroy
