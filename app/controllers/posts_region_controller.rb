@@ -77,9 +77,7 @@ class PostsRegionController < ApplicationController
     @category_issues = CategoryIssue.all
     @category_markets = CategoryMarket.all
     @category_features = CategoryFeature.all
-    # @category_wants = CategoryWant.all
     @category_realizabilities = CategoryRealizability.all
-    # @category_earnests = CategoryEarnest.all
     @category_about_regions = CategoryAboutRegion.all
     @category_incubations = CategoryIncubation.all
     @category_immigration_supports = CategoryImmigrationSupport.all
@@ -96,20 +94,11 @@ class PostsRegionController < ApplicationController
     category_immigration_support_ids = params[:category_immigration_support_id]
     @search_type = params[:search_type]
     @posts = []
+    @post_type_ids = []
+    @posts_post_type_ids = []
+    @posts_post_type_keyword = []
     @posts_post_type_prefecture = []
     @posts_post_type_prefecture_ids = []
-    @check_flags_category_resources = []
-    @check_flags_category_issues = []
-    @check_flags_category_markets = []
-    @check_flags_category_features =[]
-    @check_flags_category_realizabilities =[]
-    @check_flags_category_about_regions =[]
-    @check_flags_ccategory_incubations =[]
-    @check_flags_category_immigration_supports =[]
-    @posts_post_type = []
-    @post_type_ids = []
-    @posts_post_type_keyword = []
-    @posts_post_type_ids = []
     @posts_post_type_keyword_prefecture = []
     @posts_post_type_keyword_prefecture_ids = []
     @category_resource_posts_all = []
@@ -118,17 +107,21 @@ class PostsRegionController < ApplicationController
     @category_feature_posts_all = []
     @category_realizability_posts_all = []
     @profile_category_about_regions_all = []
-    @profile_category_incubations = []
     @profile_category_incubations_all = []
-    @profile_category_immigration_supports = []
     @profile_category_immigration_supports_all = []
-    
-    @profile_category_immigration_support_posts_all = []
     @posts_tag = []
     @post_tag_ids = []
     @profiles_tag = []
     @profile_tag_ids = []
     @post_profile_tag_ids = []
+    @check_flags_category_resources = []
+    @check_flags_category_issues = []
+    @check_flags_category_markets = []
+    @check_flags_category_features =[]
+    @check_flags_category_realizabilities =[]
+    @check_flags_category_about_regions =[]
+    @check_flags_ccategory_incubations =[]
+    @check_flags_category_immigration_supports =[]
     
     #「地域側投稿」のみ抽出
     @posts_post_type = Post.where(post_type: 1)
@@ -253,9 +246,6 @@ class PostsRegionController < ApplicationController
          end
         end 
   
-        # puts "ここだよ"
-        # p @profile_tag_ids
-        # p @posts_tag
         @posts = @posts_tag & @posts_post_type_keyword_prefecture
       end
     
@@ -286,7 +276,7 @@ class PostsRegionController < ApplicationController
             end
           end
            @category_issue_posts_ids = @category_issue_posts_all.pluck(:id).uniq
-           if @post_tag_ids.empty?
+           if category_resource_ids.nil?
             @post_tag_ids = @category_issue_posts_ids
            else  
             @post_tag_ids = @post_tag_ids & @category_issue_posts_ids
@@ -302,7 +292,7 @@ class PostsRegionController < ApplicationController
             end
           end
            @category_market_posts_ids = @category_market_posts_all.pluck(:id).uniq
-           if @post_tag_ids.empty?
+           if category_resource_ids.nil? & category_issue_ids.nil?
             @post_tag_ids = @category_market_posts_ids
            else  
             @post_tag_ids = @post_tag_ids & @category_market_posts_ids
@@ -318,7 +308,7 @@ class PostsRegionController < ApplicationController
             end
           end
            @category_feature_posts_ids = @category_feature_posts_all.pluck(:id).uniq
-           if @post_tag_ids.empty?
+           if category_resource_ids.nil? & category_issue_ids.nil? & category_market_ids.nil?
             @post_tag_ids = @category_feature_posts_ids
            else  
             @post_tag_ids = @post_tag_ids & @category_feature_posts_ids
@@ -334,7 +324,7 @@ class PostsRegionController < ApplicationController
             end
           end
            @category_realizability_posts_ids = @category_realizability_posts_all.pluck(:id).uniq
-           if @post_tag_ids.empty?
+           if category_resource_ids.nil? & category_issue_ids.nil? & category_market_ids.nil? & category_feature_ids.nil?
             @post_tag_ids = @category_realizability_posts_ids
            else  
             @post_tag_ids = @post_tag_ids & @category_realizability_posts_ids
@@ -356,8 +346,8 @@ class PostsRegionController < ApplicationController
           end
           @profiles_tag = @profile_category_about_regions_all
           puts "ここだよ1"
+          p @profile_category_about_regions
           p @profiles_tag
-          #binding.pry
          end
          
          #「起業支援」のチェックボックスが一つでもチェックされた場合
@@ -368,7 +358,7 @@ class PostsRegionController < ApplicationController
             @profile_category_incubations_all = @profile_category_incubations_all.append(profile_category_incubation)
            end
           end
-          if @profiles_tag.empty?
+          if category_about_region_ids.nil?
            @profiles_tag = @profile_category_incubations_all
           else
            @profiles_tag = @profiles_tag & @profile_category_incubations_all
@@ -383,17 +373,12 @@ class PostsRegionController < ApplicationController
             @profile_category_immigration_supports_all = @profile_category_immigration_supports_all.append(profile_category_immigration_support)
            end
           end
-          if @profiles_tag.empty?
+          if category_about_region_ids.nil? && category_incubation_ids.nil?
            @profiles_tag = @profile_category_immigration_supports_all
           else
            @profiles_tag = @profiles_tag & @profile_category_immigration_supports_all
           end
          end
-         puts "��こだよ2"
-          p @profile_category_immigration_supports
-          p @profile_category_immigration_supports_all
-          p @profiles_tag
-          #binding.pry
          
          @profile_tag_ids = @profiles_tag.pluck(:id)
          @posts_user = User.where(id: @profile_tag_ids)
@@ -407,14 +392,7 @@ class PostsRegionController < ApplicationController
         end 
         
         @posts_tag = Post.where(id: @post_tag_ids)
-  
-        puts "ここだよ3"
-        p @profiles_tag
-        p @profile_tag_ids
-        p @posts_profile_tag
-        p @posts_tag
         @posts = @posts_tag & @posts_post_type_keyword_prefecture
-        #binding.pry
       end
       
     #検索条件をクリアした場合  

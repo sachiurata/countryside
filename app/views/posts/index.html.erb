@@ -17,33 +17,7 @@
        <option value="<%= prefecture %>" <%= prefecture == @prefecture ? "selected" : "" %>><%= prefecture %></option>
       <% end %>
      </select>
-     <div class="category"><span class="badge text-bg-primary">地域資源</span><br>
-      <% @category_resources.each_with_index do |category_resource, index| %>
-        <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" <%= @check_flags_category_resources[index] ? 'checked' : '' %> >
-        <%= category_resource.tag_name %>
-      <% end %>
-     </div>
-     <div class="category"><span class="badge text-bg-secondary">地域課題 </span><br>
-       <% @category_issues.each_with_index do |category_issue, index| %>
-        <input class="form-check-input" type="checkbox" name="category_issue_id[]" value="<%= category_issue.id %>" <%= @check_flags_category_issues[index] ? 'checked' : '' %> >
-        <%= category_issue.tag_name %>
-       <% end %>
-     </div> 
-     <div class="category"><span class="badge text-bg-warning">需要</span><br>
-      <% @category_markets.each_with_index do |category_market, index| %>
-        <input class="form-check-input" type="checkbox" name="category_market_id[]" value="<%= category_market.id %>" <%= @check_flags_category_markets[index] ? 'checked' : '' %>>
-        <%= category_market.tag_name %>
-      <% end %>
-     </div>
-     <div class="category"><span class="badge text-bg-info">地域の特色 </span><br>
-      <% @category_features.each_with_index do |category_feature, index| %>
-       <input class="form-check-input", type="checkbox", name="category_feature_id[]", value="<%= category_feature.id %>" <%= @check_flags_category_features[index] ? 'checked' : '' %>>
-       <%= category_feature.tag_name %>
-      <% end %>
-      <h6>検索方法</6>
-      <div><input class="form-check-input", type="radio", name="search_type", value="1" <%= @search_type != "2" ? "checked" : "" %> >OR検索（選択したタグを含む投稿をすべて表示）</div>
-      <div><input class="form-check-input", type="radio", name="search_type", value="2" <%= @search_type == "2" ? "checked" : "" %>>AND検索（選択したタグをすべて含む投稿を表示）</div>
-     </div>
+     
      <input class="btn btn-secondary" type="submit" value="検索">
     </form>
     <a class="btn btn-secondary" href="/posts" role="button">検索条件をクリア</a>
