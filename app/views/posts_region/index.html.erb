@@ -1,14 +1,7 @@
 <div class="container">
   <div class="row">
    <div class="mb-3" style="max-width: 800px;"> 
-    <form action="/posts">
-     <!--<select class="form-select selectpicker" name="post_type">-->
-     <!--  <option value="0" <%= @post_type != "1" || @post_type != "2" ? "selected" : "" %>>全ての投稿</option>-->
-     <!--  <option value="1" <%= @post_type == "1" ? "selected" : "" %>>地域側投稿</option>-->
-     <!--  <option value="2" <%= @post_type == "2" ? "selected" : "" %>>起業希望者投稿</option>-->
-     <!--</select>-->
-     <a class="btn btn-secondary" href="/posts_region" role="button">地域側投稿</a>
-     <a class="btn btn-secondary" href="/posts_business" role="button">起業希望者投稿</a>
+    <form action="/posts_region">
      <input class="form-control" type="serch" name="keyword" placeholder="フリーキーワードを入れてください" value="<%= @keyword %>"> 
      <% prefectures = ['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'] %>
      <select class="form-select selectpicker" name="prefecture">
@@ -17,6 +10,7 @@
        <option value="<%= prefecture %>" <%= prefecture == @prefecture ? "selected" : "" %>><%= prefecture %></option>
       <% end %>
      </select>
+     <div>投稿のタグ</div>
      <div class="category"><span class="badge text-bg-primary">地域資源</span><br>
       <% @category_resources.each_with_index do |category_resource, index| %>
         <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" <%= @check_flags_category_resources[index] ? 'checked' : '' %> >
@@ -35,18 +29,43 @@
         <%= category_market.tag_name %>
       <% end %>
      </div>
-     <div class="category"><span class="badge text-bg-info">地域の特色 </span><br>
+     <div class="category"><span class="badge text-bg-info">地域の特色</span><br>
       <% @category_features.each_with_index do |category_feature, index| %>
        <input class="form-check-input", type="checkbox", name="category_feature_id[]", value="<%= category_feature.id %>" <%= @check_flags_category_features[index] ? 'checked' : '' %>>
        <%= category_feature.tag_name %>
       <% end %>
+     </div> 
+     <div class="category"><span class="badge text-bg-dark">実現可能性</span><br>
+      <% @category_realizabilities.each_with_index do |category_realizability, index| %>
+       <input class="form-check-input", type="checkbox", name="category_realizability_id[]", value="<%= category_realizability.id %>" <%= @check_flags_category_realizabilities[index] ? 'checked' : '' %>>
+       <%= category_realizability.tag_name %>
+      <% end %>
+     </div>
+     <div>プロフィールのタグ</div>
+     <div class="category"><span class="badge rounded-pill text-bg-primary">地域について</span><br>
+      <% @category_about_regions.each_with_index do |category_about_region, index| %>
+       <input class="form-check-input", type="checkbox", name="category_about_region_id[]", value="<%= category_about_region.id %>" <%= @check_flags_category_about_regions[index] ? 'checked' : '' %>>
+       <%= category_about_region.tag_name %>
+      <% end %>
+     </div> 
+     <!--<div class="category"><span class="badge rounded-pill text-bg-secondary">地域の起業支援</span><br>-->
+     <!-- <%# @category_incbubations.each_with_index do |category_incbubation, index| %>-->
+     <!--   <input class="form-check-input" type="checkbox" name="category_incbubation_id[]" value="<#%= category_incbubation.id %>" <%#= @check_flags_category_incbubations[index] ? 'checked' : '' %>>-->
+     <!--   <%#= category_incbubation.tag_name %>-->
+     <!-- <%# end %>-->
+     <div class="category"><span class="badge rounded-pill text-bg-warning">地域の移住支援</span><br>
+      <% @category_immigration_supports.each_with_index do |category_immigration_support, index| %>
+       <input class="form-check-input", type="checkbox", name="category_immigration_support_id[]", value="<%= category_immigration_support.id %>" <%= @check_flags_category_immigration_supports[index] ? 'checked' : '' %>>
+       <%= category_immigration_support.tag_name %>
+      <% end %>
+     <!--</div> -->
       <h6>検索方法</6>
       <div><input class="form-check-input", type="radio", name="search_type", value="1" <%= @search_type != "2" ? "checked" : "" %> >OR検索（選択したタグを含む投稿をすべて表示）</div>
       <div><input class="form-check-input", type="radio", name="search_type", value="2" <%= @search_type == "2" ? "checked" : "" %>>AND検索（選択したタグをすべて含む投稿を表示）</div>
      </div>
      <input class="btn btn-secondary" type="submit" value="検索">
     </form>
-    <a class="btn btn-secondary" href="/posts" role="button">検索条件をクリア</a>
+    <a class="btn btn-secondary" href="/posts_region" role="button">検索条件をクリア</a>
    </div>
   </div>
   

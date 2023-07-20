@@ -12,7 +12,7 @@
     <P class="label">地域について</P>
     <P><%= text_url_to_link(safe_join((h(user_profile.about_region)).split("\n"),tag(:br))).html_safe %></P>
     <p class="label">地域の起業支援</p>
-    <P><%= text_url_to_link(safe_join((h(user_profile.incubation)).split("\n"),tag(:br))).html_safe %></P>
+    <P><%= text_url_to_link(safe_join((h(user_profile.immigration_support)).split("\n"),tag(:br))).html_safe %></P>
     <P class="label">地域の移住支援</P>
     <p><%= text_url_to_link(safe_join((h(user_profile.immigration_support)).split("\n"),tag(:br))).html_safe %></p>
     <p class="label">その他</p>

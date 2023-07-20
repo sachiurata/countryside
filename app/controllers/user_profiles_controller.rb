@@ -5,7 +5,7 @@ class UserProfilesController < ApplicationController
   def new
     @user_profile = UserProfile.new
     @category_about_region = CategoryAboutRegion.new
-    @category_incubation = CategoryIncubation.new
+    @category_incubation = CategoryIncubations.new
     @category_immigration_support = CategoryImmigrationSupport.new
     @category_job = CategoryJob.new
     @category_skill = CategorySkill.new
@@ -27,7 +27,7 @@ class UserProfilesController < ApplicationController
   def create
     @user_profile = UserProfile.new(user_profile_params)
     category_about_region_ids = params[:category_about_region_id]
-    category_incubation_ids = params[:category_incubation_id]
+    category_immigration_support_ids = params[:category_immigration_support_id]
     category_immigration_support_ids = params[:category_immigration_support_id]
     category_job_ids = params[:category_job_id]
     category_skill_ids = params[:category_skill_id]
@@ -42,10 +42,10 @@ class UserProfilesController < ApplicationController
         end
        end  
        
-      if category_incubation_ids.present?
-        category_incubation_ids.each do |category_incubation_id|
-         profile_category_incubation = @user_profile.profile_category_incubations.build(category_incubation_id: category_incubation_id)
-         profile_category_incubation.save
+      if category_immigration_support_ids.present?
+        category_immigration_support_ids.each do |category_immigration_support_id|
+         profile_category_immigration_support = @user_profile.profile_category_immigration_supports.build(category_immigration_support_id: category_immigration_support_id)
+         profile_category_immigration_support.save
         end
       end  
       
@@ -103,16 +103,6 @@ class UserProfilesController < ApplicationController
       end
     end
     
-    @check_flags_profile_category_incubation = []
-    @category_incubations.each_with_index do |category_incubation, index|
-      pci = ProfileCategoryIncubation.where(category_incubation_id: category_incubation.id).where(user_profile_id: @user_profile.id)
-      if pci.empty?
-        @check_flags_profile_category_incubation[index] = false
-      else
-        @check_flags_profile_category_incubation[index] = true
-      end
-    end
-    
     @check_flags_profile_category_immigration_support = []
     @category_immigration_supports.each_with_index do |category_immigration_support, index|
       pci = ProfileCategoryImmigrationSupport.where(category_immigration_support_id: category_immigration_support.id).where(user_profile_id: @user_profile.id)
@@ -120,6 +110,16 @@ class UserProfilesController < ApplicationController
         @check_flags_profile_category_immigration_support[index] = false
       else
         @check_flags_profile_category_immigration_support[index] = true
+      end
+    end
+    
+    @check_flags_profile_category_incubation = []
+    @category_incubations.each_with_index do |category_incubation, index|
+      pci = ProfileCategoryIncubation.where(category_incubation_id: category_incubation.id).where(user_profile_id: @user_profile.id)
+      if pci.empty?
+        @check_flags_profile_category_incubation[index] = false
+      else
+        @check_flags_profile_category_incubation[index] = true
       end
     end
     
@@ -171,18 +171,6 @@ class UserProfilesController < ApplicationController
         end
       end 
       
-      @profile_category_incubations = @user_profile.profile_category_incubations
-      @profile_category_incubations.each do |profile_category_incubation|
-        profile_category_incubation.destroy
-      end
-      category_incubation_ids = params[:category_incubation_id]
-      if category_incubation_ids.present?
-        category_incubation_ids.each do |category_incubation_id|
-         profile_category_incubation = @user_profile.profile_category_incubations.build(category_incubation_id: category_incubation_id)
-         profile_category_incubation.save
-        end
-      end   
-      
       @profile_category_immigration_supports = @user_profile.profile_category_immigration_supports
       @profile_category_immigration_supports.each do |profile_category_immigration_support|
         profile_category_immigration_support.destroy
@@ -192,6 +180,18 @@ class UserProfilesController < ApplicationController
         category_immigration_support_ids.each do |category_immigration_support_id|
          profile_category_immigration_support = @user_profile.profile_category_immigration_supports.build(category_immigration_support_id: category_immigration_support_id)
          profile_category_immigration_support.save
+        end
+      end   
+      
+      @profile_category_incubations = @user_profile.profile_category_incubations
+      @profile_category_incubations.each do |profile_category_incubation|
+        profile_category_incubation.destroy
+      end
+      category_incubation_ids = params[:category_incubation_id]
+      if category_incubation_ids.present?
+        category_incubation_ids.each do |category_incubation_id|
+         profile_category_incubation = @user_profile.profile_category_incubations.build(category_incubation_id: category_incubation_id)
+         profile_category_incubation.save
         end
       end
       
@@ -266,7 +266,7 @@ class UserProfilesController < ApplicationController
   
   private
   def user_profile_params
-    params.require(:user_profile).permit(:user_id, :profile_type1, :profile_type2, :screen_name, :avatar, :prefecture, :city, :about_region, :incubation,:immigration_support,:job, :skill, :interest,:other1, :other2, :public_status_id)
+    params.require(:user_profile).permit(:user_id, :profile_type1, :profile_type2, :screen_name, :avatar, :prefecture, :city, :about_region, :immigration_support,:immigration_support,:job, :skill, :interest,:other1, :other2, :public_status_id)
   end
   
   def ensure_user

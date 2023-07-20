@@ -52,7 +52,52 @@
            <span class="badge text-bg-info">
             <%= post_category_feature.category_feature.tag_name %>
            </span>  
-          <% end %>  
+          <% end %>
+          <% post.post_category_realizabilities.each do |post_category_realizability| %>
+           <span class="badge text-bg-dark">
+            <%= post_category_realizability.category_realizability.tag_name %>
+           </span>  
+          <% end %>
+          <% post.post_category_wants.each do |post_category_want| %>
+           <span class="badge text-bg-primary">
+            <%= post_category_want.category_want.tag_name %>
+           </span>  
+          <% end %>
+          <% post.post_category_earnest.each do |post_category_earnest| %>
+           <span class="badge text-bg-secondary">
+            <%= post_category_earnest.category_earnest.tag_name %>
+           </span>  
+          <% end %><br>
+          <% post.user.user_profile.profile_category_about_regions.each do |profile_category_about_region| %>
+           <span class="badge rounded-pill text-bg-primary">
+            <%= profile_category_about_region.category_about_region.tag_name %>
+           </span>  
+          <% end %>
+          <!--<%# post.user.user_profile.profile_category_incubations.each do |profile_category_incubation| %>-->
+          <!-- <span class="badge rounded-pill text-bg-secondary">-->
+          <!--  <%#= profile_category_incubation.category_incubation.tag_name %>-->
+          <!-- </span>  -->
+          <!--<%# end %>-->
+          <% post.user.user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>
+           <span class="badge rounded-pill text-bg-warning">
+            <%= profile_category_immigration_support.category_immigration_support.tag_name %>
+           </span>  
+          <% end %>
+          <% post.user.user_profile.profile_category_jobs.each do |profile_category_job| %>
+           <span class="badge rounded-pill text-bg-primary">
+            <%= profile_category_job.category_job.tag_name %>
+           </span>  
+          <% end %>
+          <% post.user.user_profile.profile_category_skills.each do |profile_category_skill| %>
+           <span class="badge rounded-pill text-bg-secondary">
+            <%= profile_category_skill.category_skill.tag_name %>
+           </span>  
+          <% end %>
+          <% post.user.user_profile.profile_category_interests.each do |profile_category_interest| %>
+           <span class="badge rounded-pill text-bg-warning">
+            <%= profile_category_interest.category_interest.tag_name %>
+           </span>  
+          <% end %>
         
           <br><%= link_to "もっと見る", post_path(post) %></br>
         </div>

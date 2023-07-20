@@ -223,6 +223,12 @@ class PostsController < ApplicationController
     category_issue_ids = params[:category_issue_id]
     category_market_ids = params[:category_market_id]
     category_feature_ids = params[:category_feature_id]
+    category_about_region_ids = params[:category_about_region_id]
+    category_incbubation_ids = params[:category_incbubation_id]
+    category_immigration_support_ids = params[:category_immigration_support_id]
+    category_job_ids = params[:category_job_id]
+    category_skill_ids = params[:category_skill_id]
+    category_interest_ids = params[:category_interest_id]
     @search_type = params[:search_type]
     @posts = []
     @posts_post_type_prefecture = []
@@ -231,6 +237,7 @@ class PostsController < ApplicationController
     @check_flags_category_issues = []
     @check_flags_category_markets = []
     @check_flags_category_features =[]
+    @check_flags_category_incbubations =[]
     @posts_post_type = []
     @post_type_ids = []
     @posts_post_type_keyword = []
@@ -240,7 +247,8 @@ class PostsController < ApplicationController
     @category_resource_posts_all = []
     @category_issue_posts_all = []
     @category_market_posts_all = []
-     @category_feature_posts_all = []
+    @category_feature_posts_all = []
+    @category_incbubation_posts_all = []
     @posts_tag = []
     @post_tag_ids = []
     
@@ -314,6 +322,16 @@ class PostsController < ApplicationController
             @post_category_features = Post.joins(:post_category_features).where(post_category_features: {category_feature_id: category_feature_id})
             @post_category_features.each do |post_category_feature|
              @posts_tag = @posts_tag.append(post_category_feature)
+            end
+          end
+        end
+        
+         #「地域の特色」のチェックボックスが一つでもチェックされた場合
+        if category_incbubation_ids.present?
+          category_incbubation_ids.each do |category_incbubation_id|  
+            @post_category_incbubations = Post.joins(:post_category_incbubations).where(post_category_incbubations: {category_incbubation_id: category_incbubation_id})
+            @post_category_incbubations.each do |post_category_incbubation|
+             @posts_tag = @posts_tag.append(post_category_incbubation)
             end
           end
         end
@@ -442,6 +460,17 @@ class PostsController < ApplicationController
       end
     end
    end
+   
+   if category_incbubation_ids.present?
+     @category_incbubations.each_with_index do |category_incbubation, index|
+      if category_incbubation_ids.include?(category_incbubation.id.to_s)
+       @check_flags_category_incbubations[index] = true
+      else
+       @check_flags_category_incbubations[index] = false
+      end
+    end
+   end
+   
   end
   
   def destroy
@@ -475,5 +504,7 @@ class PostsController < ApplicationController
     @category_wants = CategoryWant.all
     @category_realizabilities = CategoryRealizability.all
     @category_earnests = CategoryEarnest.all
+    
+    @category_immigration_supports = CategoryImmigrationSupport.all
   end
 end

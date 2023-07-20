@@ -38,12 +38,6 @@
               ユーザー一覧
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/posts_region/new">投稿作成(地域)</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/posts_business/new">投稿作成(起業)</a>
-          </li>
           <!--<li class="nav-item dropdown">-->
           <!--  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
           <!--    Dropdown-->
@@ -55,28 +49,25 @@
           <!--    <li><a class="dropdown-item" href="#">Something else here</a></li>-->
           <!--  </ul>-->
           <!--</li>-->
-          <!--<li class="nav-item dropdown">-->
-          <!--  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-          <!--    投稿作成-->
-          <!--  </a>-->
-          <!--  <ul class="dropdown-menu">-->
-          <!--    <li><a class="dropdown-item" href="/posts/new/1">地域側</a></li>-->
-          <!--    <li><a class="dropdown-item" href="/posts/new/2">起業希望者</a></li>-->
-          <!--    <li><hr class="dropdown-divider"></li>-->
-          <!--  </ul>-->
-          <!--</li>-->
-          <li class="nav-item">
-           <a class="nav-link" href="/posts">投稿一覧</a>
-          </li> 
-          <!--<li class="nav-item dropdown">-->
-          <!--  <a class="nav-link dropdown-toggle" href="/posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-          <!--    投稿一覧-->
-          <!--  </a>-->
-          <!--  <ul class="dropdown-menu">-->
-          <!--    <li><a class="dropdown-item" href="#">地域側</a></li>-->
-          <!--    <li><a class="dropdown-item" href="#">起業希望者</a></li>-->
-          <!--  </ul>-->
-          <!--</li>-->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              投稿作成
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/posts_region/new">地域側</a></li>
+              <li><a class="dropdown-item" href="/posts_business/new">起業希望者</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              投稿一覧
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/posts">全ての投稿</a></li>
+              <li><a class="dropdown-item" href="/posts_region">地域側</a></li>
+              <li><a class="dropdown-item" href="/posts_business">起業希望者</a></li>
+            </ul>
+          </li>
           <!--<li class="nav-item">-->
           <!--  <a class="nav-link disabled">Disabled</a>-->
           <!--</li>-->
@@ -96,14 +87,15 @@
               <%= link_to "マイページ", controller: "accounts", action: "show", id: current_user.id %>
             </li>
             <li class="nav-item">
-              <!--<a class="nav-link" href="/users/sign_out">ログアウト</a>-->
               <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete } %>
             </li>
           <% end %> 
           <% if !admin_signed_in? %>
+           <% if !user_signed_in? %>
             <li class="nav-item">
               <a class="nav-link" href="/admins/sign_in">Adminログイン</a>
             </li>
+           <% end %>  
           <% else %>
             <li class="nav-item">
              <%= link_to 'タグ(投稿/地域)', new_tag_post_region_path %>
