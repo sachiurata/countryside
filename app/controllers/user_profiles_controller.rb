@@ -5,7 +5,7 @@ class UserProfilesController < ApplicationController
   def new
     @user_profile = UserProfile.new
     @category_about_region = CategoryAboutRegion.new
-    @category_incubation = CategoryIncubations.new
+    @category_incubation = CategoryIncubation.new
     @category_immigration_support = CategoryImmigrationSupport.new
     @category_job = CategoryJob.new
     @category_skill = CategorySkill.new
@@ -16,18 +16,18 @@ class UserProfilesController < ApplicationController
     @category_jobs = CategoryJob.all
     @category_skills = CategorySkill.all
     @category_interests = CategoryInterest.all
-    @check_flags_profile_category_about_region = false
-    @check_flags_profile_category_incubation = false
-    @check_flags_profile_category_immigration_support = false
-    @check_flags_profile_category_job = false
-    @check_flags_profile_category_skill = false
-    @check_flags_profile_category_interest = false
+    @check_flags_profile_category_about_region = []
+    @check_flags_profile_category_incubation = []
+    @check_flags_profile_category_immigration_support = []
+    @check_flags_profile_category_job = []
+    @check_flags_profile_category_skill = []
+    @check_flags_profile_category_interest = []
   end
   
   def create
     @user_profile = UserProfile.new(user_profile_params)
     category_about_region_ids = params[:category_about_region_id]
-    category_immigration_support_ids = params[:category_immigration_support_id]
+    category_incubation_ids = params[:category_incubation_id]
     category_immigration_support_ids = params[:category_immigration_support_id]
     category_job_ids = params[:category_job_id]
     category_skill_ids = params[:category_skill_id]
@@ -42,10 +42,10 @@ class UserProfilesController < ApplicationController
         end
        end  
        
-      if category_immigration_support_ids.present?
-        category_immigration_support_ids.each do |category_immigration_support_id|
-         profile_category_immigration_support = @user_profile.profile_category_immigration_supports.build(category_immigration_support_id: category_immigration_support_id)
-         profile_category_immigration_support.save
+      if category_incubation_ids.present?
+        category_incubation_ids.each do |category_incubation_id|
+         profile_category_incubation = @user_profile.profile_category_incubations.build(category_incubation_id: category_incubation_id)
+         profile_category_incubation.save
         end
       end  
       
@@ -103,16 +103,6 @@ class UserProfilesController < ApplicationController
       end
     end
     
-    @check_flags_profile_category_immigration_support = []
-    @category_immigration_supports.each_with_index do |category_immigration_support, index|
-      pci = ProfileCategoryImmigrationSupport.where(category_immigration_support_id: category_immigration_support.id).where(user_profile_id: @user_profile.id)
-      if pci.empty?
-        @check_flags_profile_category_immigration_support[index] = false
-      else
-        @check_flags_profile_category_immigration_support[index] = true
-      end
-    end
-    
     @check_flags_profile_category_incubation = []
     @category_incubations.each_with_index do |category_incubation, index|
       pci = ProfileCategoryIncubation.where(category_incubation_id: category_incubation.id).where(user_profile_id: @user_profile.id)
@@ -123,10 +113,20 @@ class UserProfilesController < ApplicationController
       end
     end
     
+    @check_flags_profile_category_immigration_support = []
+    @category_immigration_supports.each_with_index do |category_immigration_support, index|
+      pcis = ProfileCategoryImmigrationSupport.where(category_immigration_support_id: category_immigration_support.id).where(user_profile_id: @user_profile.id)
+      if pcis.empty?
+        @check_flags_profile_category_immigration_support[index] = false
+      else
+        @check_flags_profile_category_immigration_support[index] = true
+      end
+    end
+    
     @check_flags_profile_category_job = []
     @category_jobs.each_with_index do |category_job, index|
-      pci = ProfileCategoryJob.where(category_job_id: category_job.id).where(user_profile_id: @user_profile.id)
-      if pci.empty?
+      pcj = ProfileCategoryJob.where(category_job_id: category_job.id).where(user_profile_id: @user_profile.id)
+      if pcj.empty?
         @check_flags_profile_category_job[index] = false
       else
         @check_flags_profile_category_job[index] = true
@@ -135,8 +135,8 @@ class UserProfilesController < ApplicationController
     
     @check_flags_profile_category_skill = []
     @category_skills.each_with_index do |category_skill, index|
-      pci = ProfileCategorySkill.where(category_skill_id: category_skill.id).where(user_profile_id: @user_profile.id)
-      if pci.empty?
+      pcs = ProfileCategorySkill.where(category_skill_id: category_skill.id).where(user_profile_id: @user_profile.id)
+      if pcs.empty?
         @check_flags_profile_category_skill[index] = false
       else
         @check_flags_profile_category_skill[index] = true
@@ -145,8 +145,8 @@ class UserProfilesController < ApplicationController
     
     @check_flags_profile_category_interest = []
     @category_interests.each_with_index do |category_interest, index|
-      pci = ProfileCategoryInterest.where(category_interest_id: category_interest.id).where(user_profile_id: @user_profile.id)
-      if pci.empty?
+      pcin = ProfileCategoryInterest.where(category_interest_id: category_interest.id).where(user_profile_id: @user_profile.id)
+      if pcin.empty?
         @check_flags_profile_category_interest[index] = false
       else
         @check_flags_profile_category_interest[index] = true
@@ -171,18 +171,6 @@ class UserProfilesController < ApplicationController
         end
       end 
       
-      @profile_category_immigration_supports = @user_profile.profile_category_immigration_supports
-      @profile_category_immigration_supports.each do |profile_category_immigration_support|
-        profile_category_immigration_support.destroy
-      end
-      category_immigration_support_ids = params[:category_immigration_support_id]
-      if category_immigration_support_ids.present?
-        category_immigration_support_ids.each do |category_immigration_support_id|
-         profile_category_immigration_support = @user_profile.profile_category_immigration_supports.build(category_immigration_support_id: category_immigration_support_id)
-         profile_category_immigration_support.save
-        end
-      end   
-      
       @profile_category_incubations = @user_profile.profile_category_incubations
       @profile_category_incubations.each do |profile_category_incubation|
         profile_category_incubation.destroy
@@ -194,6 +182,18 @@ class UserProfilesController < ApplicationController
          profile_category_incubation.save
         end
       end
+      
+      @profile_category_immigration_supports = @user_profile.profile_category_immigration_supports
+      @profile_category_immigration_supports.each do |profile_category_immigration_support|
+        profile_category_immigration_support.destroy
+      end
+      category_immigration_support_ids = params[:category_immigration_support_id]
+      if category_immigration_support_ids.present?
+        category_immigration_support_ids.each do |category_immigration_support_id|
+         profile_category_immigration_support = @user_profile.profile_category_immigration_supports.build(category_immigration_support_id: category_immigration_support_id)
+         profile_category_immigration_support.save
+        end
+      end   
       
       @profile_category_jobs = @user_profile.profile_category_jobs
       @profile_category_jobs.each do |profile_category_job|
@@ -231,9 +231,6 @@ class UserProfilesController < ApplicationController
         end
       end
    
-   
-      
-      
       redirect_to @user_profile, notice:"更新しました"
     else
       render "edit"

@@ -260,7 +260,7 @@ class PostsController < ApplicationController
     #キーワードが入力された場合　
     if @keyword.present?
      keyword = '%' + @keyword + '%'
-     @posts_post_type_keyword = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @posts_post_type_ids)
+     @posts_post_type_keyword = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword)).or(Post.where("body2 like ?", keyword)).where(id: @posts_post_type_ids)
     else
      @posts_post_type_keyword = @posts_post_type
     end 

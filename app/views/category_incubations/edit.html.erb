@@ -2,11 +2,11 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
      <h1 class="text-center text-black">タグ登録（起業希望者投稿）</h1> 
-     <%= render partial: "layouts/tag_form", locals: { model: @category_immigration_support, url: category_immigration_support_path, title: "地域について" } %>
+     <%= render partial: "layouts/tag_form", locals: { model: @category_incubation, url: category_incubation_path, title: "地域について" } %>
      <h5>登録済のタグ</h5>
-     <% @category_immigration_supports.each do |category_immigration_support| %>
+     <% @category_incubations.each do |category_incubation| %>
       <div>
-       <%= category_immigration_support.tag_name %>
+       <%= category_incubation.tag_name %>
     <% end %>
       </div>   
     </div>
