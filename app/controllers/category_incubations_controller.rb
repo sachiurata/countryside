@@ -1,4 +1,4 @@
-class CategoryIncubationController < ApplicationController
+class CategoryIncubationsController < ApplicationController
   def create
     @category_incubation = CategoryIncubation.new(category_incubation_params)
     

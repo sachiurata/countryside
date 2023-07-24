@@ -263,7 +263,7 @@ class UserProfilesController < ApplicationController
   
   private
   def user_profile_params
-    params.require(:user_profile).permit(:user_id, :profile_type1, :profile_type2, :screen_name, :avatar, :prefecture, :city, :about_region, :immigration_support,:immigration_support,:job, :skill, :interest,:other1, :other2, :public_status_id)
+    params.require(:user_profile).permit(:user_id, :profile_type1, :profile_type2, :screen_name, :avatar, :prefecture, :city, :about_region, :incubation, :immigration_support, :job, :skill, :interest,:other1, :other2, :public_status_id)
   end
   
   def ensure_user

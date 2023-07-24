@@ -502,7 +502,7 @@ class PostsController < ApplicationController
     @category_wants = CategoryWant.all
     @category_realizabilities = CategoryRealizability.all
     @category_earnests = CategoryEarnest.all
-    
+    @category_incubations = CategoryIncubation.all
     @category_immigration_supports = CategoryImmigrationSupport.all
   end
 end
