@@ -37,7 +37,7 @@ Rails.application.routes.draw do
     resources :tag_profile_regions, only: [:new, :index]
     resources :tag_profile_businesses, only: [:new, :index]
     resources :category_about_regions, only: [:create, :edit, :update, :destroy]
-    resources :category_immigration_supports, only: [:create, :edit, :update, :destroy]
+    resources :category_incubations, only: [:create, :edit, :update, :destroy]
     resources :category_immigration_supports, only: [:create, :edit, :update, :destroy]
     resources :category_jobs, only: [:create, :edit, :update, :destroy]
     resources :category_skills, only: [:create, :edit, :update, :destroy]

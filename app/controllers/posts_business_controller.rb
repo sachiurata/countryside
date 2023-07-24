@@ -1,7 +1,7 @@
 class PostsBusinessController < ApplicationController
   
   before_action :authenticate_user!, except:[:index]
-  before_action :user_profile_nil?
+  before_action :user_profile_nil?, except:[:index]
   
    def new
     @post = Post.new
@@ -87,7 +87,7 @@ class PostsBusinessController < ApplicationController
     #キーワードが入力された場合　
     if @keyword.present?
      keyword = '%' + @keyword + '%'
-     @posts_post_type_keyword = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @posts_post_type_ids)
+     @posts_post_type_keyword = Post.where("title like ?", keyword).or(Post.where("body2 like ?", keyword)).where(id: @posts_post_type_ids)
     else
      @posts_post_type_keyword = @posts_post_type
     end 

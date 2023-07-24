@@ -1,7 +1,7 @@
 class PostsRegionController < ApplicationController
   
   before_action :authenticate_user!, except:[:index]
-  before_action :user_profile_nil?
+  before_action :user_profile_nil?, except:[:index]
   
   def new
     @post = Post.new
@@ -409,14 +409,7 @@ class PostsRegionController < ApplicationController
        @check_flags_category_resources[index] = false
       end
     end
-   end   
-    #「地域資源」のチェックボックスが一つも選択されなかった場合、チェックボックスにチェックをいれずに表示させるため
-    # これいらない? posts/indexの16行目の@check_flags_category_resourcesは空でもいいの？
-    # else
-    #   @check_flags_category_resources = []
-    #   @category_resources.each_with_index do |category_resource, index|
-    #     @check_flags_category_resources[index] = false
-    #   end
+   end
    
    if category_issue_ids.present?
     @category_issues.each_with_index do |category_issue, index|
