@@ -10,7 +10,11 @@ class MessagesController < ApplicationController
 
   def create
     @message = current_user.outgoing_messages.build(message_params)
-    @message.to_id = params[:id] 
+    @message.to_id = params[:user_id] 
+    puts "ここだよ"
+    p @message.to_id
+    p current_user
+    p @message
     if @message.to_id != current_user.id
       @messages = Message.where("from_id IN (:ids) AND to_id IN (:ids)",ids:@ids)
       if @message.save
@@ -25,12 +29,9 @@ class MessagesController < ApplicationController
         p @message.errors
         p @message.errors.count
         p @message.errors.any?
-        #p @messgage.errors[:user]
-        p current_user
         #render  action: "index", id: @to_user.id, notice:"メッセージの送信に失敗しました"
         render :index, status: :unprocessable_entity
       end
-      
     end  
   end
   
@@ -58,6 +59,17 @@ class MessagesController < ApplicationController
     p @current_user_from_users
     p @interacting_users
   end
+  
+  def destroy
+   @message = Message.find(params[:id])
+   puts "ここだよ"
+   p params[:id]
+   if @message.destroy
+     redirect_to action: "index", user_id: @message.to_id, status: :see_other
+   else
+     render :index, notice:"削除に失敗しました"
+   end
+  end
 
   private
   def message_params
@@ -65,7 +77,7 @@ class MessagesController < ApplicationController
   end
 
   def setup_users
-    @to_user = User.find(params[:id])
+    @to_user = User.find(params[:user_id])
     @ids = [@to_user.id,current_user.id]
   end
 end
