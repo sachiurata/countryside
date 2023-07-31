@@ -68,6 +68,11 @@
               <li><a class="dropdown-item" href="/posts_business">起業希望者</a></li>
             </ul>
           </li>
+          <li class="nav-item">
+           <% if user_signed_in? && (Message.exists?(to_id:current_user.id) || Message.exists?(from_id:current_user.id)) %>  
+            <a class="nav-link" href="/messages/all">メッセージ</a>
+           <% end %>  
+          </li>
           <!--<li class="nav-item">-->
           <!--  <a class="nav-link disabled">Disabled</a>-->
           <!--</li>-->

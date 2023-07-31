@@ -1,5 +1,8 @@
 ja:
   activerecord:
+    attributes:
+      message:
+        content: メッセージ
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

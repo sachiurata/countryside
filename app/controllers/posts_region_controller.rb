@@ -67,7 +67,7 @@ class PostsRegionController < ApplicationController
      
       redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
     else
-      render "new", notice:"登録に失敗しました"  
+      render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
       #空欄以外で登録失敗ってある？空欄だと画面が遷移しない。
     end
   end

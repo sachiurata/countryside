@@ -2,9 +2,11 @@
  <div class="row g-0">
   <div class="col-md-2">
    <%= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar" if user_profile.avatar.attached? %>
-   <% if user_profile.user_id != current_user.id %>
-    <a class="btn btn-secondary" href="#" role="button">メッセージを送る</a>
-   <% end %> 
+   <div>
+    <% if user_profile.user_id != current_user.id %>
+     <%= link_to "メッセージを送る", controller: "messages", action: "create", id: user_profile.user.id %>
+    <% end %> 
+   </div> 
   </div>
   <div class="col-md-10">
    <span class="badge text-bg-success">地域側</span>
