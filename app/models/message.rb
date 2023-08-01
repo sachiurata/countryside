@@ -3,5 +3,5 @@ class Message < ApplicationRecord
   validates :from_id, presence: true
   validates :to_id, presence: true
   validates :content, presence: true, length: { maximum: 300 }
-  belongs_to :user
+  belongs_to :user, optional: true
 end

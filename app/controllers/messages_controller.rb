@@ -17,7 +17,7 @@ class MessagesController < ApplicationController
     p @message
     if @message.to_id != current_user.id
       @messages = Message.where("from_id IN (:ids) AND to_id IN (:ids)",ids:@ids)
-      if @message.save
+      if @message.save!
         redirect_to  action: "index", id: @to_user.id
         # respond_to do |format|
         #   format.html { redirect_to  messages_url(@to_user)}
@@ -29,6 +29,8 @@ class MessagesController < ApplicationController
         p @message.errors
         p @message.errors.count
         p @message.errors.any?
+        p @to_user
+        p @message
         #render  action: "index", id: @to_user.id, notice:"メッセージの送信に失敗しました"
         render :index, status: :unprocessable_entity
       end

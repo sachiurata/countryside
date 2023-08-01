@@ -1,25 +1,25 @@
 <div class="container">
   <div class="row">
    <% @users.each_with_index do |user, index| %>
-    <div class="card mb-3" style="max-width: 800px;">    
-     <div class="row g-0">
-      <div class="col-md-2">
-       <div>
-        <%= link_to user_messages_path(user), data: { turbo_method: :get } do %>   
+    <%= link_to user_messages_path(user), data: { turbo_method: :get } do %> 
+     <div class="card mb-3" style="max-width: 800px;">    
+      <div class="row g-0">
+       <div class="col-md-2">
+        <div>
          <%= image_tag user.user_profile.avatar.variant(:thumb), class: "profile-avatar" if user.user_profile.avatar.attached? %>
-        <% end %> 
+        </div>
+        <div>
+         <%= user.user_profile.screen_name %>
+        </div>
        </div>
-       <div>
-        <%= user.user_profile.screen_name %>
-       </div>    
+       <div class="col-md-8">  
+         <%= @user_last_sent[index].user_profile.screen_name %><br>
+         <small class="text-body-secondary"><%= l @message_last_sent[index].updated_at %></small>
+         <p class="card-text"><%= @message_last_sent[index].content %></P>
+       </div>
       </div>
-      <div class="col-md-8">  
-        <%= @user_last_sent[index].user_profile.screen_name %><br>
-        <small class="text-body-secondary"><%= l @message_last_sent[index].updated_at %></small>
-        <p class="card-text"><%= @message_last_sent[index].content %></P>
-      </div>
-     </div>
-    </div>
+     </div> 
+    <% end %> 
    <% end %> 
   </div>
 </div>  
