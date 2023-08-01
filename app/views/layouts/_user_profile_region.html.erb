@@ -4,7 +4,7 @@
    <%= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar" if user_profile.avatar.attached? %>
    <div>
     <% if user_profile.user_id != current_user.id %>
-     <%= link_to "メッセージを送る", controller: "messages", action: "create", user_id: user_profile.user.id %>
+     <%= link_to "メッセージを送る", messages_path(user_profile.user_id) %>
     <% end %> 
    </div> 
   </div>

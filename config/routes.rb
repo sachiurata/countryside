@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'messages/index'
-  get 'messages/create'
   root to: "home#index"
   
   devise_for :users, :controllers => {
@@ -47,14 +45,17 @@ Rails.application.routes.draw do
   end
   
   resources :post_category_resources
+  resources :messages, only: [:destroy]
   
+  get 'messages/all', to: "messages#message_list"
   resources :users do
-    #member do
-      resources :messages, only: [:create, :index, :destroy]
-    #end
+    member do
+      resources :messages, only: [:create, :index]
+      
+    end
   end
   
-  get 'messages/all', to: "messages#show"
+ 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

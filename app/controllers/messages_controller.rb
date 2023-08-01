@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :setup_users, except: [:show]
+  before_action :setup_users, except: [:message_list, :destroy]
 
   def index
     @messages = Message.where("from_id IN (:ids) AND to_id IN (:ids)",ids:@ids)
@@ -37,7 +37,7 @@ class MessagesController < ApplicationController
     end  
   end
   
-  def show
+  def message_list
     @current_user_messages = Message.where(to_id: current_user.id).or(Message.where(from_id: current_user.id))
     @current_user_to_users = @current_user_messages.pluck(:to_id)
     @current_user_from_users = @current_user_messages.pluck(:from_id)
@@ -63,11 +63,14 @@ class MessagesController < ApplicationController
   end
   
   def destroy
+    puts "destroyが呼ばれた"
    @message = Message.find(params[:id])
+   #to_id = @message.to_id
    puts "ここだよ"
+   p params
    p params[:id]
    if @message.destroy
-     redirect_to action: "index", user_id: @message.to_id, status: :see_other
+     redirect_to messages_path(@message.to_id)
    else
      render :index, notice:"削除に失敗しました"
    end
@@ -79,7 +82,7 @@ class MessagesController < ApplicationController
   end
 
   def setup_users
-    @to_user = User.find(params[:user_id])
+    @to_user = User.find(params[:id])
     @ids = [@to_user.id,current_user.id]
   end
 end

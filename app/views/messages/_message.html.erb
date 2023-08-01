@@ -17,7 +17,8 @@
             <%= message.created_at %>
         </span>
         
-        <%= link_to "削除", user_message_path(message.from_id, message.id), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+        <%= link_to "削除", message, data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+        <%#= link_to "削除", message_path(message.id), method: :delete, data: { confirm: "You sure?" } %>
     </div>
     <% if message.from_id == current_user.id %>
         <%= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar-message" if user_profile.avatar.attached? %>
