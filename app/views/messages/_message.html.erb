@@ -1,12 +1,13 @@
 <li <%= "class = my-content" if message.from_id == current_user.id %>>
-    <% user_profile = UserProfile.find(message.from_id) %>
+    <% user = User.find(message.from_id) %>
+    <%# user_profile = UserProfile.find(message.from_id) %>
     <% if message.from_id != current_user.id %>
-        <%= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar-message" if user_profile.avatar.attached? %>
+        <%= image_tag user.user_profile.avatar.variant(:thumb), class: "profile-avatar-message" if user.user_profile.avatar.attached? %>
     <% end %>
     <div class="content">
         
         <span class="message">
-            <%= user_profile.screen_name  %>
+            <%= user.user_profile.screen_name  %>
         </span>
         
         <span class="message">
@@ -17,10 +18,12 @@
             <%= message.created_at %>
         </span>
         
-        <%= link_to "削除", message, data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
-        <%#= link_to "削除", message_path(message.id), method: :delete, data: { confirm: "You sure?" } %>
+        <% if message.from_id == current_user.id %>
+            <%= link_to "削除", message, data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+            <%#= link_to "削除", message_path(message.id), method: :delete, data: { confirm: "You sure?" } %>
+        <% end %>
     </div>
     <% if message.from_id == current_user.id %>
-        <%= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar-message" if user_profile.avatar.attached? %>
+        <%= image_tag user.user_profile.avatar.variant(:thumb), class: "profile-avatar-message" if user.user_profile.avatar.attached? %>
     <% end %>
 </li>

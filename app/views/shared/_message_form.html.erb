@@ -1,5 +1,5 @@
 <% provide(:button_text, 'Send Message') %>
-<%= render "shared/error_messages", object: message %>
+<%#= render "shared/error_messages", object: message %>
 <%= form_with model: message do |f| %>
     <div id="error_messages">
      <%= render "shared/error_messages", object: message %>

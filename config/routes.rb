@@ -45,13 +45,12 @@ Rails.application.routes.draw do
   end
   
   resources :post_category_resources
-  resources :messages, only: [:destroy]
   
+  resources :messages, only: [:destroy]
   get 'messages/all', to: "messages#message_list"
   resources :users do
     member do
       resources :messages, only: [:create, :index]
-      
     end
   end
   
