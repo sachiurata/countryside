@@ -56,14 +56,12 @@ class PostsBusinessController < ApplicationController
     category_skill_ids = params[:category_skill_id]
     category_interest_ids = params[:category_interest_id]
     @search_type = params[:search_type]
-    @posts = []
-    @post_type_ids = []
-    @posts_post_type_ids = []
-    @posts_post_type_keyword = []
-    @posts_post_type_prefecture = []
-    @posts_post_type_prefecture_ids = []
-    @posts_post_type_keyword_prefecture = []
-    @posts_post_type_keyword_prefecture_ids = []
+    # @posts = []
+    # @post_type_ids = []
+    # @posts_post_type_ids = []
+    # @posts_post_type_keyword = []
+    # @posts_post_type_keyword_prefecture = []
+    # @posts_post_type_keyword_prefecture_ids = []
     @category_want_posts = []
     @category_want_posts_all = []
     @category_earnest_posts = []
@@ -115,6 +113,7 @@ class PostsBusinessController < ApplicationController
         @category_want_posts = Post.joins(:post_category_wants).where(post_category_wants: {category_want_id: category_want_id})
         @category_want_posts_all.concat(@category_want_posts) 
       end
+      @category_want_posts_ids = @category_want_posts_all.pluck(:id).uniq
     end  
   
     #「本気度」でチェックされている項目を含む投稿
@@ -123,6 +122,7 @@ class PostsBusinessController < ApplicationController
         @category_earnest_posts = Post.joins(:post_category_earnest).where(post_category_earnests: {category_earnest_id: category_earnest_id})
         @category_earnest_posts_all.concat(@category_earnest_posts)
       end
+      @category_earnest_posts_ids = @category_earnest_posts_all.pluck(:id).uniq
     end 
     
     #「職業」でチェックされている項目を含むプロフィール
@@ -155,93 +155,18 @@ class PostsBusinessController < ApplicationController
       if category_want_ids.nil? && category_earnest_ids.nil? && category_job_ids.nil? && category_skill_ids.nil? && category_interest_ids.nil?
         @posts = @posts_post_type_keyword_prefecture
       else
-        # #「やりたいこと」のチェックボックスが一つでもチェックされた場合
-        # if category_want_ids.present?
-        #   category_want_ids.each do |category_want_id|  
-        #     @category_want_posts = Post.joins(:post_category_wants).where(post_category_wants: {category_want_id: category_want_id})
-        #     # @post_category_wants.each do |post_category_want|
-        #     # @posts_tag = @posts_tag.append(post_category_want)
-        #     # end
-        #     @category_want_posts_all.concat(@category_want_posts) 
-        #   end
-        # end  
-      
-        # #「本気度」のチェックボックスが一つでもチェックされた場合
-        # if category_earnest_ids.present?
-        #   category_earnest_ids.each do |category_earnest_id|  
-        #     @category_earnest_posts = Post.joins(:post_category_earnest).where(post_category_earnests: {category_earnest_id: category_earnest_id})
-        #     # @post_category_earnests.each do |post_category_earnest|
-        #     #   @posts_tag = @posts_tag.append(post_category_earnest)
-        #     # end
-        #     @category_earnest_posts_all.concat(@category_earnest_posts)
-        #   end
-        # end 
-        
-        #投稿のタグでの絞り込み
-        @posts_tag.concat(@category_want_posts_all, @category_earnest_posts_all) 
-        
-        puts "ここだよ"
-        p @posts_tag.pluck(:id)
-        
-        #プロフィールでの絞り込み
-        if category_job_ids.nil? && category_skill_ids.nil? && category_interest_ids.nil?
-         @posts_tag = @posts_tag
-        else
-         
-        # #「職業」のチェックボックスが一つでもチェックされた場合
-        # if category_job_ids.present?
-        #   category_job_ids.each do |category_job_id|
-        #   @profile_category_jobs = UserProfile.joins(:profile_category_jobs).where(profile_category_jobs: {category_job_id: category_job_id})
-        #   # @profile_category_jobs.each do |profile_category_job|
-        #   #   @profiles_tag = @profiles_tag.append(profile_category_job)
-        #   # end 
-        #   @profiles_tag.concat(@profile_category_jobs)
-        #   end
-        # end
-         
-        # #「得意なこと」のチェックボックスが一つでもチェックされた場合
-        # if category_skill_ids.present?
-        #   category_skill_ids.each do |category_skill_id|
-        #   @profile_category_skills = UserProfile.joins(:profile_category_skills).where(profile_category_skills: {category_skill_id: category_skill_id})
-        #   # @profile_category_skills.each do |profile_category_skill|
-        #   #   @profiles_tag = @profiles_tag.append(profile_category_skill)
-        #   # end
-        #   @profiles_tag.concat(@profile_category_skills)
-        #   end
-        # end
-         
-        # #「興味のあること」のチェックボックスが一つでもチェックされた場合
-        # if category_interest_ids.present?
-        #   category_interest_ids.each do |category_interest_id|
-        #   @profile_category_interests = UserProfile.joins(:profile_category_interests).where(profile_category_interests: {category_interest_id: category_interest_id})
-        #   # @profile_category_interests.each do |profile_category_interest|
-        #   #   @profiles_tag = @profiles_tag.append(profile_category_interest)
-        #   # end
-        #   @profiles_tag.concat(@profile_category_interests)
-        #   end
-        # end
-         
-         @profiles_tag.concat(@category_job_profiles, @category_skill_profiles, @category_interest_profiles)
-         @profile_tag_ids = @profiles_tag.pluck(:id)
-         @posts_user = User.where(id: @profile_tag_ids)
-         @posts_profile_tag = Post.where(user_id: @posts_user)
-        # @posts_profile_tag.each do |post_profile_tag|
-        # @posts_tag = @posts_tag.append(post_profile_tag)
-        # end
-         @posts_tag.concat(@posts_profile_tag)
-        end 
+       
+       #投稿のタグでの絞り込み
+       @posts_tag.concat(@category_want_posts_all, @category_earnest_posts_all) 
+       
+       #プロフィールのタグでの絞り込み
+        @profiles_tag.concat(@category_job_profiles_all, @category_skill_profiles_all, @category_interest_profiles_all)
+        @profile_tag_ids = @profiles_tag.pluck(:id)
+        @posts_user = User.where(id: @profile_tag_ids)
+        @posts_profile_tag = Post.where(user_id: @posts_user)
+        @posts_tag.concat(@posts_profile_tag)
         @posts = @posts_tag & @posts_post_type_keyword_prefecture
       end
-      
-      puts "ここですよ"
-      # p @post_category_wants.pluck(:id)
-      # p @posts_tag.pluck(:id)
-      # p @profile_tag_ids
-      # p @posts_user
-      # p @profile_category_jobs.pluck(:id)
-      # p @profile_category_skills.pluck(:id)
-      # p @profile_category_interests.pluck(:id)
-      # p @posts.pluck(:id)
     
     #　タグ「やりたいこと」「本気度」「職業」「得意なこと」「興味のあること」の各項目についてAND検索
     elsif @search_type == "2"
@@ -251,40 +176,18 @@ class PostsBusinessController < ApplicationController
       else
         #「やりたいこと」のチェックボックスが一つでもチェックされた場合
         if category_want_ids.present?
-          # category_want_ids.each do |category_want_id|  
-          #   @category_want_posts = Post.joins(:post_category_wants).where(post_category_wants: {category_want_id: category_want_id})
-          #   # @category_want_posts.each do|category_want_post|
-          #   # @category_want_posts_all = @category_want_posts_all.append(category_want_post)
-          #   # end
-          #   @category_want_posts_all.concat(@category_want_posts) 
-          # end
-           @category_want_posts_ids = @category_want_posts_all.pluck(:id).uniq
            @post_tag_ids = @category_want_posts_ids
         end
         
         #「本気度」のチェックボックスが一つでもチェックされた場合
         if category_earnest_ids.present?
-          # category_earnest_ids.each do |category_earnest_id|  
-          #   @category_earnest_posts = Post.joins(:post_category_earnest).where(post_category_earnests: {category_earnest_id: category_earnest_id})
-          #   @category_earnest_posts.each do|category_earnest_post|
-          #   @category_earnest_posts_all = @category_earnest_posts_all.append(category_earnest_post)
-          #   end
-             @category_earnest_posts_ids = @category_earnest_posts_all.pluck(:id).uniq
-             if @post_tag_ids.empty?
-              @post_tag_ids = @category_earnest_posts_ids
-             else  
-              @post_tag_ids = @post_tag_ids & @category_earnest_posts_ids
-             end
-          # end   
+         if category_want_ids.nil?
+          @post_tag_ids = @category_earnest_posts_ids
+         else  
+          @post_tag_ids = @post_tag_ids & @category_earnest_posts_ids
+         end  
         end
         
-        # @post_tag_ids = @category_want_posts_ids 
-        
-        puts 'ここを見て'
-        p @category_want_posts
-        p @category_want_posts_ids
-        p @category_earnest_posts_ids
-        p @post_tag_ids
         #プロフィールでの絞り込み
         if category_job_ids.nil? && category_skill_ids.nil? && category_interest_ids.nil?
          @posts_tag_ids = @posts_tag_ids
@@ -292,43 +195,24 @@ class PostsBusinessController < ApplicationController
          
          #「職業」のチェックボックスが一つでもチェックされた場合
          if category_job_ids.present?
-          
-          @profiles_tag = @profile_category_jobs_all
-          puts "ここだよ1"
-          p @profile_category_jobs
-          p @profiles_tag
+          @profiles_tag = @category_job_profiles_all
          end
          
          #「得意なこと」のチェックボックスが一つでもチェックされた場合
          if category_skill_ids.present?
-          # category_skill_ids.each do |category_skill_id|
-          #  @profile_category_skills = UserProfile.joins(:profile_category_skills).where(profile_category_skills: {category_skill_id: category_skill_id})
-          #  @profile_category_skills.each do |profile_category_skill|
-          #   @profile_category_skills_all = @profile_category_skills_all.append(profile_category_skill)
-          #  end
-          # end
           if category_job_ids.nil?
-           @profiles_tag = @profile_category_skills_all
+           @profiles_tag = @category_skill_profiles_all
           else
-           @profiles_tag = @profiles_tag & @profile_category_skills_all
+           @profiles_tag = @profiles_tag & @category_skill_profiles_all
           end
-          puts "ここだよ2"
-          p @profile_category_skills_all
-          p @profiles_tag
          end
          
          #「興味のあること」のチェックボックスが一つでもチェックされた場合
          if category_interest_ids.present?
-          # category_interest_ids.each do |category_interest_id|
-          #  @profile_category_interests = UserProfile.joins(:profile_category_interests).where(profile_category_interests: {category_interest_id: category_interest_id})
-          #  @profile_category_interests.each do |profile_category_interest|
-          #   @profile_category_interests_all = @profile_category_interests_all.append(profile_category_interest)
-          #  end
-          # end
           if category_job_ids.nil? &&  category_skill_ids.nil?
-           @profiles_tag = @profile_category_interests_all
+           @profiles_tag = @category_interest_profiles_all
           else
-           @profiles_tag = @profiles_tag & @profile_category_interests_all
+           @profiles_tag = @profiles_tag & @category_interest_profiles_all
           end
          end  
          

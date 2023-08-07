@@ -48,11 +48,11 @@
        <%= category_about_region.tag_name %>
       <% end %>
      </div> 
-     <!--<div class="category"><span class="badge rounded-pill text-bg-secondary">地域の起業支援</span><br>-->
-     <!-- <%# @category_incbubations.each_with_index do |category_incbubation, index| %>-->
-     <!--   <input class="form-check-input" type="checkbox" name="category_incbubation_id[]" value="<#%= category_incbubation.id %>" <%#= @check_flags_category_incbubations[index] ? 'checked' : '' %>>-->
-     <!--   <%#= category_incbubation.tag_name %>-->
-     <!-- <%# end %>-->
+     <div class="category"><span class="badge rounded-pill text-bg-secondary">地域の起業支援</span><br>
+      <% @category_incubations.each_with_index do |category_incubation, index| %>
+        <input class="form-check-input" type="checkbox" name="category_incubation_id[]" value="<%= category_incubation.id %>" <%= @check_flags_category_incubations[index] ? 'checked' : '' %>>
+        <%= category_incubation.tag_name %>
+      <% end %>
      <div class="category"><span class="badge rounded-pill text-bg-warning">地域の移住支援</span><br>
       <% @category_immigration_supports.each_with_index do |category_immigration_support, index| %>
        <input class="form-check-input", type="checkbox", name="category_immigration_support_id[]", value="<%= category_immigration_support.id %>" <%= @check_flags_category_immigration_supports[index] ? 'checked' : '' %>>

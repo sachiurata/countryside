@@ -22,11 +22,11 @@
      <% end %></P>
     <P><%= text_url_to_link(safe_join((h(user_profile.about_region)).split("\n"),tag(:br))).html_safe %></P>
     <P class="label">地域の起業支援
-     <!--<%# user_profile.profile_category_incubations.each do |profile_category_incubation| %>-->
-     <!-- <span class="badge rounded-pill text-bg-secondary">-->
-     <!--  <%#= profile_category_incubation.category_incubation.tag_name %>-->
-     <!-- </span>  -->
-     <!--<%# end %>--></p>
+     <% user_profile.profile_category_incubations.each do |profile_category_incubation| %>
+      <span class="badge rounded-pill text-bg-secondary">
+       <%= profile_category_incubation.category_incubation.tag_name %>
+      </span>  
+     <% end %></p>
     <P><%= text_url_to_link(safe_join((h(user_profile.incubation)).split("\n"),tag(:br))).html_safe %></P>
     <P class="label">地域の移住支援
      <% user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>

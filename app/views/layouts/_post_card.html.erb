@@ -75,11 +75,11 @@
               <%= profile_category_about_region.category_about_region.tag_name %>
              </span>  
             <% end %>
-            <!--<%# post.user.user_profile.profile_category_incubations.each do |profile_category_incubation| %>-->
-            <!-- <span class="badge rounded-pill text-bg-secondary">-->
-            <!--  <%#= profile_category_incubation.category_incubation.tag_name %>-->
-            <!-- </span>  -->
-            <!--<%# end %>-->
+            <% post.user.user_profile.profile_category_incubations.each do |profile_category_incubation| %>
+             <span class="badge rounded-pill text-bg-secondary">
+              <%= profile_category_incubation.category_incubation.tag_name %>
+             </span>  
+            <% end %>
             <% post.user.user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>
              <span class="badge rounded-pill text-bg-warning">
               <%= profile_category_immigration_support.category_immigration_support.tag_name %>

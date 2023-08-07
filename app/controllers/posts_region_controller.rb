@@ -125,7 +125,7 @@ class PostsRegionController < ApplicationController
     @check_flags_category_features =[]
     @check_flags_category_realizabilities =[]
     @check_flags_category_about_regions =[]
-    @check_flags_ccategory_incubations =[]
+    @check_flags_category_incubations =[]
     @check_flags_category_immigration_supports =[]
     
     #「地域側投稿」のみ抽出
@@ -187,8 +187,6 @@ class PostsRegionController < ApplicationController
       end
       @category_feature_posts_ids = @category_feature_posts_all.pluck(:id).uniq
     end
-    puts 'ここだよ'
-    p @category_feature_posts_ids
     
     #「実現可能性」でチェックされている項目を含む投稿
     if category_realizability_ids.present?
@@ -230,7 +228,7 @@ class PostsRegionController < ApplicationController
         @posts = @posts_post_type_keyword_prefecture
       else
        #投稿のタグでの絞り込み
-       @posts_tag.concat(@category_resource_posts, @category_issue_posts, @category_market_posts, @category_feature_posts, @category_realizability_posts)
+       @posts_tag.concat(@category_resource_posts_all, @category_issue_posts_all, @category_market_posts_all, @category_feature_posts_all, @category_realizability_posts_all)
        
        #プロフィールのタグでの絞り込み
        @profiles_tag.concat(@category_about_region_profiles_all, @category_incubation_profiles_all, @category_immigration_support_profiles_all)
