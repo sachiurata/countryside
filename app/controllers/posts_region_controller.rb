@@ -93,14 +93,11 @@ class PostsRegionController < ApplicationController
     category_incubation_ids = params[:category_incubation_id]
     category_immigration_support_ids = params[:category_immigration_support_id]
     @search_type = params[:search_type]
-    @posts = []
-    @post_type_ids = []
-    @posts_post_type_ids = []
-    @posts_post_type_keyword = []
-    @posts_post_type_prefecture = []
-    @posts_post_type_prefecture_ids = []
-    @posts_post_type_keyword_prefecture = []
-    @posts_post_type_keyword_prefecture_ids = []
+    # @posts = []
+    #@posts_post_type_ids = []
+    #@posts_post_type_keyword = []
+    # @posts_post_type_keyword_prefecture = []
+    #@posts_post_type_keyword_prefecture_ids = []
     @category_resource_posts = []
     @category_issue_posts = []
     @category_market_posts = []
@@ -135,7 +132,7 @@ class PostsRegionController < ApplicationController
     @posts_post_type = Post.where(post_type: 1)
     @posts_post_type_ids = @posts_post_type.pluck(:id)
     
-    #キーワードが入力された場合　
+    #キーワードが入力された場合
     if @keyword.present?
      keyword = '%' + @keyword + '%'
      @posts_post_type_keyword = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @posts_post_type_ids)
@@ -154,43 +151,35 @@ class PostsRegionController < ApplicationController
     #「投稿タイプ」と「キーワード」と「都道府県」の条件を満たす投稿のid
     @posts_post_type_keyword_prefecture_ids = @posts_post_type_keyword_prefecture.pluck(:id)
     
-    #「地域資源」のチェックボックスが一つでもチェックされた場合
+    #タグによる検索
+    #「地域資源」でチェックされている項目を含む投稿
     if category_resource_ids.present?
       category_resource_ids.each do |category_resource_id|  
         @category_resource_posts = Post.joins(:post_category_resources).where(post_category_resources: {category_resource_id: category_resource_id})
-        # @category_resource_posts.each do |category_resource_post|
-        #  @posts_tag = @posts_tag.append(category_resource_post)
-        # end
         @category_resource_posts_all.concat(@category_resource_posts)
       end
       @category_resource_posts_ids = @category_resource_posts_all.pluck(:id).uniq
     end  
   
-    #「地域課題」のチェックボックスが一つでもチェックされた場合
+    #「地域課題」でチェックされている項目を含む投稿
     if category_issue_ids.present?
       category_issue_ids.each do |category_issue_id|  
         @category_issue_posts = Post.joins(:post_category_issues).where(post_category_issues: {category_issue_id: category_issue_id})
-        # @category_issue_posts.each do |category_issue_post|
-        #   @posts_tag = @posts_tag.append(category_issue_post)
-        # end
         @category_issue_posts_all.concat(@category_issue_posts)
       end
       @category_issue_posts_ids = @category_issue_posts_all.pluck(:id).uniq
     end 
     
-    #「需要」のチェックボックスが一つでもチェックされた場合
+    #「需要」でチェックされている項目を含む投稿
     if category_market_ids.present?
       category_market_ids.each do |category_market_id|  
         @category_market_posts = Post.joins(:post_category_markets).where(post_category_markets: {category_market_id: category_market_id})
-        # @category_market_posts.each do |category_market_post|
-        #  @posts_tag = @posts_tag.append(category_market_post)
-        # end
         @category_issue_posts_all.concat(@category_market_posts)
       end
       @category_market_posts_ids = @category_market_posts_all.pluck(:id).uniq
     end  
     
-    #「地域の特色」のチェックボックスが一つでもチェックされた場合
+    #「地域の特色」でチェックされている項目を含む投稿
     if category_feature_ids.present?
       category_feature_ids.each do |category_feature_id|  
         @category_feature_posts = Post.joins(:post_category_features).where(post_category_features: {category_feature_id: category_feature_id})
@@ -198,49 +187,38 @@ class PostsRegionController < ApplicationController
       end
       @category_feature_posts_ids = @category_feature_posts_all.pluck(:id).uniq
     end
+    puts 'ここだよ'
+    p @category_feature_posts_ids
     
-    
-    #「実現可能性」のチェックボックスが一つでもチェックされた場合
+    #「実現可能性」でチェックされている項目を含む投稿
     if category_realizability_ids.present?
       category_realizability_ids.each do |category_realizability_id|  
         @category_realizability_posts = Post.joins(:post_category_realizabilities).where(post_category_realizabilities: {category_realizability_id: category_realizability_id})
-        # @category_realizability_posts.each do |category_realizability_post|
-        #  @posts_tag = @posts_tag.append(category_realizability_post)
-        # end
         @category_realizability_posts_all.concat(@category_realizability_posts)
       end
       @category_realizability_posts_ids = @category_realizability_posts_all.pluck(:id).uniq
     end
     
-    #「地域について」のチェックボックスが一つでもチェックされた場合
+    #「地域について」でチェックされている項目を含む投稿
     if category_about_region_ids.present?
      category_about_region_ids.each do |category_about_region_id|
       @category_about_region_profiles = UserProfile.joins(:profile_category_about_regions).where(profile_category_about_regions: {category_about_region_id: category_about_region_id})
-      # @category_about_region_profiles.each do |category_about_region_profile|
-      #  @profiles_tag = @profiles_tag.append(category_about_region_profile)
-      # end 
       @category_about_region_profiles_all.concat(@category_about_region_profiles)
      end 
     end
     
-    #「起業支援」のチェックボックスが一つでもチェックされた場合
+    #「起業支援」でチェックされている項目を含む投稿
     if category_incubation_ids.present?
      category_incubation_ids.each do |category_incubation_id|
       @category_incubation_profiles = UserProfile.joins(:profile_category_incubations).where(profile_category_incubations: {category_incubation_id: category_incubation_id})
-      # @category_incubation_profiles.each do |category_incubation_profile|
-      #  @profiles_tag = @profiles_tag.append(category_incubation_profile)
-      # end
       @category_incubation_profiles_all.concat(@category_incubation_profiles)
      end 
     end
     
-    #「移住支援」のチェックボックスが一つでもチェックされた場合
+    #「移住支援」でチェックされている項目を含む投稿
     if category_immigration_support_ids.present?
      category_immigration_support_ids.each do |category_immigration_support_id|
       @category_immigration_support_profiles = UserProfile.joins(:profile_category_immigration_supports).where(profile_category_immigration_supports: {category_immigration_support_id: category_immigration_support_id})
-      # @category_immigration_support_profiles.each do |category_immigration_support_profile|
-      #  @profiles_tag = @profiles_tag.append(profile_category_immigration_support)
-      # end
       @category_immigration_support_profiles_all.concat(@category_immigration_support_profiles)
      end 
     end
@@ -251,116 +229,17 @@ class PostsRegionController < ApplicationController
       if category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil? && category_realizability_ids.nil? && category_about_region_ids.nil? && category_incubation_ids.nil? && category_immigration_support_ids.nil?
         @posts = @posts_post_type_keyword_prefecture
       else
-        # #「地域資源」のチェックボックスが一つでもチェックされた場合
-        # if category_resource_ids.present?
-        #   category_resource_ids.each do |category_resource_id|  
-        #     @category_resource_posts = Post.joins(:post_category_resources).where(post_category_resources: {category_resource_id: category_resource_id})
-        #     # @category_resource_posts.each do |category_resource_post|
-        #     #  @posts_tag = @posts_tag.append(category_resource_post)
-        #     # end
-        #     @posts_tag.concat(@category_resource_posts)
-        #   end
-        #   puts "ここだよ"
-        #   p @posts_tag.pluck(:id)
-        # end  
-      
-        # #「地域課題」のチェックボックスが一つでもチェックされた場合
-        # if category_issue_ids.present?
-        #   category_issue_ids.each do |category_issue_id|  
-        #     @category_issue_posts = Post.joins(:post_category_issues).where(post_category_issues: {category_issue_id: category_issue_id})
-        #     # @category_issue_posts.each do |category_issue_post|
-        #     #   @posts_tag = @posts_tag.append(category_issue_post)
-        #     # end
-        #     @posts_tag.concat(@category_issue_posts)
-        #   end
-        # end 
-        
-        # #「需要」のチェックボックスが一つでもチェックされた場合
-        # if category_market_ids.present?
-        #   category_market_ids.each do |category_market_id|  
-        #     @category_market_posts = Post.joins(:post_category_markets).where(post_category_markets: {category_market_id: category_market_id})
-        #     # @category_market_posts.each do |category_market_post|
-        #     #  @posts_tag = @posts_tag.append(category_market_post)
-        #     # end
-        #     @posts_tag.concat(@category_market_posts)
-        #   end
-        # end  
-        
-        # #「地域の特色」のチェックボックスが一つでもチェックされた場合
-        # if category_feature_ids.present?
-        #   category_feature_ids.each do |category_feature_id|  
-        #     @category_feature_posts = Post.joins(:post_category_features).where(post_category_features: {category_feature_id: category_feature_id})
-        #     @posts_tag.concat(@category_feature_posts)
-        #   end
-        # end
-        # @posts = @posts_tag & @posts_post_type_keyword_prefecture
-        
-        # #「実現可能性」のチェックボックスが一つでもチェックされた場合
-        # if category_realizability_ids.present?
-        #   category_realizability_ids.each do |category_realizability_id|  
-        #     @category_realizability_posts = Post.joins(:post_category_realizabilities).where(post_category_realizabilities: {category_realizability_id: category_realizability_id})
-        #     # @category_realizability_posts.each do |category_realizability_post|
-        #     #  @posts_tag = @posts_tag.append(category_realizability_post)
-        #     # end
-        #     @posts_tag.concat(@category_realizability_posts)
-        #   end
-        # # end
-        # puts "ここを見て1"
-        # p @category_resource_posts.pluck(:id) 
-        # p @posts_tag.pluck(:id) 
-        
-         @posts_tag.concat(@category_resource_posts, @category_issue_posts, @category_market_posts, @category_feature_posts, @category_realizability_posts)
-        # puts "ここを見て2"
-        # p @category_resource_posts.pluck(:id) 
-        # p @posts_tag.pluck(:id) 
-        #プロフィールでの絞り込み
-        if category_about_region_ids.nil? && category_incubation_ids.nil? && category_immigration_support_ids.nil?
-         @posts_tag = @posts_tag
-        else
-         
-        #  #「地域について」のチェックボックスが一つでもチェックされた場合
-        #  if category_about_region_ids.present?
-        #   category_about_region_ids.each do |category_about_region_id|
-        #    @category_about_region_profiles = UserProfile.joins(:profile_category_about_regions).where(profile_category_about_regions: {category_about_region_id: category_about_region_id})
-        #    # @category_about_region_profiles.each do |category_about_region_profile|
-        #    #  @profiles_tag = @profiles_tag.append(category_about_region_profile)
-        #    # end 
-        #    @profiles_tag.concat(@category_about_region_profiles)
-        #   end 
-        #  end
-         
-        #  #「起業支援」のチェックボックスが一つでもチェックされた場合
-        #  if category_incubation_ids.present?
-        #   category_incubation_ids.each do |category_incubation_id|
-        #    @category_incubation_profiles = UserProfile.joins(:profile_category_incubations).where(profile_category_incubations: {category_incubation_id: category_incubation_id})
-        #    # @category_incubation_profiles.each do |category_incubation_profile|
-        #    #  @profiles_tag = @profiles_tag.append(category_incubation_profile)
-        #    # end
-        #    @profiles_tag.concat(@category_incubation_profiles)
-        #   end 
-        #  end
-         
-        #  #「移住支援」のチェックボックスが一つでもチェックされた場合
-        #  if category_immigration_support_ids.present?
-        #   category_immigration_support_ids.each do |category_immigration_support_id|
-        #    @category_immigration_support_profiles = UserProfile.joins(:profile_category_immigration_supports).where(profile_category_immigration_supports: {category_immigration_support_id: category_immigration_support_id})
-        #    # @category_immigration_support_profiles.each do |category_immigration_support_profile|
-        #    #  @profiles_tag = @profiles_tag.append(profile_category_immigration_support)
-        #    # end
-        #    @profiles_tag.concat(@category_immigration_support_profiles)
-        #   end 
-        #  end
-         
-         @profile_tag_ids = @profiles_tag.pluck(:id)
-         @posts_user = User.where(id: @profile_tag_ids)
-         @posts_profile_tag = Post.where(user_id: @posts_user)
-         # @posts_profile_tag.each do |post_profile_tag|
-         #  @posts_tag = @posts_tag.append(post_profile_tag)
-         # end
-         @posts_tag.concat(@posts_profile_tag)
-        end 
+       #投稿のタグでの絞り込み
+       @posts_tag.concat(@category_resource_posts, @category_issue_posts, @category_market_posts, @category_feature_posts, @category_realizability_posts)
        
-        @posts = @posts_tag & @posts_post_type_keyword_prefecture
+       #プロフィールのタグでの絞り込み
+       @profiles_tag.concat(@category_about_region_profiles_all, @category_incubation_profiles_all, @category_immigration_support_profiles_all)
+       @profile_tag_ids = @profiles_tag.pluck(:id)
+       @posts_user = User.where(id: @profile_tag_ids)
+       @posts_profile_tag = Post.where(user_id: @posts_user)
+       @posts_tag.concat(@posts_profile_tag)
+       
+       @posts = @posts_tag & @posts_post_type_keyword_prefecture
       end
     
     #　タグ「地域資源」「地域課題」「需要」「地域の特色」「実現可能性」「地域について」「起業支援」「移住支援」の各項目についてAND検索  
@@ -371,78 +250,43 @@ class PostsRegionController < ApplicationController
       else
         #「地域資源」のチェックボックスが一つでもチェックされた場合
         if category_resource_ids.present?
-          # category_resource_ids.each do |category_resource_id|  
-          #   @category_resource_posts = Post.joins(:post_category_resources).where(post_category_resources: {category_resource_id: category_resource_id})
-          #   @category_resource_posts.each do|category_resource_post|
-          #    @category_resource_posts_all = @category_resource_posts_all.append(category_resource_post)
-          #   end
-          # end
-          #@category_resource_posts_ids = @category_resource_posts_all.pluck(:id).uniq
           @post_tag_ids = @category_resource_posts_ids
         end
         
         #「地域課題」のチェックボックスが一つでもチェックされた場合
         if category_issue_ids.present?
-          # category_issue_ids.each do |category_issue_id|  
-          #   @category_issue_posts = Post.joins(:post_category_issues).where(post_category_issues: {category_issue_id: category_issue_id})
-          #   @category_issue_posts.each do|category_issue_post|
-          #    @category_issue_posts_all = @category_issue_posts_all.append(category_issue_post)
-          #   end
-          # end
-           # @category_issue_posts_ids = @category_issue_posts_all.pluck(:id).uniq
-           if category_resource_ids.nil?
-            @post_tag_ids = @category_issue_posts_ids
-           else  
-            @post_tag_ids = @post_tag_ids & @category_issue_posts_ids
-           end
+         if category_resource_ids.nil?
+          @post_tag_ids = @category_issue_posts_ids
+         else  
+          @post_tag_ids = @post_tag_ids & @category_issue_posts_ids
+         end
         end
         
         #「需要」のチェックボックスが一つでもチェックされた場合
         if category_market_ids.present?
-          # category_market_ids.each do |category_market_id|  
-          #   @category_market_posts = Post.joins(:post_category_markets).where(post_category_markets: {category_market_id: category_market_id})
-          #   @category_market_posts.each do|category_market_post|
-          #    @category_market_posts_all = @category_market_posts_all.append(category_market_post)
-          #   end
-          # end
-           @category_market_posts_ids = @category_market_posts_all.pluck(:id).uniq
-           if category_resource_ids.nil? & category_issue_ids.nil?
-            @post_tag_ids = @category_market_posts_ids
-           else  
-            @post_tag_ids = @post_tag_ids & @category_market_posts_ids
-           end
+         if category_resource_ids.nil? & category_issue_ids.nil?
+          @post_tag_ids = @category_market_posts_ids
+         else  
+          @post_tag_ids = @post_tag_ids & @category_market_posts_ids
+         end
         end    
         
         #「地域の特色」のチェックボックスが一つでもチェックされた場合
         if category_feature_ids.present?
-          # category_feature_ids.each do |category_feature_id|  
-          #   @category_feature_posts = Post.joins(:post_category_features).where(post_category_features: {category_feature_id: category_feature_id})
-          #   @category_feature_posts.each do|category_feature_post|
-          #    @category_feature_posts_all = @category_feature_posts_all.append(category_feature_post)
-          #   end
-          # end
-          #  @category_feature_posts_ids = @category_feature_posts_all.pluck(:id).uniq
-           if category_resource_ids.nil? & category_issue_ids.nil? & category_market_ids.nil?
-            @post_tag_ids = @category_feature_posts_ids
-           else  
-            @post_tag_ids = @post_tag_ids & @category_feature_posts_ids
-           end
+         if category_resource_ids.nil? & category_issue_ids.nil? & category_market_ids.nil?
+          @post_tag_ids = @category_feature_posts_ids
+         else  
+          @post_tag_ids = @post_tag_ids & @category_feature_posts_ids
+         end
         end
         
         #「実現可能性」のチェックボックスが一つでもチェックされた場合
         if category_realizability_ids.present?
-          # category_realizability_ids.each do |category_realizability_id|  
-          #   @category_realizability_posts = Post.joins(:post_category_realizabilities).where(post_category_realizabilities: {category_realizability_id: category_realizability_id})
-          #   @category_realizability_posts.each do|category_realizability_post|
-          #    @category_realizability_posts_all = @category_realizability_posts_all.append(category_realizability_post)
-          #   end
-          # end
-          #  @category_realizability_posts_ids = @category_realizability_posts_all.pluck(:id).uniq
-           if category_resource_ids.nil? & category_issue_ids.nil? & category_market_ids.nil? & category_feature_ids.nil?
-            @post_tag_ids = @category_realizability_posts_ids
-           else  
-            @post_tag_ids = @post_tag_ids & @category_realizability_posts_ids
-           end
+         if category_resource_ids.nil? & category_issue_ids.nil? & category_market_ids.nil? & category_feature_ids.nil?
+          @post_tag_ids = @category_realizability_posts_ids
+         else  
+          @post_tag_ids = @post_tag_ids & @category_realizability_posts_ids
+         end
         end
         
         #プロフィールでの絞り込み
@@ -452,26 +296,11 @@ class PostsRegionController < ApplicationController
          
          #「地域について」のチェックボックスが一つでもチェックされた場合
          if category_about_region_ids.present?
-          # category_about_region_ids.each do |category_about_region_id|
-          #  @category_about_region_profiles = UserProfile.joins(:profile_category_about_regions).where(profile_category_about_regions: {category_about_region_id: category_about_region_id})
-          #  @category_about_region_profiles.each do |profile_category_about_region|
-          #   @category_about_region_profiles_all = @category_about_region_profiles_all.append(profile_category_about_region)
-          #  end
-          # end
           @profiles_tag = @category_about_region_profiles_all
-          puts "ここだよ1"
-          p @category_about_region_profiles
-          p @profiles_tag
          end
          
          #「起業支援」のチェックボックスが一つでもチェックされた場合
          if category_incubation_ids.present?
-          # category_incubation_ids.each do |category_incubation_id|
-          #  @category_incubation_profiles = UserProfile.joins(:profile_category_incubations).where(profile_category_incubations: {category_incubation_id: category_incubation_id})
-          #  @category_incubation_profiles.each do |category_incubation_profile|
-          #   @category_incubation_profiles_all = @category_incubation_profiles_all.append(category_incubation_profile)
-          #  end
-          # end
           if category_about_region_ids.nil?
            @profiles_tag = @category_incubation_profiles_all
           else
@@ -481,12 +310,6 @@ class PostsRegionController < ApplicationController
          
          #「移住支援」のチェックボックスが一つでもチェックされた場合
          if category_immigration_support_ids.present?
-          # category_immigration_support_ids.each do |category_immigration_support_id|
-          #  @category_immigration_support_profiles = UserProfile.joins(:profile_category_immigration_supports).where(profile_category_immigration_supports: {category_immigration_support_id: category_immigration_support_id})
-          #  @category_immigration_support_profiles.each do |profile_category_immigration_support|
-          #   @category_immigration_support_profiles_all = @category_immigration_support_profiles_all.append(profile_category_immigration_support)
-          #  end
-          # end
           if category_about_region_ids.nil? && category_incubation_ids.nil?
            @profiles_tag = @category_immigration_support_profiles_all
           else
