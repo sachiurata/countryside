@@ -1,0 +1,12 @@
+<div class="container">
+ <div class="row">
+  <div class="col-md-8 offset-md-2">
+    <%= bootstrap_form_for(article) do |f| %>
+      <div class="field">
+        <%= f.text_field :title %>
+        <%= f.rich_text_area :content, size: "40x15" %>
+      </div>
+      <div class="submit"><%= f.submit "Submit" %></div>
+    <% end %>
+  </div>
+</div>  

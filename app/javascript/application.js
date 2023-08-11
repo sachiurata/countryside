@@ -10,4 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //= require jquery3
 //= require popper
-//= require bootstrap-sprockets
+//= require bootstrap-sprocketsimport "trix"
+import "trix"
+import "@rails/actiontext"
