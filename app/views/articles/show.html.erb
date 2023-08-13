@@ -6,7 +6,12 @@
    </div> 
    <div>
     <%= @article.content %>
-   </div>    
+   </div>
+   <div>
+    <% if admin_signed_in? %>
+     <%= link_to "編集", edit_article_path(@article) %>
+    <% end %>
+   </div>
   </div>
  </div> 
 </div>  

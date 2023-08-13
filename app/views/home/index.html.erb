@@ -12,10 +12,13 @@
     <% end %>
     <%= link_to "もっと見る", posts_path %>
   </div>
-  <div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <p class="card-text">地域で起業した人の話</p>
+  <h5>地域で起業した人々</h5>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+   <% @articles.each do |article| %>
+    <%= link_to article_path(article) do %>
+     <%= render "articles/card", article: article %>
+    <% end %>
+   <% end %>
   </div>
-</div>
+  <%= link_to "もっと見る", articles_path %>
 </div>

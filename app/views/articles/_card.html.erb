@@ -1,0 +1,10 @@
+
+ <div class="col">
+  <div class="card" style="width: 15rem;" >
+   <%= image_tag article.thumbnail, class: "card-img-top" if article.thumbnail.attached? %>
+   <div class="card-body">
+    <h5 class="card-title"><%= article.title %></h>
+    <p class="card-text" style="font-size:0.8em"><small class="text-body-secondary"><%= l article.updated_at %></small></P>
+   </div>
+  </div> 
+ </div> 

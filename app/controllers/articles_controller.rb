@@ -17,6 +17,10 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
   end
   
+  def index
+    @articles = Article.all.order("updated_at DESC")
+  end
+  
   def edit
     @article = Article.find(params[:id])
   end
@@ -41,6 +45,6 @@ class ArticlesController < ApplicationController
  
  private
   def article_params
-    params.require(:article).permit(:title, :content, images: [])
+    params.require(:article).permit(:title, :content, :thumbnail)
   end
 end
