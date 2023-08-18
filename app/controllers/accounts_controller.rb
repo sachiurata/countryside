@@ -4,8 +4,14 @@ class AccountsController < ApplicationController
   
   def show
     @user_profile = current_user.user_profile
-    @posts = current_user.posts
+    @current_user_posts = current_user.posts
+    ids = current_user.favorites.pluck(:post_id)
+    @favorite_posts = Post.find(ids)
     @category_resources = CategoryResource.all
+    if current_user.user_profile.profile_type1 = 1
+     @avatar_flag = false
+    end
+    @mypage_flag = true
   end
   
   private

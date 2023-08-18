@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_10_224251) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_15_004602) do
   create_table "action_text_rich_texts", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -293,9 +293,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_224251) do
     t.text "interest"
     t.text "other1"
     t.text "other2"
-    t.integer "public_status_id"
+    t.integer "public_status_region"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "public_status_business"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|

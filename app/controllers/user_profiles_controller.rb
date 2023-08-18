@@ -22,6 +22,9 @@ class UserProfilesController < ApplicationController
     @check_flags_profile_category_job = []
     @check_flags_profile_category_skill = []
     @check_flags_profile_category_interest = []
+    if current_user.user_profile.present?
+      redirect_to ({controller: 'accounts', action: 'show', id: current_user.id}), notice: "プロフィールは登録済みです"
+    end  
   end
   
   def create
@@ -92,6 +95,19 @@ class UserProfilesController < ApplicationController
     @category_jobs = CategoryJob.all
     @category_skills = CategorySkill.all
     @category_interests = CategoryInterest.all
+    if @user_profile.profile_type1 == true
+     @profile_region_flag = true
+    end
+    if @user_profile.profile_type2 == true
+     @profile_business_flag = true
+    end
+    if @user_profile.public_status_region == 1
+     @public_status_region_flag = true
+    end
+    if @user_profile.public_status_business == 1
+     @public_status_business_flag = true
+    end
+    
     
     @check_flags_profile_category_about_region = []
     @category_about_regions.each_with_index do |category_about_region, index|
@@ -231,7 +247,7 @@ class UserProfilesController < ApplicationController
         end
       end
    
-      redirect_to @user_profile, notice:"更新しました"
+      redirect_to account_path(current_user.id), notice:"更新しました"
     else
       render "edit"
     end
@@ -241,6 +257,9 @@ class UserProfilesController < ApplicationController
     @user_profile = UserProfile.find(params[:id])
     @posts = @user_profile.user.posts
     @category_resources = CategoryResource.all
+    if current_user.user_profile.profile_type1 = 1
+     @avatar_flag = false
+    end 
     # @profile_type1_flag = true
     # @profile_type2_flag = true
   end
@@ -263,7 +282,7 @@ class UserProfilesController < ApplicationController
   
   private
   def user_profile_params
-    params.require(:user_profile).permit(:user_id, :profile_type1, :profile_type2, :screen_name, :avatar, :prefecture, :city, :about_region, :incubation, :immigration_support, :job, :skill, :interest,:other1, :other2, :public_status_id)
+    params.require(:user_profile).permit(:user_id, :profile_type1, :profile_type2, :screen_name, :avatar, :prefecture, :city, :about_region, :incubation, :immigration_support, :job, :skill, :interest,:other1, :other2, :public_status_region, :public_status_business)
   end
   
   def ensure_user

@@ -19,7 +19,7 @@
             <div>
               <%#= f.check_box :profile_type1, label: "地域側" %>
               <!--<input name="user_profile[profile_type1]" type="hidden" value="0" autocomplete="off" />-->
-              <input class="form-check-input" type="checkbox" value="1" name="user_profile[profile_type1]" id="user_profile_profile_type1" /><label class="form-check-label" for="user_profile_profile_type1">地域側</label>
+              <input class="form-check-input" type="checkbox" value="1" name="user_profile[profile_type1]" id="user_profile_profile_type1" <%= @profile_region_flag ? checked="checked" : "" %> /><label class="form-check-label" for="user_profile_profile_type1">地域側</label>
               <div class="user_profile_profile_type1">地域側として登録する内容です。
                 <%= f.text_area :about_region, label:"地域について", size: "40x15", placeholder:"" %>
                 <div class="category">地域について<br>
@@ -43,12 +43,23 @@
                  <% end %>
                 </div>
                 <%= f.text_area :other1, label:"その他", size: "40x15", placeholder:"" %>
+                <div class="public_status">
+                  <!--<div class="form-check mb-3 form-switch">-->
+                  <!--<input autocomplete="off" name="public_status_id" type="hidden" value="1">-->
+                  <!--<input class="form-check-input" id="public_status_id" name="public_status_id" type="checkbox" value="1">-->
+                  <!--<label class="form-check-label" for="public_status_id">公開</label>-->
+                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" value="1" name="user_profile[public_status_region]" id="public_status_region_1" <%= public_status_region_flag ? checked="checked" : "" %> /><label class="form-check-label" for="public_status_region_1">公開</label></div>
+                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" value="2" name="user_profile[public_status_region]" id="public_status_region_2" <%= public_status_region_flag ? "" : checked="checked"%> /><label class="form-check-label" for="public_status_region_2">非公開</label></div>
+                </div>
+                </div>
               </div>
+              
             </div>
+            
             <div>
             <%#= f.check_box :profile_type2, label: "起業希望者" %>
             <!--<input name="user_profile[profile_type2]" type="hidden" value="0" autocomplete="off" />-->
-            <input class="form-check-input" type="checkbox" value="1" name="user_profile[profile_type2]" id="user_profile_profile_type2" /><label class="form-check-label" for="user_profile_profile_type2">起業希望者</label>
+            <input class="form-check-input" type="checkbox" value="1" name="user_profile[profile_type2]" id="user_profile_profile_type2" <%= @profile_business_flag ? checked="checked" : "" %>/><label class="form-check-label" for="user_profile_profile_type2">起業希望者</label>
               <div class="user_profile_profile_type2">起業希望者として登録する内容です。
                 <%= f.text_area :job, label:"職業", size: "40x15", placeholder:"" %>
                 <div class="category">職業<br>
@@ -72,11 +83,13 @@
                  <% end %>
                 </div>
                 <%= f.text_area :other2, label:"その他", size: "40x15", placeholder:""  %>
+                <div class="public_status">
+                  <%#= f.radio_button :public_status_business, 1, label:"公開", inline: true %>
+                  <%#= f.radio_button :public_status_business, 2, label:"非公開", inline: true, checked: true %>      
+                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" value="1" name="user_profile[public_status_business]" id="public_status_business_1" <%= public_status_business_flag ? checked="checked" : "" %> /><label class="form-check-label" for="public_status_business_1">公開</label></div>
+                  <div class="form-check form-check-inline"><input class="form-check-input" type="radio" value="2" name="user_profile[public_status_business]" id="public_status_business_2" <%= public_status_business_flag ? "" : checked="checked"%> /><label class="form-check-label" for="public_status_business_2">非公開</label></div>
+                </div>
               </div>
-            </div>  
-            <div class="public_status">
-              <%= f.radio_button :public_status_id, 1, label:"公開", inline: true %>
-              <%= f.radio_button :public_status_id, 2, label:"非公開", inline: true %>
             </div>
            <div class="submit"><%= f.submit %></div>
           </div>

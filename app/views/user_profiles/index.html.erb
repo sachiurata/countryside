@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
    <% @user_profiles.each do |user_profile| %>
-    <% if user_profile.profile_type1 && user_profile.public_status_id == 1 %>
+    <% if user_profile.profile_type1 && user_profile.public_status_region == 1 %>
      <div class="card"> 
       <%= render "layouts/user_profile_region_card", user_profile: user_profile %>
       <%= link_to "もっと見る", user_profile_path(user_profile.id) %> 
@@ -9,7 +9,7 @@
     <% end %>
    <% end %>
    <% @user_profiles.each do |user_profile| %>
-    <% if user_profile.profile_type2 && user_profile.public_status_id == 1 %>
+    <% if user_profile.profile_type2 && user_profile.public_status_business== 1 %>
      <div class="card"> 
       <%= render "layouts/user_profile_business_card", user_profile: user_profile %>
       <%= link_to "もっと見る", user_profile_path(user_profile.id) %> 

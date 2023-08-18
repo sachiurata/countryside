@@ -3,14 +3,21 @@
   <P class="label">メールアドレス</P>
   <P><%= current_user.email %></P>
  </div>
-</div> 
-<%= render "layouts/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag %>
-<%= render "layouts/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag %>
 
-<div class="container">
-  <div class="card mb-3" style="max-width: 800px;">
-    <% @posts.each do |post| %>
-     <%= render "layouts/post_card", post: post %>
-    <% end %>
-  </div>
+<%= render "layouts/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, mypage_flag: @mypage_flag %>
+<%= render "layouts/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag, avatar_flag: @avatar_flag, mypage_flag: @mypage_flag %>
+
+ <h4><%= current_user.user_profile.screen_name %>さんの投稿</h4>
+   <div class="card mb-3" style="max-width: 800px;">
+     <% @current_user_posts.each do |post| %>
+      <%= render "layouts/post_card", post: post %>
+     <% end %>
+   </div>
+  <h4>お気に入りの投稿</h4>
+   <div class="card mb-3" style="max-width: 800px;">
+     <% @favorite_posts.each do |post| %>
+      <%= render "layouts/post_card", post: post %>
+     <% end %>
+   </div> 
+ 
 </div> 
