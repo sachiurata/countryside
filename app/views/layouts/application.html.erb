@@ -33,6 +33,19 @@
           <!--<li class="nav-item">-->
           <!--  <a class="nav-link" href="#">Link</a>-->
           <!--</li>-->
+          <li class="nav-link">
+            <%= link_to 'About', about_path %>
+           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              投稿を探す
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/posts">全ての投稿</a></li>
+              <li><a class="dropdown-item" href="/posts_region">地域側</a></li>
+              <li><a class="dropdown-item" href="/posts_business">起業希望者</a></li>
+            </ul>
+          </li> 
           <li class="nav-item dropdown">
             <a class="nav-link" href="/user_profiles">
               ユーザー一覧
@@ -58,16 +71,7 @@
               <li><a class="dropdown-item" href="/posts_business/new">起業希望者</a></li>
             </ul>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              投稿一覧
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/posts">全ての投稿</a></li>
-              <li><a class="dropdown-item" href="/posts_region">地域側</a></li>
-              <li><a class="dropdown-item" href="/posts_business">起業希望者</a></li>
-            </ul>
-          </li>
+          
           <li class="nav-item">
            <% if user_signed_in? && (Message.exists?(to_id:current_user.id) || Message.exists?(from_id:current_user.id)) %>  
             <a class="nav-link" href="/messages/all">メッセージ</a>
@@ -95,7 +99,7 @@
                 <%= link_to "プロフィール登録", controller: "user_profiles", action: "new" %>
               </li>
              <% else %>  
-              <li class="nav-link">
+              <li class="nav-link" >
                 <%= link_to "マイページ", controller: "accounts", action: "show", id: current_user.id %>
               </li>
              <% end %>  

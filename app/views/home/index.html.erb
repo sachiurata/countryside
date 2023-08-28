@@ -1,24 +1,31 @@
-<div class="container">
+
+ <div class="container">
   <div class="row">
-   <h1>タイトル</h1>
-   <p>説明<br>説明<br>説明<br>説明<br>説明<br>説明<br>説明<br>説明<br>説明<br></p>
+   <h1>Title</h1>
+   <p>地域で起業したい人と地域での起業や移住のヒントを持つ人をつなげるサイトです。<div class="btn-show-more"><%= link_to "詳しくはこちら", about_path, class: "btn btn-outline-secondary" %></div></p>
    </div>
-  <div class="row">
-    <h5>人気の投稿</h5>
-    <% @posts.each do |post| %>
-     <% if post.public_status_id == 1 %>
-      <%= render "layouts/post_card", post: post %>
+  <div class="popular-posts-wrapper">
+   <div class="row">
+     <h5>人気の投稿</h5>
+     <% @posts.each do |post| %>
+      <% if post.public_status_id == 1 %>
+       <%#= link_to post_path(post) do %>
+        <%= render "layouts/post_card", post: post %>
+       <%# end %> 
+      <% end %>
+     <% end %>
+     <div class="btn-show-more"><%= link_to "もっと見る", posts_path, class: "btn btn-outline-secondary" %></div>
+   </div>
+  </div> 
+  <div class="articles-wrapper">
+  <h5>地域で起業した人々</h5>
+   <div class="row row-cols-3" style="margin-bottom: 20px;">
+    <% @articles.each do |article| %>
+     <%= link_to article_path(article) do %>
+      <%= render "articles/card", article: article %>
      <% end %>
     <% end %>
-    <%= link_to "もっと見る", posts_path %>
+   </div>
+   <div class="btn-show-more"><%= link_to "もっと見る", articles_path, class: "btn btn-outline-secondary" %></div>
   </div>
-  <h5>地域で起業した人々</h5>
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-   <% @articles.each do |article| %>
-    <%= link_to article_path(article) do %>
-     <%= render "articles/card", article: article %>
-    <% end %>
-   <% end %>
-  </div>
-  <%= link_to "もっと見る", articles_path %>
-</div>
+ </div>

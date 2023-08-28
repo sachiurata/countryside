@@ -150,7 +150,7 @@ class PostsController < ApplicationController
      
      @post_category_realizabilities = @post.post_category_realizabilities
      @post_category_realizabilities.each do |post_category_realizability|
-      post_category_fpost_category_realizability.destroy
+      post_category_realizability.destroy
      end 
      if category_realizabilities_ids.present?
        category_realizabilities_ids.each do |category_realizabilities_id|
@@ -273,8 +273,13 @@ class PostsController < ApplicationController
       @posts_post_type_keyword_prefecture = @posts_post_type_keyword
     end 
     
+   
     @posts = @posts_post_type_keyword_prefecture
     
+    #ページネーション
+    @posts_unpublic_count = @posts.where(public_status_id: "2").count
+    @posts_count = @posts.count - @posts_unpublic_count
+    @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
     # #「投稿タイプ」と「キーワード」と「都道府県」の条件を満たす投稿のid
     # @posts_post_type_keyword_prefecture_ids = @posts_post_type_keyword_prefecture.pluck(:id)
     # @posts = Post.where(id: @posts_post_type_keyword_prefecture_ids)

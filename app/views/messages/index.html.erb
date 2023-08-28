@@ -1,9 +1,11 @@
-<h2><%= @to_user.user_profile.screen_name %></h2>
-<ol id="messages">
-    <%#= render @messages %>
-    <% @messages.each do |message| %>
-     <%= render 'messages/message', message: message %> 
-    <% end %>
-</ol>
-
-<%= render "shared/message_form", message: @message %>
+<div class="container">
+  <h2><%= @to_user.user_profile.screen_name %>さんとの会話</h2>
+  <ol id="messages">
+      <%#= render @messages %>
+      <% @messages.each do |message| %>
+       <%= render 'messages/message', message: message %> 
+      <% end %>
+  </ol>
+  
+  <%= render "shared/message_form", message: @message %>
+</div>

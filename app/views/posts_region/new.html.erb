@@ -7,7 +7,7 @@
       <%# if @post.errors.any? %>
         <!--<div class="alert alert-danger" role="alert">投稿内容を入力してください</div>-->
        <%# end %>
-      <div class="post_form">
+      <div class="post-form">
         <%= f.hidden_field :user_id, value: current_user.id %>
         <%= f.hidden_field :post_type, value: 1 %>
         <%= f.text_field :title, label:"タイトル", required: true %>
@@ -16,35 +16,35 @@
         <%= f.text_area :body1, label:"地域資源・地域課題など", size: "40x15", placeholder:"", required: true %>
         <div class="category">地域資源<br>
           <% @category_resources.each do |category_resource| %>
-            <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" >
-            <%= category_resource.tag_name %>
+            <nobr><input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" >
+            <%= category_resource.tag_name %></nobr>&emsp;
           <% end %>
         </div>  
         <div class="category">地域課題<br>
           <% @category_issues.each do |category_issue| %>
-           <input class="form-check-input" type="checkbox" name="category_issue_id[]" value="<%= category_issue.id %>" >
-           <%= category_issue.tag_name %>
+           <nobr><input class="form-check-input" type="checkbox" name="category_issue_id[]" value="<%= category_issue.id %>" >
+           <%= category_issue.tag_name %></nobr>&emsp;
           <% end %>
         </div> 
         <div class="category">需要<br>
          <% @category_markets.each do |category_market| %>
-           <input class="form-check-input" type="checkbox" name="category_market_id[]" value="<%= category_market.id %>" >
-           <%= category_market.tag_name %>
+           <nobr><input class="form-check-input" type="checkbox" name="category_market_id[]" value="<%= category_market.id %>" >
+           <%= category_market.tag_name %></nobr>&emsp;
          <% end %>
         </div>
         <%= f.text_area :feature, label:"地域の特色", size: "40x15", placeholder:"" %>
         <div class="category">地域の特色<br>
          <% @category_features.each do |category_feature| %>
-          <input class="form-check-input", type="checkbox", name="category_feature_id[]", value="<%= category_feature.id %>" >
-          <%= category_feature.tag_name %>
+         <nobr><input class="form-check-input", type="checkbox", name="category_feature_id[]", value="<%= category_feature.id %>" >
+          <%= category_feature.tag_name %></nobr>&emsp;
          <% end %>
         </div>
         <%= f.file_field :images, multiple: true, label:"画像" %>
         <%= f.text_field :realizability, label:"実現可能性" %>
         <div class="category">実現可能性<br>
         <% @category_realizabilities.each do |category_realizability| %>
-          <input class="form-check-input", type="checkbox", name="category_realizability_id[]", value="<%= category_realizability.id %>" >
-          <%= category_realizability.tag_name %>
+          <nobr><input class="form-check-input", type="checkbox", name="category_realizability_id[]", value="<%= category_realizability.id %>" >
+          <%= category_realizability.tag_name %></nobr>&emsp;
         <% end %>
         </div>
         <div class="public_status">

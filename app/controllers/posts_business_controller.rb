@@ -167,7 +167,7 @@ class PostsBusinessController < ApplicationController
         @posts_tag.concat(@posts_profile_tag)
         @posts = @posts_tag & @posts_post_type_keyword_prefecture
       end
-    
+       
     #　タグ「やりたいこと」「本気度」「職業」「得意なこと」「興味のあること」の各項目についてAND検索
     elsif @search_type == "2"
       #　タグ「やりたいこと」「本気度」「職業」「得意なこと」「興味のあること」が一つも選択されていない場合
@@ -235,6 +235,11 @@ class PostsBusinessController < ApplicationController
       @posts = Post.where(post_type: 2)
     end
     
+    #ページネーション
+    @posts_unpublic_count = @posts.where(public_status_id: "2").count
+    @posts_count = @posts.count - @posts_unpublic_count
+    @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
+          
  # チェック済のボックスにチェックを入れて検索結果を表示するため
    if category_want_ids.present?
     @category_wants.each_with_index do |category_want, index|
@@ -301,8 +306,7 @@ class PostsBusinessController < ApplicationController
   
   def user_profile_nil?
     if current_user.user_profile.nil?
-     flash.now[:notice] = "先にプロフィール登録をお済ませください"
-     render template: "user_profiles/new"
+     redirect_to ({controller: 'user_profiles', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
     end 
   end  
 end
