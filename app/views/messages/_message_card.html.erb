@@ -1,27 +1,29 @@
 <% @users.each do |user| %>
  <% if user != current_user && (Message.exists?(to_id:user.id) || Message.exists?(from_id:user.id)) %>
-    <div class="card mb-3" style="max-width: 800px;">    
-     <div class="row g-0">
-      <div class="col-md-2">
-       <div>
-        <%= link_to messages_path(user), data: { turbo_method: :get } do %>   
-         <%= image_tag user.user_profile.avatar.variant(:thumb), class: "profile-avatar" if user.user_profile.avatar.attached? %>
-        <% end %> 
+    <div class="card mb-3" style="max-width: 800px;">
+     <div class="card-body"> 
+      <div class="row">
+       <div class="col-md-2">
+        <div>
+         <%= link_to messages_path(user), data: { turbo_method: :get } do %>   
+          <%= image_tag user.user_profile.avatar.variant(:thumb), class: "profile-avatar" if user.user_profile.avatar.attached? %>
+         <% end %> 
+        </div>
+        <div>
+         <%= user.user_profile.screen_name %>
+        </div>    
        </div>
-       <div>
-        <%= user.user_profile.screen_name %>
-       </div>    
+       <div class="col-md-8">
+         <% @ids = [user.id, current_user.id] %> 
+         <% @message_last_sent = Message.where("from_id IN (:ids) AND to_id IN (:ids)",ids:@ids).last %>
+         <% @user_last_sent = User.find(@message_last_sent.from_id) %>  
+         <%= User.find(@message_last_sent.from_id).user_profile.screen_name %><br>
+         <small class="text-body-secondary"><%= l @message_last_sent.updated_at %></small>
+         <p class="card-text"><%= @message_last_sent.content %></P>
+         <%= link_to "メッセージを見る", controller: "messages", action: "index", id: user %>
+       </div>
       </div>
-      <div class="col-md-8">
-        <% @ids = [user.id, current_user.id] %> 
-        <% @message_last_sent = Message.where("from_id IN (:ids) AND to_id IN (:ids)",ids:@ids).last %>
-        <% @user_last_sent = User.find(@message_last_sent.from_id) %>  
-        <%= User.find(@message_last_sent.from_id).user_profile.screen_name %><br>
-        <small class="text-body-secondary"><%= l @message_last_sent.updated_at %></small>
-        <p class="card-text"><%= @message_last_sent.content %></P>
-        <%= link_to "メッセージを見る", controller: "messages", action: "index", id: user %>
-      </div>
-     </div>
+     </div>   
     </div>
  <% end %>    
 <% end %> 

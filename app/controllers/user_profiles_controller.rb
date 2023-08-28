@@ -265,7 +265,7 @@ class UserProfilesController < ApplicationController
   end
   
   def index
-    @user_profiles = UserProfile.all
+    @user_profiles = UserProfile.all.page(params[:page]).per(10)
     @profile_type1_flag = true
     @profile_type2_flag = true
     # @profile_type1_flag = current_user.user_profile.profile_type1

@@ -5,6 +5,7 @@ class PostsRegionController < ApplicationController
   
   def new
     @post = Post.new
+    @category_about_regions = CategoryAboutRegion.all
     @category_resources = CategoryResource.all
     @category_issues = CategoryIssue.all
     @category_markets = CategoryMarket.all
@@ -24,52 +25,59 @@ class PostsRegionController < ApplicationController
     category_markets_ids = params[:category_market_id]
     category_features_ids = params[:category_feature_id]
     category_realizabilities_ids = params[:category_realizability_id]
-    # puts "ここ"
-    # p category_resources_ids
     
-    if @post.save
-     if category_resources_ids.present?
-      category_resources_ids.each do |category_resources_id|
-        category_resources = @post.post_category_resources.build(category_resource_id: category_resources_id)
-        puts "ここ"
-        p category_resources
-        category_resources.save
-       end
-     end
-     
-     if category_issues_ids.present?
-      category_issues_ids.each do |category_issues_id|
-        category_issues = @post.post_category_issues.build(category_issue_id: category_issues_id)
-        category_issues.save
-       end
-     end
-     
-     if category_markets_ids.present?
-      category_markets_ids.each do |category_markets_id|
-        category_markets = @post.post_category_markets.build(category_market_id: category_markets_id)
-        category_markets.save
-      end  
-     end
-     
-     if category_features_ids.present?
-       category_features_ids.each do |category_features_id|
-        category_features = @post.post_category_features.build(category_feature_id: category_features_id)
-        category_features.save
-       end   
-     end
-     
-     if category_realizabilities_ids.present?
-       category_realizabilities_ids.each do |category_realizabilities_id|
-         category_realizabilities = @post.post_category_realizabilities.build(category_realizability_id: category_realizabilities_id)
-         category_realizabilities.save
-       end
-     end
-     
-      redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
+    puts "ここ"
+    p @user_profile.public_status_region
+    
+    if @user_profile.public_status_region == 2 
+     redirect_to "new", notice: "プロフィールが非公開です。投稿を公開するには、プロフィールを公開してください。"
+   
     else
-      render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
-      #空欄以外で登録失敗ってある？空欄だと画面が遷移しない。
-    end
+      
+      if @post.save
+       if category_resources_ids.present?
+        category_resources_ids.each do |category_resources_id|
+          category_resources = @post.post_category_resources.build(category_resource_id: category_resources_id)
+          puts "ここ"
+          p category_resources
+          category_resources.save
+         end
+       end
+       
+       if category_issues_ids.present?
+        category_issues_ids.each do |category_issues_id|
+          category_issues = @post.post_category_issues.build(category_issue_id: category_issues_id)
+          category_issues.save
+         end
+       end
+       
+       if category_markets_ids.present?
+        category_markets_ids.each do |category_markets_id|
+          category_markets = @post.post_category_markets.build(category_market_id: category_markets_id)
+          category_markets.save
+        end  
+       end
+       
+       if category_features_ids.present?
+         category_features_ids.each do |category_features_id|
+          category_features = @post.post_category_features.build(category_feature_id: category_features_id)
+          category_features.save
+         end   
+       end
+       
+       if category_realizabilities_ids.present?
+         category_realizabilities_ids.each do |category_realizabilities_id|
+           category_realizabilities = @post.post_category_realizabilities.build(category_realizability_id: category_realizabilities_id)
+           category_realizabilities.save
+         end
+       end
+       
+        redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
+      else
+        render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
+        #空欄以外で登録失敗ってある？空欄だと画面が遷移しない。
+      end
+    end  
   end
   
   def index
@@ -238,7 +246,7 @@ class PostsRegionController < ApplicationController
        @posts_tag.concat(@posts_profile_tag)
        
        @posts = @posts_tag & @posts_post_type_keyword_prefecture
-      end
+      end       
     
     #　タグ「地域資源」「地域課題」「需要」「地域の特色」「実現可能性」「地域について」「起業支援」「移住支援」の各項目についてAND検索  
     elsif @search_type == "2"
@@ -329,11 +337,16 @@ class PostsRegionController < ApplicationController
         @posts_tag = Post.where(id: @post_tag_ids)
         @posts = @posts_tag & @posts_post_type_keyword_prefecture
       end
-      
+       
     #検索条件をクリアした場合  
     else
       @posts = Post.where(post_type: 1)
     end
+    
+    #ページネーション
+    @posts_unpublic_count = @posts.where(public_status_id: "2").count
+    @posts_count = @posts.count - @posts_unpublic_count
+    @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
     
  # チェック済のボックスにチェックを入れて検索結果を表示するため。
    if category_resource_ids.present?
@@ -431,8 +444,7 @@ class PostsRegionController < ApplicationController
   
   def user_profile_nil?
     if current_user.user_profile.nil?
-     flash.now[:notice] = "先にプロフィール登録をお済ませください"
-     render template: "user_profiles/new"
+     redirect_to ({controller: 'user_profiles', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
     end 
   end  
 end

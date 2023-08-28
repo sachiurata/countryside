@@ -1,6 +1,16 @@
-<div class="card mb-3" style="max-width: 800px;">
-  <div class="row g-0">
-    <% if post.public_status_id == 1 %>
+<%#= link_to post_path(post) do %>
+  <div class="card mb-3" style="max-width: 800px;">
+    <% if @public_status_flag == true %>
+     <% if post.public_status_id == 1 %>
+    　 <div class="card-header">公開中</div>
+     <% elsif post.public_status_id == 2 %> 
+    　 <div class="card-header">非公開</div>
+     <% end %>　 
+    <% end %>
+    <% if post.public_status_id == 3 %>
+    　<div class="card-header" style="margin-top: 1px;">終了</div>
+    <% end %>
+    <div class="row g-0">
       <div class="col-md-4">
         <% if post.images.attached? %>
           <% post.images.each_with_index do |image, index| %>
@@ -22,11 +32,17 @@
            <%= image_tag "heart-black.png", class: "icon-heart" %>
           <% elsif !post.favorite_users.include?(current_user) %>
            <%= link_to favorites_path(post_id: post.id), data: { turbo_method: :post } do %>
-            <%= image_tag "heart-black.png", class: "icon-heart" %>
+           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16" style="color: red">
+            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+           </svg>
+            <%#= image_tag "heart-black.png", class: "icon-heart" %>
            <% end %>
           <% else %> 
            <%= link_to favorite_path(post), data: { turbo_method: :delete } do %>
-            <%= image_tag "heart.png", class: "icon-liked-heart" %>
+           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16" style="color: red">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+           </svg>
+            <%#= image_tag "heart.png", class: "icon-liked-heart" %>
            <% end %>
           <% end %>
           <nobr><%= post.favorite_users.size %></nobr>
@@ -103,9 +119,9 @@
             <% end %>
           <% end %>  
         
-          <br><%= link_to "もっと見る", post_path(post) %></br>
+         <div class="btn-show-more"><%= link_to "もっと見る", post_path(post), class: "btn btn-outline-secondary btn-sm", style: "margin-top: 10px;" %></div>
         </div>
       </div>
-    <% end %>
+    </div>
   </div>
-</div>
+<%# end %>

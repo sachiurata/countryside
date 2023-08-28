@@ -1,3 +1,18 @@
+.container {
+  margin: 50px;
+}
+
+.popular-posts-wrapper {
+  margin-top: 50px;
+}
+
+.articles-wrapper {
+  margin-top: 50px;
+}
+
+.user-profile-card{
+  margin: 20px;
+}
 .profile-avatar {
   border-radius: 200px;
    width: 50%;
@@ -6,6 +21,14 @@
 .profile-avatar-small {
   border-radius: 200px;
   width: 100%;
+}
+
+// 投稿のタグ選択
+.category {
+  margin-bottom: 20px;
+}
+
+.post-form{
 }
 
 .label {
@@ -46,15 +69,22 @@ label.required:after {
   filter: invert(15%) sepia(95%) saturate(6932%) hue-rotate(358deg) brightness(95%) contrast(112%);
 }
 
+.nav-link {
+  text-decoration: none;
+}
+
+.card-body { 
+  color:#0000FF; text-decoration: none;
+  }
 // .article-card {
 //   float: left;
 // }
 
 // messages
-.profile-avatar-message {
+.message-avatar {
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
 }
 
 #messages {
