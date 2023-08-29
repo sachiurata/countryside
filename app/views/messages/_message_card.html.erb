@@ -5,7 +5,7 @@
       <div class="row">
        <div class="col-md-2">
         <div>
-         <%= link_to messages_path(user), data: { turbo_method: :get } do %>   
+         <%= link_to messages_path(user), data: { turbo_method: :get }, class: "message_card" do %>   
           <%= image_tag user.user_profile.avatar.variant(:thumb), class: "profile-avatar" if user.user_profile.avatar.attached? %>
          <% end %> 
         </div>

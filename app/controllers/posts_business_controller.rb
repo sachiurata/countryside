@@ -236,8 +236,6 @@ class PostsBusinessController < ApplicationController
     end
     
     #ページネーション
-    @posts_unpublic_count = @posts.where(public_status_id: "2").count
-    @posts_count = @posts.count - @posts_unpublic_count
     @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
           
  # チェック済のボックスにチェックを入れて検索結果を表示するため

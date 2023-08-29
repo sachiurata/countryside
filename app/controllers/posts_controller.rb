@@ -274,11 +274,10 @@ class PostsController < ApplicationController
     end 
     
    
-    @posts = @posts_post_type_keyword_prefecture
+    @posts = @posts_post_type_keyword_prefecture.includes(:favorite_users)
     
     #ページネーション
-    @posts_unpublic_count = @posts.where(public_status_id: "2").count
-    @posts_count = @posts.count - @posts_unpublic_count
+    @posts_count = @posts.count
     @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
     # #「投稿タイプ」と「キーワード」と「都道府県」の条件を満たす投稿のid
     # @posts_post_type_keyword_prefecture_ids = @posts_post_type_keyword_prefecture.pluck(:id)

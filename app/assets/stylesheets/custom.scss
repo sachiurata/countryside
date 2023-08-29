@@ -69,8 +69,12 @@ label.required:after {
   filter: invert(15%) sepia(95%) saturate(6932%) hue-rotate(358deg) brightness(95%) contrast(112%);
 }
 
-.nav-link {
-  text-decoration: none;
+// .message_card {
+//   text-decoration: none;
+// }
+
+a {
+    text-decoration: none !important;
 }
 
 .card-body { 
@@ -140,3 +144,21 @@ label.required:after {
     height: 50px;
     overflow: hidden;
   }
+  
+ .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  
+  .post_error_message {
+    color: red;
+  }  

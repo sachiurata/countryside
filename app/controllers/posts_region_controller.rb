@@ -25,21 +25,21 @@ class PostsRegionController < ApplicationController
     category_markets_ids = params[:category_market_id]
     category_features_ids = params[:category_feature_id]
     category_realizabilities_ids = params[:category_realizability_id]
+    user_profile_status = params[:user_profile_status] 
     
     puts "ここ"
-    p @user_profile.public_status_region
+    p user_profile_status
     
-    if @user_profile.public_status_region == 2 
-     redirect_to "new", notice: "プロフィールが非公開です。投稿を公開するには、プロフィールを公開してください。"
-   
+    if user_profile_status == 2 
+     render "new"
+   puts "ここ"
+    p user_profile_status
     else
       
       if @post.save
        if category_resources_ids.present?
         category_resources_ids.each do |category_resources_id|
           category_resources = @post.post_category_resources.build(category_resource_id: category_resources_id)
-          puts "ここ"
-          p category_resources
           category_resources.save
          end
        end
@@ -336,16 +336,17 @@ class PostsRegionController < ApplicationController
         
         @posts_tag = Post.where(id: @post_tag_ids)
         @posts = @posts_tag & @posts_post_type_keyword_prefecture
+        @posts = @posts.includes(:favorite_users)
       end
        
     #検索条件をクリアした場合  
     else
-      @posts = Post.where(post_type: 1)
+      @posts = Post.where(post_type: 1).includes(:favorite_users)
     end
     
     #ページネーション
-    @posts_unpublic_count = @posts.where(public_status_id: "2").count
-    @posts_count = @posts.count - @posts_unpublic_count
+    # @posts_unpublic_count = @posts.where(public_status_id: "2").count
+    # @posts_count = @posts.count - @posts_unpublic_count
     @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
     
  # チェック済のボックスにチェックを入れて検索結果を表示するため。
@@ -435,6 +436,7 @@ class PostsRegionController < ApplicationController
    params.require(:post).permit(:user_id, :post_type, :title, :prefecture, :city, :body1, :body2, :feature, :attachment, :realizability, :earnest, :public_status_id, images: [])
   end
 
+
   def ensure_user
     @post = Post.find(params[:id])
     unless @post.user_id == current_user.id
@@ -444,7 +446,7 @@ class PostsRegionController < ApplicationController
   
   def user_profile_nil?
     if current_user.user_profile.nil?
-     redirect_to ({controller: 'user_profiles', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
+     redirect_to ({controller: 'user_profiles', action: 'new'}), notice: "先にプロフィ��ル登録をお済ませください"
     end 
   end  
 end

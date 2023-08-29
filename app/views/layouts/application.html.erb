@@ -33,8 +33,8 @@
           <!--<li class="nav-item">-->
           <!--  <a class="nav-link" href="#">Link</a>-->
           <!--</li>-->
-          <li class="nav-link">
-            <%= link_to 'About', about_path %>
+          <li class="nav-item dropdown">
+            <%= link_to 'About', about_path, class: 'nav-link' %>
            </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -95,16 +95,16 @@
             </li>
            <% else %>  
              <% if current_user.user_profile.nil? %>  
-              <li class="nav-link">
-                <%= link_to "プロフィール登録", controller: "user_profiles", action: "new" %>
+              <li class="nav-item">
+                <%= link_to "プロフィール登録", new_user_profile_path, class: 'nav-link' %>
               </li>
              <% else %>  
-              <li class="nav-link" >
-                <%= link_to "マイページ", controller: "accounts", action: "show", id: current_user.id %>
+              <li class="nav-item" >
+                <%= link_to "マイページ", account_path(current_user.id), class: 'nav-link' %>
               </li>
              <% end %>  
-             <li class="nav-link">
-              <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete } %>
+             <li class="nav-item">
+              <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete }, class: 'nav-link' %>
              </li>
             <% end %>
           <% end %>

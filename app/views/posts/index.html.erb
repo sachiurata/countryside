@@ -24,7 +24,7 @@
    </div>
   </div>
   
-  <P><%= @posts_count %>件の投稿</P>
+  <P><%= @posts.count %>件の投稿</P>
   <div class="row">
     <% @posts.each do |post| %>
      <% if post.public_status_id == 1 %>
@@ -35,5 +35,7 @@
      <% end %>
     <% end %>
  </div>
- <div style="margin-top: 20px;"><%= paginate @posts, theme: 'twitter-bootstrap-4' %></div>
+ <% if @posts.present? %>
+  <div style="margin-top: 20px;"><%= paginate @posts, theme: 'twitter-bootstrap-4' %></div>
+ <% end %> 
 </div>

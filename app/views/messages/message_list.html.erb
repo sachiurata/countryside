@@ -5,17 +5,21 @@
      <div class="card mb-3" style="max-width: 800px; height: 100px;">    
       <div class="row g-0">
        <div class="col-md-2">
-        <div>
-         <%= image_tag user.user_profile.avatar.variant(:thumb), class: "profile-avatar" if user.user_profile.avatar.attached? %>
-        </div>
-        <div>
-         <%= user.user_profile.screen_name %>
+        <div style="padding: 10px">
+         <div>
+          <%= image_tag user.user_profile.avatar.variant(:thumb), class: "profile-avatar" if user.user_profile.avatar.attached? %>
+         </div>
+         <div style="font-size: 10px">
+          <%= user.user_profile.screen_name %>
+         </div>
         </div>
        </div>
-       <div class="col-md-8">  
-         <%= @users_last_sent[index].user_profile.screen_name %><br>
+       <div class="col-md-8">
+        <div style="padding: 10px">  
+         <b><%= @users_last_sent[index].user_profile.screen_name %></b>&emsp;
          <small class="text-body-secondary"><%= l @last_messages[index].updated_at %></small>
          <p class="message-text"><%= @last_messages[index].content %></P>
+        </div> 
        </div>
       </div>
      </div> 
