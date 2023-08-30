@@ -1,0 +1,28 @@
+<div class="container">
+ <div class="row g-0" style="margin-bottom: 40px;">
+  <div class="col-md-2">
+   <%= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar" if user_profile.avatar.attached? %>
+  </div>
+  <div class="col-md-6">
+   <%= link_to user_profile_path(user_profile) do %>
+    <h4><%= user_profile.screen_name %></h4>
+   <% end %> 
+   <P class="place"><%= user_profile.prefecture %><%= user_profile.city %></P>
+   <small class="text-body-secondary">最終ログイン日　<%= l user_profile.user.last_sign_in_at, format: :only_date %></small>
+  </div>
+  <div class="col-md-2">
+   <% if @user_profile.user_id != current_user.id %>
+     <%= link_to "メッセージを送る", messages_path(user_profile.user_id), class: "btn btn-primary", style: "margin-top: 20px;" %>
+    <% end %> 
+  </div>
+ </div> 
+  
+  <div class="row g-0"> 
+    <% if post.post_type == 1 %>
+     <%= render "layouts/user_profile_region", user_profile: user_profile, mypage_flag: @mypage_flag %>
+    <% end %>
+    <% if post.post_type == 2 %>
+     <%= render "layouts/user_profile_business", user_profile: user_profile, mypage_flag: @mypage_flag %>
+    <% end %>
+  </div>
+</div> 

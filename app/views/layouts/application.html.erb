@@ -46,11 +46,11 @@
               <li><a class="dropdown-item" href="/posts_business">起業希望者</a></li>
             </ul>
           </li> 
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="/user_profiles">
-              ユーザー一覧
-            </a>
-          </li>
+          <!--<li class="nav-item dropdown">-->
+          <!--  <a class="nav-link" href="/user_profiles">-->
+          <!--    ユーザー一覧-->
+          <!--  </a>-->
+          <!--</li>-->
           <!--<li class="nav-item dropdown">-->
           <!--  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
           <!--    Dropdown-->
@@ -96,7 +96,7 @@
            <% else %>  
              <% if current_user.user_profile.nil? %>  
               <li class="nav-item">
-                <%= link_to "プロフィール登録", new_user_profile_path, class: 'nav-link' %>
+                <%= link_to "プロフィール登録", new_name_path, class: 'nav-link' %>
               </li>
              <% else %>  
               <li class="nav-item" >

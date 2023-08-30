@@ -9,8 +9,13 @@ Rails.application.routes.draw do
    }
    
   devise_for :admins 
-   
+  
+  resources :names, only: [:new, :create, :edit, :update]
+  
+  get 'user_profiles/profile_type', to: 'user_profiles#profile_type'
   resources :user_profiles
+  resources :user_profiles_region, only: [:edit]
+  resources :user_profiles_business, only: [:edit]
   
   resources :posts, except: [:new, :create]
   resources :posts_region
