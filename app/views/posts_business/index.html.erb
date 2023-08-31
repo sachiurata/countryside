@@ -14,52 +14,49 @@
      <div>投稿のタグ</div>
      <div class="category"><span class="badge text-bg-primary">やりたいこと</span><br>
       <% @category_wants.each_with_index do |category_want, index| %>
-        <nobr><input class="form-check-input" type="checkbox" name="category_want_id[]" value="<%= category_want.id%>" <%= @check_flags_category_wants[index] ? 'checked' : '' %> >
-        <%= category_want.tag_name %></nobr>&emsp;
+        <input class="form-check-input" type="checkbox" name="category_want_id[]" value="<%= category_want.id%>" <%= @check_flags_category_wants[index] ? 'checked' : '' %> >
+        <%= category_want.tag_name %>&emsp;
       <% end %>
      </div>
      <div class="category"><span class="badge text-bg-secondary">本気度</span><br>
        <% @category_earnests.each_with_index do |category_earnest, index| %>
-        <nobr><input class="form-check-input" type="checkbox" name="category_earnest_id[]" value="<%= category_earnest.id %>" <%= @check_flags_category_earnests[index] ? 'checked' : '' %> >
-        <%= category_earnest.tag_name %></nobr>&emsp;
+        <input class="form-check-input" type="checkbox" name="category_earnest_id[]" value="<%= category_earnest.id %>" <%= @check_flags_category_earnests[index] ? 'checked' : '' %> >
+        <%= category_earnest.tag_name %>&emsp;
        <% end %>
      </div>
      <div>プロフィールのタグ</div> 
      <div class="category"><span class="badge rounded-pill text-bg-primary">職業</span><br>
       <% @category_jobs.each_with_index do |category_job, index| %>
-       <nobr><input class="form-check-input", type="checkbox", name="category_job_id[]", value="<%= category_job.id %>" <%= @check_flags_category_jobs[index] ? 'checked' : '' %>>
-       <%= category_job.tag_name %></nobr>&emsp;
+       <input class="form-check-input", type="checkbox", name="category_job_id[]", value="<%= category_job.id %>" <%= @check_flags_category_jobs[index] ? 'checked' : '' %>>
+       <%= category_job.tag_name %>&emsp;
       <% end %>
      </div> 
      <div class="category"><span class="badge rounded-pill text-bg-secondary">得意なこと</span><br>
       <% @category_skills.each_with_index do |category_skill, index| %>
-        <nobr><input class="form-check-input" type="checkbox" name="category_skill_id[]" value="<%= category_skill.id %>" <%= @check_flags_category_skills[index] ? 'checked' : '' %>>
-        <%= category_skill.tag_name %></nobr>&emsp;
+        <input class="form-check-input" type="checkbox" name="category_skill_id[]" value="<%= category_skill.id %>" <%= @check_flags_category_skills[index] ? 'checked' : '' %>>
+        <%= category_skill.tag_name %>&emsp;
       <% end %>
      </div> 
      <div class="category"><span class="badge rounded-pill text-bg-warning">興味のあること</span><br>
       <% @category_interests.each_with_index do |category_interest, index| %>
-       <nobr><input class="form-check-input", type="checkbox", name="category_interest_id[]", value="<%= category_interest.id %>" <%= @check_flags_category_interests[index] ? 'checked' : '' %>>
-       <%= category_interest.tag_name %></nobr>&emsp;
+       <input class="form-check-input", type="checkbox", name="category_interest_id[]", value="<%= category_interest.id %>" <%= @check_flags_category_interests[index] ? 'checked' : '' %>>
+       <%= category_interest.tag_name %>&emsp;
       <% end %>
      </div> 
       <h6>検索方法</6>
       <div><input class="form-check-input", type="radio", name="search_type", value="1" <%= @search_type != "2" ? "checked" : "" %> >OR検索（選択したタグを含む投稿をすべて表示）</div>
       <div><input class="form-check-input", type="radio", name="search_type", value="2" <%= @search_type == "2" ? "checked" : "" %>>AND検索（選択したタグをすべて含む投稿を表示）</div>
-     </div>
-     <div><input class="btn btn-secondary" type="submit" value="検索" style="margin-bottom: 20px;"></div>
+      <div><input class="btn btn-secondary" type="submit" value="検索" style="margin-top: 20px; margin-bottom: 20px;"></div>
     </form>
     <div><a class="btn btn-secondary" href="/posts_business" role="button" style="margin-bottom: 40px;">検索条件をクリア</a></div>
-   </div>
   
-  <P><%= @posts_count %>件の投稿</P>
-  <div class="row">
-    <% @posts.each do |post| %>
-     <% if post.public_status_id == 1  || post.public_status_id == 3 %>
-      <%= render "layouts/post_card", post: post %>
-     <% end %>
+   <P><%= @posts_count %>件の投稿</P>
+   <% @posts.each do |post| %>
+    <% if post.public_status_id == 1  || post.public_status_id == 3 %>
+     <%= render "layouts/post_card", post: post %>
     <% end %>
+   <% end %>
+   <div style="margin-top: 20px;"><%= paginate @posts, theme: 'twitter-bootstrap-4' %></div>
+  </div>
  </div>
- <div style="margin-top: 20px;"><%= paginate @posts, theme: 'twitter-bootstrap-4' %></div>
-</div>
 </div>
