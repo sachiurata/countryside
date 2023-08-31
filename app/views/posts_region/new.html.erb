@@ -53,6 +53,7 @@
           <%= f.radio_button :public_status_id, 2, label:"非公開", inline: true %>
         </div>
       </div>
+      <%= render "shared/error_messages", object: @post %>
       <%= render "layouts/post_error",  user_profile: @user_profile %>
       <div class="submit"><%= f.submit %></div>
      <% end %>
