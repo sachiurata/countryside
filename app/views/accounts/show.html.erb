@@ -1,7 +1,17 @@
 <div class="container">
- <div class="row g-0">
-  <P class="label">メールアドレス</P>
-  <P><%= current_user.email %></P>
+ <div class="row g-0" style="margin-bottom: 40px;">
+   <div class="col-md-2">
+   <%= image_tag @user_profile.avatar.variant(:thumb), class: "profile-avatar" if @user_profile.avatar.attached? %>
+   </div>
+   <div class="col-md-6">
+    <h4><%= @user_profile.screen_name %></h4>
+    <P class="place"><%= @user_profile.prefecture %><%= @user_profile.city %></P>
+    <small class="text-body-secondary">最終ログイン日　<%= l @user_profile.user.last_sign_in_at, format: :only_date %></small>
+    <div style="margin-top: 20px;"><P><b>メールアドレス</b>&emsp;<%= current_user.email %></P></div>
+   </div>
+   <div class="col-md-2">
+    <%= link_to "編集", edit_name_path(@user_profile), class: "btn btn-secondary", style: "margin-top: 20px;" %>
+   </div>
  </div>
 
 <%= render "layouts/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, mypage_flag: @mypage_flag %>

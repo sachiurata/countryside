@@ -14,7 +14,7 @@ class UserProfile < ApplicationRecord
   end
   
   validates :screen_name, presence: true
-  validates :prefecture, presence: true
+  #validates :prefecture, presence: true
   # validates :public_status_id, presence: true
   
 end
