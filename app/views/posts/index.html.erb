@@ -24,7 +24,7 @@
    </div>
   </div>
   
-  <P><%= @posts.count %>件の投稿</P>
+  <P><%= @posts_count %>件の投稿</P>
   <div class="row">
     <% @posts.each do |post| %>
      <% if post.public_status_id == 1 %>

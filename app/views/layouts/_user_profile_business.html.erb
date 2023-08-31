@@ -51,7 +51,8 @@
      <% if user_profile.public_status_business == 1 %>
       <div class="public-status">公開中</div>
      <% elsif user_profile.public_status_business == 2 %>
-      <div class="public-status">非公開</div>
+      <div class="public-status">非公開<br>
+      <small style="font-size: small; font-weight: normal; color: grey;">※プロフィールが非公開だと投稿は公開されません。<br>※プロフィールが非公開でもコメントやメッセージを送信すると、名前やプロフィール写真は公開されます。</small></div>  
      <% end %>
     <% end %> 
     <% if user_signed_in? && user_profile.user_id == current_user.id %> 

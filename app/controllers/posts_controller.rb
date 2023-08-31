@@ -248,13 +248,12 @@ class PostsController < ApplicationController
     # @posts_tag = []
     # @post_tag_ids = []
     
+     #プロフィールが「非公開(2)」となっているユーザーの投稿または「非公開(2)」の投稿
+    unpublic_user_profiles = UserProfile.where(public_status_region: 2).or(UserProfile.where(public_status_business: 2))
+    @unpublic_posts = Post.where(user_id: unpublic_user_profiles.pluck(:user_id)) + Post.where(public_status_id: 2)
+    
     #「全ての投稿」が選択された場合
-    # if @post_type == "0"
-     @posts_post_type = Post.all
-    # #「地域側投稿」または「起業希望者投稿」が選択された場合 
-    # else  
-    # @posts_post_type = Post.where(post_type: @post_type)
-    # end
+    @posts_post_type = Post.all - @unpublic_posts
     @posts_post_type_ids = @posts_post_type.pluck(:id)
     
     #キーワードが入力された場合　
@@ -274,10 +273,12 @@ class PostsController < ApplicationController
     end 
     
    
-    @posts = @posts_post_type_keyword_prefecture.includes(:favorite_users)
+    @posts = @posts_post_type_keyword_prefecture
+    
+     #件数表示
+    @posts_count = @posts.count
     
     #ページネーション
-    @posts_count = @posts.count
     @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
     # #「投稿タイプ」と「キーワード」と「都道府県」の条件を満たす投稿のid
     # @posts_post_type_keyword_prefecture_ids = @posts_post_type_keyword_prefecture.pluck(:id)

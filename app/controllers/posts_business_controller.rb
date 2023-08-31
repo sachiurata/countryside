@@ -2,6 +2,8 @@ class PostsBusinessController < ApplicationController
   
   before_action :authenticate_user!, except:[:index]
   before_action :user_profile_nil?, except:[:index]
+  before_action :user_profile_status, only:[:new, :create]
+  
   
    def new
     @post = Post.new
@@ -20,25 +22,25 @@ class PostsBusinessController < ApplicationController
     category_wants_ids = params[:category_want_id]
     category_earnest_ids = params[:category_earnest_id]
     
-    if @post.save
-     if category_wants_ids.present?
-       category_wants_ids.each do |category_wants_id|
-        category_wants = @post.post_category_wants.build(category_want_id: category_wants_id)
-        category_wants.save
-       end
-     end   
-     if category_earnest_ids.present?
-      category_earnest_ids.each do |category_earnest_id|
-        category_earnest = @post.post_category_earnest.build(category_earnest_id: category_earnest_id)
-        category_earnest.save
+   if @post.save
+    if category_wants_ids.present?
+      category_wants_ids.each do |category_wants_id|
+       category_wants = @post.post_category_wants.build(category_want_id: category_wants_id)
+       category_wants.save
       end
-     end  
-     
-      redirect_to @post, action: :show, id: @post.id, notice:"登録が完了しました"
-    else
-      render "new", notice:"登録に失敗しました"  
-      #空欄以外で登録失敗ってある？空欄だと画面が遷移しない。
-    end
+    end   
+    if category_earnest_ids.present?
+     category_earnest_ids.each do |category_earnest_id|
+       category_earnest = @post.post_category_earnest.build(category_earnest_id: category_earnest_id)
+       category_earnest.save
+     end
+    end  
+    
+     redirect_to @post, action: :show, id: @post.id, notice:"登録が完了しました"
+   else
+     render "new", notice:"登録に失敗しました"  
+     #空欄以外で登録失敗ってある？空欄だと画面が遷移しない。
+   end
   end
   
   def index
@@ -83,8 +85,12 @@ class PostsBusinessController < ApplicationController
     @check_flags_category_skills = []
     @check_flags_category_interests = []
     
+    #プロフィールが「非公開(2)」となっているユーザーの投稿または「非公開(2)」の投稿
+    unpublic_user_profiles = UserProfile.where(public_status_business: 2)
+    @unpublic_posts = Post.where(user_id: unpublic_user_profiles.pluck(:user_id)) + Post.where(public_status_id: 2)
+    
     #「起業希望者投稿」のみ抽出
-    @posts_post_type = Post.where(post_type: 2)
+    @posts_post_type = Post.where(post_type: 2) - @unpublic_posts
     @posts_post_type_ids = @posts_post_type.pluck(:id)
     
     #キーワードが入力された場合　
@@ -232,8 +238,11 @@ class PostsBusinessController < ApplicationController
       
     #検索条件をクリアした場合  
     else
-      @posts = Post.where(post_type: 2)
+      @posts = Post.where(post_type: 2) - @unpublic_posts
     end
+    
+    #件数表示
+    @posts_count = @posts.count
     
     #ページネーション
     @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
@@ -293,6 +302,7 @@ class PostsBusinessController < ApplicationController
   private
   def post_params
    params.require(:post).permit(:user_id, :post_type, :title, :prefecture, :city, :body1, :body2, :feature, :attachment, :realizability, :earnest, :public_status_id, images: [])
+   params.permit(:public_status_region)
   end
 
   def ensure_user
@@ -307,4 +317,10 @@ class PostsBusinessController < ApplicationController
      redirect_to ({controller: 'user_profiles', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
     end 
   end  
+  
+  def user_profile_status
+   if current_user.user_profile.public_status_business.nil?  || current_user.user_profile.public_status_business == 2
+     redirect_to edit_user_profiles_business_path(current_user.user_profile), danger: "プロフィールを入力し、公開を選択してください"
+   end
+  end
 end
