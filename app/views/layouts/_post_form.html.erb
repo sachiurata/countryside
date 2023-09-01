@@ -2,7 +2,7 @@
  <div class="row">
   <div class="col-md-8 offset-md-2">
     <% type_flag %>
-    <%= bootstrap_form_with(model: post, local: true) do |f| %>  
+    <%= bootstrap_form_with(model: post, local: true, label_errors: true, html: { novalidate: true }) do |f| %>  
       <div class="post-form">
         <%= f.hidden_field :user_id, value: current_user.id %>
         <% if post_type_flag == 1 %>
@@ -88,6 +88,7 @@
           <% if edit_flag %>
            <%= f.radio_button :public_status_id, 3, label:"終了", inline: true %>
           <% end %>
+          <%= render "layouts/post_error",  user_profile: @user_profile %>
         </div>
       </div>
       <div class="submit"><%= f.submit %></div>

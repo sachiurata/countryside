@@ -1,9 +1,9 @@
 <% provide(:button_text, '送信') %>
 <%#= render "shared/error_messages", object: message %>
-<%= form_with model: message do |f| %>
+<%= bootstrap_form_with(model: message, local: true, label_errors: true, html: { novalidate: true }) do |f| %>
     <div id="error_messages">
      <%= render "shared/error_messages", object: message %>
     </div>
-  <%= f.text_area :content, class: 'form-control' %>
+  <%= f.text_area :content, class: 'form-control', hide_label: true, placeholder: "メッセージを入力してください" %>
   <div style="margin-top: 20px;"><%= f.submit yield(:button_text), class: "btn btn-primary" %></div>
 <% end %>

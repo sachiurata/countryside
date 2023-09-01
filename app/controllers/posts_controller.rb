@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   
   before_action :authenticate_user!, except:[:index, :show]
   before_action :ensure_user, only:[:edit, :update]
-  before_action :all, only:[:edit, :index]
+  before_action :all, only:[:edit, :update, :index]
   
   def edit
     @post = Post.find(params[:id])
@@ -103,6 +103,90 @@ class PostsController < ApplicationController
     category_wants_ids = params[:category_want_id]
     category_earnest_ids = params[:category_earnest_id]
     
+     @user_profile = current_user.user_profile
+    @edit_flag = true
+    
+    @check_flags_post_category_resource = []
+    #全カテゴリーサーチ
+    @category_resources.each_with_index do |category_resource, index|
+      pcr = PostCategoryResource.where(category_resource_id: category_resource.id).where(post_id: @post.id)
+      if pcr.empty?
+        @check_flags_post_category_resource[index] = false        
+      else
+        @check_flags_post_category_resource[index] = true
+      end  
+    end
+    
+    @check_flags_post_category_feature = []
+    @category_features.each_with_index do |category_feature, index|
+      pcf = PostCategoryFeature.where(category_feature_id: category_feature.id).where(post_id: @post.id)
+      if pcf.empty?
+        @check_flags_post_category_feature[index] = false
+      else
+        @check_flags_post_category_feature[index] = true
+      end
+    end  
+    
+    @check_flags_post_category_issue = []
+    @category_issues.each_with_index do |category_issue, index|
+      pci = PostCategoryIssue.where(category_issue_id: category_issue.id).where(post_id: @post.id)
+      if pci.empty?
+       @check_flags_post_category_issue[index] = false
+      else
+       @check_flags_post_category_issue[index] = true
+      end 
+    end  
+
+    @check_flags_post_category_market = []
+    @category_markets.each_with_index do |category_market, index|
+      pcm = PostCategoryMarket.where(category_market_id: category_market.id).where(post_id: @post.id)
+      if pcm.empty?
+       @check_flags_post_category_market[index] = false
+      else
+       @check_flags_post_category_market[index] = true
+      end
+    end 
+    
+    @check_flags_post_category_want = []
+    @category_wants.each_with_index do |category_want, index|
+      pcw = PostCategoryWant.where(category_want_id: category_want.id).where(post_id: @post.id)
+      if pcw.empty?
+        @check_flags_post_category_want[index] = false
+      else
+        @check_flags_post_category_want[index] = true
+      end
+    end  
+    
+    @check_flags_post_category_realizability = []
+    @category_realizabilities.each_with_index do |category_realizability, index|
+      pcw = PostCategoryRealizability.where(category_realizability_id: category_realizability.id).where(post_id: @post.id)
+      if pcw.empty?
+        @check_flags_post_category_realizability[index] = false
+      else
+        @check_flags_post_category_realizability[index] = true
+      end
+    end
+    
+    @check_flags_post_category_earnest = []
+    @category_earnests.each_with_index do |category_earnest, index|
+      pcw = PostCategoryEarnest.where(category_earnest_id: category_earnest.id).where(post_id: @post.id)
+      if pcw.empty?
+        @check_flags_post_category_earnest[index] = false
+      else
+        @check_flags_post_category_earnest[index] = true
+      end
+    end
+    
+    if @post.post_type == 1
+      #@profile_type1_flag = true
+      @post_type_flag = 1
+    end
+    
+    if @post.post_type == 2
+      #@profile_type2_flag = true
+      @post_type_flag = 2
+    end
+    
     if @post.update(post_params)
       @post_category_resources = @post.post_category_resources
       @post_category_resources.each do |post_category_resource|
@@ -192,7 +276,7 @@ class PostsController < ApplicationController
     
      redirect_to @post, action: "show", id: @post.id, notice:"更新しました", status: :see_other
     else
-      render :edit
+      render "edit", status: :unprocessable_entity, notice:"登録に失敗しました"
     end
   end
   

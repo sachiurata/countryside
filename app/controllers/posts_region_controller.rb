@@ -1,4 +1,5 @@
 class PostsRegionController < ApplicationController
+ protect_from_forgery except: :create
   
   before_action :authenticate_user!, except:[:index]
   before_action :user_profile_nil?, except:[:index]
@@ -6,7 +7,7 @@ class PostsRegionController < ApplicationController
   
   def new
     @post = Post.new
-    @category_about_regions = CategoryAboutRegion.all
+    #@category_about_regions = CategoryAboutRegion.all
     @category_resources = CategoryResource.all
     @category_issues = CategoryIssue.all
     @category_markets = CategoryMarket.all
@@ -20,6 +21,15 @@ class PostsRegionController < ApplicationController
   def create
     @post = Post.new(post_params)
     @user_profile = current_user.user_profile
+    @post = Post.new
+    @category_resources = CategoryResource.all
+    @category_issues = CategoryIssue.all
+    @category_markets = CategoryMarket.all
+    @category_features = CategoryFeature.all
+    @category_realizabilities = CategoryRealizability.all
+    @user_profile = current_user.user_profile
+    @post_type_flag = 1
+    @profile_type1_flag = true
     
     category_resources_ids = params[:category_resource_id]
     category_issues_ids = params[:category_issue_id]
@@ -66,11 +76,14 @@ class PostsRegionController < ApplicationController
      
       redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
     else
-      render :new, status: :unprocessable_entity, notice:"登録に失敗しました"  
-      puts "ここだよ"
+     puts "ここだよ"
+      render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
+      
         p @post.errors.full_messages
-        p @message.errors.any?
+        p @post.errors.any?
     end
+    puts "createが呼ばれた"
+    
   end
   
   def index
@@ -214,7 +227,7 @@ class PostsRegionController < ApplicationController
      end 
     end
     
-    #「起業支援」でチェックされている項目を含む投稿
+    #「起業支援」でチェックさ���ている項目を含む投稿
     if category_incubation_ids.present?
      category_incubation_ids.each do |category_incubation_id|
       @category_incubation_profiles = UserProfile.joins(:profile_category_incubations).where(profile_category_incubations: {category_incubation_id: category_incubation_id})
@@ -447,14 +460,14 @@ class PostsRegionController < ApplicationController
   end
   
   def user_profile_nil?
-    if current_user.user_profile.nil?
-     redirect_to ({controller: 'names', action: 'new'}), notice: "先にプロフィール登録を���済ませください"
-    end 
+    # if current_user.user_profile.nil?
+    #  redirect_to ({controller: 'names', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
+    # end 
   end
   
   def user_profile_status
-   if current_user.user_profile.public_status_region.nil?  || current_user.user_profile.public_status_region == 2
-     redirect_to edit_user_profiles_region_path(current_user.user_profile), danger: "地域情報を入力し、公開を選択してください"
-   end
+   # if current_user.user_profile.public_status_region.nil?  || current_user.user_profile.public_status_region == 2
+   #   redirect_to edit_user_profiles_region_path(current_user.user_profile), danger: "地域情報を入力し、公開を選択してください"
+   # end
   end
 end

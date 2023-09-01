@@ -18,6 +18,11 @@ class PostsBusinessController < ApplicationController
   def create
     @post = Post.new(post_params)
     @user_profile = current_user.user_profile
+    @category_earnests = CategoryEarnest.all
+    @category_wants = CategoryWant.all
+    @user_profile = current_user.user_profile
+    @post_type_flag = 2
+    @profile_type2_flag = true
     
     category_wants_ids = params[:category_want_id]
     category_earnest_ids = params[:category_earnest_id]
@@ -38,7 +43,7 @@ class PostsBusinessController < ApplicationController
     
      redirect_to @post, action: :show, id: @post.id, notice:"登録が完了しました"
    else
-     render "new", notice:"登録に失敗しました"  
+     render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
      #空欄以外で登録失敗ってある？空欄だと画面が遷移しない。
    end
   end

@@ -11,7 +11,7 @@ class NamesController < ApplicationController
     if @user_profile.save
       redirect_to user_profiles_profile_type_path
     else
-      render "new"
+      render "new", status: :unprocessable_entity, notice:"登録に失敗しました" 
     end
   end
   
