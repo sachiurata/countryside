@@ -4,21 +4,18 @@
   <%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "users/shared/error_messages", resource: resource %>
   
-    <div class="field" style="max-width: 500px;">
-      <%#= f.label :email %><br />
+    <div class="field">
       <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
     </div>
   
-    <div class="field" style="max-width: 500px;">
-      <%#= f.label :password %>
-      <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-      <% end %><br />
+    <div class="field">
       <%= f.password_field :password, autocomplete: "new-password" %>
+      <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %>文字以上)</em>
+      <% end %>
     </div>
   
-    <div class="field" style="max-width: 500px;">
-      <%#= f.label :password_confirmation %><br />
+    <div class="field">
       <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
     </div>
   

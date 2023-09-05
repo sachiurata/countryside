@@ -256,10 +256,10 @@ class UserProfilesController < ApplicationController
   def show
     @user_profile = UserProfile.find(params[:id])
     @posts = @user_profile.user.posts
-    @category_resources = CategoryResource.all
-    if current_user.user_profile.profile_type1 = 1
-     @avatar_flag = false
-    end 
+    # @category_resources = CategoryResource.all
+    # if current_user.user_profile.profile_type1 = 1
+    # @avatar_flag = false
+    # end 
     # @profile_type1_flag = true
     # @profile_type2_flag = true
   end

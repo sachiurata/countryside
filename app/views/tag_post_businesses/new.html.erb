@@ -6,6 +6,7 @@
       <%= f.text_field :tag_name, label: "やりたいこと" %>
       <%= f.submit "登録" %>
     <% end %> 
+    
     <%= bootstrap_form_with(model: @category_earnest, url: category_earnest_index_path, local: true) do |f| %>
       <%= f.text_field :tag_name, label: "本気度" %>
       <%= f.submit "登録" %>

@@ -1,5 +1,5 @@
 <% @articles.each do |article| %>
   <%= link_to article_path(article) do %>
-   <%= render "articles/card", article: article %>
+   <%= render "articles/article_card", article: article %>
   <% end %>
 <% end %>

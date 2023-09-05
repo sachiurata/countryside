@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root to: "home#index"
   
+  get 'about', to: 'about#show'
+  
   devise_for :users, :controllers => {
     :confirmations => 'users/confirmations',
     :registrations => 'users/registrations',
@@ -63,7 +65,7 @@ Rails.application.routes.draw do
   
   get 'admins', to: "admin#show"
   
-  get 'about', to: 'about#show'
+
  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

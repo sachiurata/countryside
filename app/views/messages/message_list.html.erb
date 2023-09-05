@@ -1,29 +1,29 @@
 <div class="container">
   <div class="row">
-   <% @users.each_with_index do |user, index| %>
-    <%= link_to messages_path(user), data: { turbo_method: :get } do %> 
-     <div class="card mb-3" style="max-width: 800px; height: 100px;">    
-      <div class="row g-0">
-       <div class="col-md-2">
-        <div style="padding: 10px">
-         <div>
-          <%= image_tag user.user_profile.avatar.variant(:thumb), class: "profile-avatar" if user.user_profile.avatar.attached? %>
-         </div>
-         <div style="font-size: 10px">
-          <%= user.user_profile.screen_name %>
-         </div>
-        </div>
-       </div>
-       <div class="col-md-8">
-        <div style="padding: 10px">  
-         <b><%= @users_last_sent[index].user_profile.screen_name %></b>&emsp;
-         <small class="text-body-secondary"><%= l @last_messages[index].updated_at %></small>
-         <p class="message-text"><%= @last_messages[index].content %></P>
+    <% @users.each_with_index do |user, index| %>
+      <%= link_to messages_path(user), data: { turbo_method: :get } do %> 
+        <div class="card mb-3" id="message-card">    
+          <div class="row g-0">
+            <div class="col-md-2" id="message-card-profile">
+              <div>
+                <%= image_tag user.user_profile.avatar, class: "profile-avatar", id: "message-card-avatar" if user.user_profile.avatar.attached? %>
+                <%= image_tag "profile.png", class: "profile-icon", id: "message-card-avatar" if !user.user_profile.avatar.attached? %>
+              </div>
+              <div>
+                <%= user.user_profile.screen_name %>
+              </div>
+            </div>
+            
+            <div class="col-md-10">
+              <div class="message-content">  
+                <b><%= @users_last_sent[index].user_profile.screen_name %></b>&emsp;
+                <small class="text-body-secondary"><%= l @last_messages[index].updated_at %></small>
+                <p class="message-text"><%= @last_messages[index].content %></P>
+              </div> 
+            </div>
+          </div>
         </div> 
-       </div>
-      </div>
-     </div> 
-    <% end %>
-   <% end %> 
+      <% end %>
+    <% end %> 
   </div>
 </div>  

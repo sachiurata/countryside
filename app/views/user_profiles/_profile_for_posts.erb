@@ -11,7 +11,7 @@
    <small class="text-body-secondary">最終ログイン日　<%= l user_profile.user.last_sign_in_at, format: :only_date %></small>
   </div>
   <div class="col-md-2">
-   <% if @user_profile.user_id != current_user.id %>
+   <% if user_signed_in? && post.user_id != current_user.id %>
      <%= link_to "メッセージを送る", messages_path(user_profile.user_id), class: "btn btn-primary", style: "margin-top: 20px;" %>
     <% end %> 
   </div>

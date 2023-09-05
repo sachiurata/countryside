@@ -18,6 +18,10 @@
    width: 50%;
 }
 
+.profile-icon{
+   width: 50%;
+}
+
 .profile-avatar-small {
   border-radius: 200px;
   width: 100%;
@@ -69,7 +73,6 @@ label.required:after {
 .screen_name {
   color: grey;
   font-size: x-small;
-  text-decoration-line: none;
 }
 
 .icon-heart {
@@ -156,9 +159,39 @@ a {
 
   .message-text{
     height: 50px;
+    // max-width: 6000px;
     overflow: hidden;
+    // @media (max-width: 768px) {
+    // max-width: 500px;
+    // }  
   }
   
+  #message-card {
+    max-width: 768px;
+    height: 100px;
+    @media (max-width: 768px) {
+     height: 120px;
+    }  
+  } 
+  
+  #message-card-profile {
+    padding: 10px;
+    font-size: 10px;
+    @media (max-width: 768px) {
+     padding: 5px;
+    } 
+   #message-card-avatar {
+    @media (max-width: 768px) {
+     display: none;
+    }  
+  } 
+  }
+  
+  .message-content {
+    padding: 10px;
+  }
+  
+// Aboutページ  
  .bd-placeholder-img {
       font-size: 1.125rem;
       text-anchor: middle;
@@ -176,3 +209,8 @@ a {
   .post_error_message {
     color: red;
   }  
+  
+  // users
+  .field {
+    max-width: 500px;
+  }

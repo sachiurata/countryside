@@ -1,125 +1,125 @@
 <%#= link_to post_path(post) do %>
   <div class="card mb-3" style="max-width: 800px;">
-    <% if @public_status_flag == true %>
-     <% if post.public_status_id == 1 %>
-    　 <div class="card-header">公開中</div>
-     <% elsif post.public_status_id == 2 %> 
-    　 <div class="card-header">非公開</div>
-     <% end %>　 
+    <% if @current_user_flag == true %>
+      <% if post.public_status_id == 1 %>
+    　   <div class="card-header">公開中</div>
+      <% elsif post.public_status_id == 2 %> 
+    　   <div class="card-header">非公開</div>
+      <% end %>　 
     <% end %>
     <% if post.public_status_id == 3 %>
-    　<div class="card-header" style="margin-top: 1px;">終了</div>
+    　<div class="card-header">終了</div>
     <% end %>
     <div class="row g-0">
-      <div class="col-md-4">
+      <div class="col-md-5">
         <% if post.images.attached? %>
           <% post.images.each_with_index do |image, index| %>
-           <% if index == 0 %>
-            <%= image_tag image.variant(resize_to_fill: [250, 220]), class: "img-fluid" %>
-           <% end %>  
+            <% if index == 0 %>
+              <%= image_tag image.variant(resize_to_fill: [250, 300]), class: "img-fluid rounded-start" %>
+            <% end %>  
           <% end %>
         <% end %>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-7">
         <div class="card-body">
           <% if post.post_type == 1 %>
-           <span class="badge text-bg-success">地域側</span>
+            <span class="badge text-bg-success">地域側</span>
           <% else %>
-           <span class="badge text-bg-danger">起業希望者</span>
+            <span class="badge text-bg-danger">起業希望者</span>
           <% end %>
           <h5 class="card-title"><%= post.title %></h5>
           <% if !user_signed_in? %>
-           <%= image_tag "heart-black.png", class: "icon-heart" %>
+            <%= image_tag "heart-black.png", class: "icon-heart" %>
           <% elsif !post.favorite_users.include?(current_user) %>
-           <%= link_to favorites_path(post_id: post.id), data: { turbo_method: :post } do %>
-           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16" style="color: red">
-            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-           </svg>
-            <%#= image_tag "heart-black.png", class: "icon-heart" %>
-           <% end %>
+            <%= link_to favorites_path(post_id: post.id), data: { turbo_method: :post } do %>
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16" style="color: red">
+                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+               </svg>
+            <% end %>
           <% else %> 
-           <%= link_to favorite_path(post), data: { turbo_method: :delete } do %>
-           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16" style="color: red">
-            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-           </svg>
-            <%#= image_tag "heart.png", class: "icon-liked-heart" %>
-           <% end %>
+            <%= link_to favorite_path(post), data: { turbo_method: :delete } do %>
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16" style="color: red">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+               </svg>
+            <% end %>
           <% end %>
-          <nobr><%= post.favorite_users.size %></nobr>
+          <%= post.favorite_users.size %>
           <p class="card-text"><%= post.user.user_profile.screen_name %></p>
-          <p class="card-text"><%= post.prefecture %><%= post.city %></p>
+          <p class="card-text-place"><%= post.prefecture %><%= post.city %></p>
           <p class="card-text"><small class="text-body-secondary"><%= l post.updated_at %></small></p>
             
           <% post.post_category_resources.each do |post_category_resource| %>
-           <span class="badge text-bg-primary">
-            <%= post_category_resource.category_resource.tag_name %>
-           </span>
+            <span class="badge text-bg-primary">
+              <%= post_category_resource.category_resource.tag_name %>
+            </span>
           <% end %>
           <% post.post_category_issues.each do |post_category_issue| %>
-           <span class="badge text-bg-secondary">
-            <%= post_category_issue.category_issue.tag_name %>
-           </span>   
+            <span class="badge text-bg-secondary">
+              <%= post_category_issue.category_issue.tag_name %>
+            </span>   
           <% end %>
           <% post.post_category_markets.each do |post_category_market| %>
-           <span class="badge text-bg-warning">
-            <%= post_category_market.category_market.tag_name %>
-           </span>
+            <span class="badge text-bg-warning">
+              <%= post_category_market.category_market.tag_name %>
+            </span>
           <% end %>
           <% post.post_category_features.each do |post_category_feature| %>
-           <span class="badge text-bg-info">
-            <%= post_category_feature.category_feature.tag_name %>
-           </span>  
+            <span class="badge text-bg-info">
+              <%= post_category_feature.category_feature.tag_name %>
+            </span>  
           <% end %>
           <% post.post_category_realizabilities.each do |post_category_realizability| %>
-           <span class="badge text-bg-dark">
-            <%= post_category_realizability.category_realizability.tag_name %>
-           </span>  
+            <span class="badge text-bg-dark">
+              <%= post_category_realizability.category_realizability.tag_name %>
+            </span>  
           <% end %>
           <% post.post_category_wants.each do |post_category_want| %>
-           <span class="badge text-bg-primary">
-            <%= post_category_want.category_want.tag_name %>
-           </span>  
+            <span class="badge text-bg-primary">
+              <%= post_category_want.category_want.tag_name %>
+            </span>  
           <% end %>
           <% post.post_category_earnest.each do |post_category_earnest| %>
-           <span class="badge text-bg-secondary">
-            <%= post_category_earnest.category_earnest.tag_name %>
-           </span>  
+            <span class="badge text-bg-secondary">
+             <%= post_category_earnest.category_earnest.tag_name %>
+            </span>  
           <% end %><br>
           <% if post.post_type == 1 %>  
             <% post.user.user_profile.profile_category_about_regions.each do |profile_category_about_region| %>
-             <span class="badge rounded-pill text-bg-primary">
-              <%= profile_category_about_region.category_about_region.tag_name %>
-             </span>  
+              <span class="badge rounded-pill text-bg-primary">
+                <%= profile_category_about_region.category_about_region.tag_name %>
+              </span>  
             <% end %>
             <% post.user.user_profile.profile_category_incubations.each do |profile_category_incubation| %>
-             <span class="badge rounded-pill text-bg-secondary">
-              <%= profile_category_incubation.category_incubation.tag_name %>
-             </span>  
+              <span class="badge rounded-pill text-bg-secondary">
+                <%= profile_category_incubation.category_incubation.tag_name %>
+              </span>  
             <% end %>
             <% post.user.user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>
-             <span class="badge rounded-pill text-bg-warning">
-              <%= profile_category_immigration_support.category_immigration_support.tag_name %>
-             </span>  
+              <span class="badge rounded-pill text-bg-warning">
+                <%= profile_category_immigration_support.category_immigration_support.tag_name %>
+              </span>  
             <% end %>
           <% else %>  
             <% post.user.user_profile.profile_category_jobs.each do |profile_category_job| %>
-             <span class="badge rounded-pill text-bg-primary">
-              <%= profile_category_job.category_job.tag_name %>
-             </span>  
+              <span class="badge rounded-pill text-bg-primary">
+                <%= profile_category_job.category_job.tag_name %>
+              </span>  
             <% end %>
             <% post.user.user_profile.profile_category_skills.each do |profile_category_skill| %>
-             <span class="badge rounded-pill text-bg-secondary">
-              <%= profile_category_skill.category_skill.tag_name %>
-             </span>  
+              <span class="badge rounded-pill text-bg-secondary">
+                <%= profile_category_skill.category_skill.tag_name %>
+              </span>  
             <% end %>
             <% post.user.user_profile.profile_category_interests.each do |profile_category_interest| %>
-             <span class="badge rounded-pill text-bg-warning">
-              <%= profile_category_interest.category_interest.tag_name %>
-             </span>  
+              <span class="badge rounded-pill text-bg-warning">
+                <%= profile_category_interest.category_interest.tag_name %>
+              </span>  
             <% end %>
           <% end %>  
         
-         <div class="btn-show-more"><%= link_to "もっと見る", post_path(post), class: "btn btn-outline-secondary btn-sm", style: "margin-top: 10px;" %></div>
+          <div class="btn-show-more">
+            <%= link_to "もっと見る", post_path(post), class: "btn btn-outline-secondary btn-sm", style: "margin-top: 10px;" %>
+          </div>
         </div>
       </div>
     </div>

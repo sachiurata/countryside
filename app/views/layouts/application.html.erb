@@ -82,11 +82,11 @@
           <!--</li>-->
           
           <% if admin_signed_in? %>
-           <li class="nav-link">
-            <%= link_to '管理画面トップ', admins_path %>
+           <li class="nav-item dropdown">
+            <%= link_to '管理画面トップ', admins_path, class: 'nav-link' %>
            </li>
-           <li class="nav-link">
-              <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete } %>
+           <li class="nav-item dropdown">
+              <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete }, class: 'nav-link'  %>
             </li>
           <% else %>
            <% if !user_signed_in? %>
