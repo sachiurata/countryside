@@ -1,5 +1,9 @@
-<% @articles.each do |article| %>
-  <%= link_to article_path(article) do %>
-   <%= render "articles/article_card", article: article %>
-  <% end %>
-<% end %>
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-bottom: 20px;">
+      <% @articles.each do |article| %>
+        <%= link_to article_path(article) do %>
+          <%= render "articles/article_card", article: article %>
+        <% end %>
+      <% end %>
+    </div>
+</div>

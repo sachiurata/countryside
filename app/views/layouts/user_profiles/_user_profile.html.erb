@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="row g-0">
+    <div class="col-md-2">
+      <%= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar" if user_profile.avatar.attached? %>
+    </div>
+      
+    <div class="col-md-10">
+      <p class="name"><%= user_profile.screen_name %></p>
+      <P class="place"><%= user_profile.prefecture%><%= user_profile.city %></P>
+      
+      <% if profile_type1_flag %>
+        <span class="badge text-bg-success">地域側</span>
+        <P class="label">地域について
+        <% user_profile.profile_category_about_regions.each do |profile_category_about_region| %>
+          <span class="badge rounded-pill text-bg-primary">
+            <%= profile_category_about_region.category_about_region.tag_name %>
+          </span>  
+        <% end %></P>
+        <P><%= text_url_to_link(safe_join((h(user_profile.about_region)).split("\n"),tag(:br))).html_safe %></P>
+        
+        <P class="label">地域の起業支援
+        <% user_profile.profile_category_incubations.each do |profile_category_incubation| %>
+          <span class="badge rounded-pill text-bg-secondary">
+            <%= profile_category_incubation.category_incubation.tag_name %>
+          </span>  
+        <% end %></p>
+        <P><%= text_url_to_link(safe_join((h(user_profile.incubation)).split("\n"),tag(:br))).html_safe %></P>
+        
+        <P class="label">地域の移住支援
+        <% user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>
+          <span class="badge rounded-pill text-bg-warning">
+            <%= profile_category_immigration_support.category_immigration_support.tag_name %>
+          </span>  
+         <% end %></P>
+        <p><%= text_url_to_link(safe_join((h(user_profile.immigration_support)).split("\n"),tag(:br))).html_safe %></p>
+        
+        <p class="label">その他</p>
+        <p><%= text_url_to_link(safe_join((h(user_profile.other1)).split("\n"),tag(:br))).html_safe %></p>
+      <% end %>
+     
+      <% if profile_type2_flag %>
+        <span class="badge text-bg-danger">起業希望者</span>
+        <p class="label">職業
+        <% user_profile.profile_category_jobs.each do |profile_category_job| %>
+          <span class="badge rounded-pill text-bg-primary">
+          <%= profile_category_job.category_job.tag_name %>
+          </span>  
+        <% end %></p>
+        <p><%= text_url_to_link(safe_join((h(user_profile.job)).split("\n"),tag(:br))).html_safe %></p>
+        
+        <p class="label">得意なこと
+        <% user_profile.profile_category_skills.each do |profile_category_skill| %>
+          <span class="badge rounded-pill text-bg-secondary">
+          <%= profile_category_skill.category_skill.tag_name %>
+          </span>  
+        <% end %></p>
+        <p><%= text_url_to_link(safe_join((h(user_profile.interest)).split("\n"),tag(:br))).html_safe %></p>
+        
+        <p class="label">興味のあること
+        <% user_profile.profile_category_interests.each do |profile_category_interest| %>
+          <span class="badge rounded-pill text-bg-warning">
+          <%= profile_category_interest.category_interest.tag_name %>
+          </span>  
+        <% end %></p>
+        <p><%= text_url_to_link(safe_join((h(user_profile.interest)).split("\n"),tag(:br))).html_safe %></p>
+        
+        <p class="label">その他</p>
+        <p><%= text_url_to_link(safe_join((h(user_profile.other2)).split("\n"),tag(:br))).html_safe %></p>
+      <% end %>
+    </div> 
+  </div>
+</div>

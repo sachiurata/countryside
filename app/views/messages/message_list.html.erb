@@ -2,9 +2,9 @@
   <div class="row">
     <% @users.each_with_index do |user, index| %>
       <%= link_to messages_path(user), data: { turbo_method: :get } do %> 
-        <div class="card mb-3" id="message-card">    
+        <div class="card mb-3 message-card">    
           <div class="row g-0">
-            <div class="col-md-2" id="message-card-profile">
+            <div class="col-md-2 message-card-profile">
               <div>
                 <%= image_tag user.user_profile.avatar, class: "profile-avatar", id: "message-card-avatar" if user.user_profile.avatar.attached? %>
                 <%= image_tag "profile.png", class: "profile-icon", id: "message-card-avatar" if !user.user_profile.avatar.attached? %>

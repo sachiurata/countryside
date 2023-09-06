@@ -12,12 +12,16 @@ Rails.application.routes.draw do
    
   devise_for :admins 
   
-  resources :names, only: [:new, :create, :edit, :update]
+  get "/names/new",                 to: "names#new",  as: "new_name"  
+  post "/names",                    to: "names#create"
+  get "/names/:id/edit",            to: "names#edit", as: "edit_name"
   
-  get 'user_profiles/profile_type', to: 'user_profiles#profile_type'
-  resources :user_profiles
-  resources :user_profiles_region, only: [:edit]
-  resources :user_profiles_business, only: [:edit]
+  get "user_profiles/profile_type", to: "user_profiles#profile_type"
+  
+  resources :user_profiles, except: [:new, :create, :edit]
+  # プロフィールを編集する際、「地域側」「起業希望者」でフォームの表示内容を変えるためにeditアクションのみ分離
+  get "user_profiles_region/:id/edit",    to: "user_profiles_region#edit",   as: "edit_user_profiles_region"
+  get "user_profiles_business/:id/edit",  to: "user_profiles_business#edit", as: "edit_user_profiles_business"
   
   resources :posts, except: [:new, :create]
   resources :posts_region

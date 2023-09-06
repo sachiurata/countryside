@@ -29,20 +29,20 @@
     </div>
   </div>
   
-  <%= render "layouts/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, mypage_flag: @mypage_flag %>
-  <%= render "layouts/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag, mypage_flag: @mypage_flag %>
+  <%= render "layouts/user_profiles/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, mypage_flag: @mypage_flag %>
+  <%= render "layouts/user_profiles/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag, mypage_flag: @mypage_flag %>
   
   <div>
     <h4><%= current_user.user_profile.screen_name %>さんの投稿</h4>
     <% @current_user_posts.each do |post| %>
-      <%= render "layouts/post_card", post: post %>
+      <%= render "layouts/posts/post_card", post: post %>
     <% end %>
   </div>
   
   <div style="margin-top: 50px;">
     <h4>お気に入りの投稿</h4>
     <% @favorite_posts.each do |post| %>
-      <%= render "layouts/post_card", post: post %>
+      <%= render "layouts/posts/post_card", post: post %>
     <% end %>
   </div>
 </div>

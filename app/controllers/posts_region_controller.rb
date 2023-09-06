@@ -1,90 +1,7 @@
 class PostsRegionController < ApplicationController
- protect_from_forgery except: :create
-  
   before_action :authenticate_user!, except:[:index]
   before_action :user_profile_nil?, except:[:index]
   before_action :user_profile_status, only:[:new, :create]
-  
-  def new
-    @post = Post.new
-    #@category_about_regions = CategoryAboutRegion.all
-    @category_resources = CategoryResource.all
-    @category_issues = CategoryIssue.all
-    @category_markets = CategoryMarket.all
-    @category_features = CategoryFeature.all
-    @category_realizabilities = CategoryRealizability.all
-    @user_profile = current_user.user_profile
-    @post_type_flag = 1
-    @profile_type1_flag = true
-  end
-  
-  def create
-    @post = Post.new(post_params)
-    @user_profile = current_user.user_profile
-    @post = Post.new
-    @category_resources = CategoryResource.all
-    @category_issues = CategoryIssue.all
-    @category_markets = CategoryMarket.all
-    @category_features = CategoryFeature.all
-    @category_realizabilities = CategoryRealizability.all
-    @user_profile = current_user.user_profile
-    @post_type_flag = 1
-    @profile_type1_flag = true
-    
-    category_resources_ids = params[:category_resource_id]
-    category_issues_ids = params[:category_issue_id]
-    category_markets_ids = params[:category_market_id]
-    category_features_ids = params[:category_feature_id]
-    category_realizabilities_ids = params[:category_realizability_id]
-    
-   
-    if @post.save
-     if category_resources_ids.present?
-      category_resources_ids.each do |category_resources_id|
-        category_resources = @post.post_category_resources.build(category_resource_id: category_resources_id)
-        category_resources.save
-       end
-     end
-     
-     if category_issues_ids.present?
-      category_issues_ids.each do |category_issues_id|
-        category_issues = @post.post_category_issues.build(category_issue_id: category_issues_id)
-        category_issues.save
-       end
-     end
-     
-     if category_markets_ids.present?
-      category_markets_ids.each do |category_markets_id|
-        category_markets = @post.post_category_markets.build(category_market_id: category_markets_id)
-        category_markets.save
-      end  
-     end
-     
-     if category_features_ids.present?
-       category_features_ids.each do |category_features_id|
-        category_features = @post.post_category_features.build(category_feature_id: category_features_id)
-        category_features.save
-       end   
-     end
-     
-     if category_realizabilities_ids.present?
-       category_realizabilities_ids.each do |category_realizabilities_id|
-         category_realizabilities = @post.post_category_realizabilities.build(category_realizability_id: category_realizabilities_id)
-         category_realizabilities.save
-       end
-     end
-     
-      redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
-    else
-     puts "ここだよ"
-      render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
-      
-        p @post.errors.full_messages
-        p @post.errors.any?
-    end
-    puts "createが呼ばれた"
-    
-  end
   
   def index
     @category_resources = CategoryResource.all
@@ -149,11 +66,7 @@ class PostsRegionController < ApplicationController
     #「地域側投稿」のみ抽出
     @posts_post_type = Post.where(post_type: 1) - @unpublic_posts
     @posts_post_type_ids = @posts_post_type.pluck(:id)
-   
-   p "ここだからね"
-   p @unpublic_posts.pluck(:id)
-   p @posts_post_type_ids
-   
+
     #キーワードが入力された場合
     if @keyword.present?
      keyword = '%' + @keyword + '%'
@@ -364,7 +277,7 @@ class PostsRegionController < ApplicationController
     #ページネーション
     @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
     
- # チェック済のボックスにチェックを入れて検索結果を表示するため。
+  # チェック済のボックスにチェックを入れて検索結果を表示するため。
    if category_resource_ids.present?
     @category_resources.each_with_index do |category_resource, index|
       if category_resource_ids.include?(category_resource.id.to_s)
@@ -446,6 +359,80 @@ class PostsRegionController < ApplicationController
    end
   end
   
+  def new
+    @post = Post.new
+    @category_resources = CategoryResource.all
+    @category_issues = CategoryIssue.all
+    @category_markets = CategoryMarket.all
+    @category_features = CategoryFeature.all
+    @category_realizabilities = CategoryRealizability.all
+    @user_profile = current_user.user_profile
+    # @post_type_flag = 1
+    @profile_type1_flag = true
+  end
+  
+  def create
+    @post = Post.new(post_params)
+    @user_profile = current_user.user_profile
+    @category_resources = CategoryResource.all
+    @category_issues = CategoryIssue.all
+    @category_markets = CategoryMarket.all
+    @category_features = CategoryFeature.all
+    @category_realizabilities = CategoryRealizability.all
+    @user_profile = current_user.user_profile
+    # @post_type_flag = 1
+    @profile_type1_flag = true
+    
+    category_resources_ids = params[:category_resource_id]
+    category_issues_ids = params[:category_issue_id]
+    category_markets_ids = params[:category_market_id]
+    category_features_ids = params[:category_feature_id]
+    category_realizabilities_ids = params[:category_realizability_id]
+   
+    if @post.save
+      if category_resources_ids.present?
+        category_resources_ids.each do |category_resources_id|
+          category_resources = @post.post_category_resources.build(category_resource_id: category_resources_id)
+          category_resources.save
+        end
+      end
+     
+      if category_issues_ids.present?
+        category_issues_ids.each do |category_issues_id|
+          category_issues = @post.post_category_issues.build(category_issue_id: category_issues_id)
+          category_issues.save
+        end
+      end
+     
+      if category_markets_ids.present?
+        category_markets_ids.each do |category_markets_id|
+          category_markets = @post.post_category_markets.build(category_market_id: category_markets_id)
+          category_markets.save
+        end  
+      end
+     
+      if category_features_ids.present?
+        category_features_ids.each do |category_features_id|
+          category_features = @post.post_category_features.build(category_feature_id: category_features_id)
+          category_features.save
+        end   
+      end
+     
+      if category_realizabilities_ids.present?
+        category_realizabilities_ids.each do |category_realizabilities_id|
+          category_realizabilities = @post.post_category_realizabilities.build(category_realizability_id: category_realizabilities_id)
+          category_realizabilities.save
+        end
+      end
+     
+      redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
+    else
+      render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
+    end
+  end
+  
+ 
+  
   private
   def post_params
    params.require(:post).permit(:user_id, :post_type, :title, :prefecture, :city, :body1, :body2, :feature, :attachment, :realizability, :earnest, :public_status_id, images: [])
@@ -460,14 +447,14 @@ class PostsRegionController < ApplicationController
   end
   
   def user_profile_nil?
-    # if current_user.user_profile.nil?
-    #  redirect_to ({controller: 'names', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
-    # end 
+    if current_user.user_profile.nil?
+     redirect_to ({controller: 'names', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
+    end 
   end
   
   def user_profile_status
-   # if current_user.user_profile.public_status_region.nil?  || current_user.user_profile.public_status_region == 2
-   #   redirect_to edit_user_profiles_region_path(current_user.user_profile), danger: "地域情報を入力し、公開を選択してください"
-   # end
+   if current_user.user_profile.public_status_region.nil?  || current_user.user_profile.public_status_region == 2
+     redirect_to edit_user_profiles_region_path(current_user.user_profile), danger: "地域情報を入力し、公開を選択してください"
+   end
   end
 end

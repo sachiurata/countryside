@@ -52,7 +52,7 @@
         </div>
         <div class="public_status">
           <%= f.radio_button :public_status_id, 1, label:"公開", inline: true %>
-          <%= f.radio_button :public_status_id, 2, label:"非公開", inline: true %>
+          <%= f.radio_button :public_status_id, 2, label:"非公開", inline: true, checked: true %>
         </div>
      
       <%#= render "shared/error_messages", object: @post %>
@@ -61,6 +61,6 @@
      </div>  
      <% end %>
    </div>
-   <%= render "layouts/user_profile", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, profile_type2_flag: @profile_type2_flag %>
+   <%= render "layouts/user_profiles/user_profile", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, profile_type2_flag: @profile_type2_flag %>
   </div>
 </div>

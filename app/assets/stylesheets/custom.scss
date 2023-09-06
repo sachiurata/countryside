@@ -166,15 +166,15 @@ a {
     // }  
   }
   
-  #message-card {
+  .message-card {
     max-width: 768px;
-    height: 100px;
+    height: 100px !important;
     @media (max-width: 768px) {
      height: 120px;
     }  
   } 
   
-  #message-card-profile {
+  .message-card-profile {
     padding: 10px;
     font-size: 10px;
     @media (max-width: 768px) {
@@ -214,3 +214,15 @@ a {
   .field {
     max-width: 500px;
   }
+  
+  .img {
+      max-width: 100%;
+      height: auto;
+  }  
+  
+ /*　画面サイズが480px以下からはここを読み込む　*/
+@media screen and (max-width:768px) {
+ img.profile-avatar {
+   width: 25% !important;
+ }
+}

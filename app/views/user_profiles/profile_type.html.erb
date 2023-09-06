@@ -2,12 +2,11 @@
   <p>どちらで登録するか選択してください</p>
   <small>登録できるプロフィールは「地域側」「起業希望者」それぞれ一つずつです。</small>
   <div>
-  <%= link_to edit_user_profiles_region_path(current_user.user_profile) do  %>
-   <button class="btn btn-success" type="submit">地域側</button>
-  <% end %> 
-  <%= link_to edit_user_profiles_business_path(current_user.user_profile) do  %> 
-   <button class="btn btn-danger" type="submit">起業希望者</button>
-  <% end %>
+    <%= link_to edit_user_profiles_region_path(current_user.user_profile) do  %>
+      <button class="btn btn-success" type="submit">地域側</button>
+    <% end %> 
+    <%= link_to edit_user_profiles_business_path(current_user.user_profile) do  %> 
+     <button class="btn btn-danger" type="submit">起業希望者</button>
+    <% end %>
   </div>
-  <div><%#= link_to "地域側", new_user_profile_path, class: "btn btn-success" %></div>
 </div> 

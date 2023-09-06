@@ -1,22 +1,25 @@
 <div class="container">
   <ul class="nav flex-column">
     <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="/admins/tag_post_regions/new">タグ(投稿/地域)</a>
+      <%= link_to "タグ(投稿/地域)", tag_post_regions_path, class: "nav-link active" %>
     </li>
     <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="/admins/tag_post_businesses/new">タグ(投稿/起業)</a>
+      <%= link_to "タグ(投稿/起業)", tag_post_businesses_path, class: "nav-link active" %>
     </li>
     <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="/admins/tag_profile_regions/new">タグ(ユーザー/地域)</a>
+      <%= link_to "タグ(ユーザー/地域)", tag_profile_regions_path, class: "nav-link active" %>
     </li>
     <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="/admins/tag_profile_businesses/new">タグ(ユーザー/起業)</a>
+      <%= link_to "タグ(ユーザー/起業)", tag_profile_businesses_path, class: "nav-link active" %>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/articles/new">新規記事作成</a>
+      <%= link_to "新規記事作成", new_article_path, class: "nav-link active" %>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/articles">記事一覧</a>
+      <%= link_to "記事一覧", articles_path, class: "nav-link active" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "ユーザー一覧", user_profiles_path, class: "nav-link active" %>
     </li>
   </ul>
 </div>

@@ -8,8 +8,8 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css', integrity: 'xxxx', crossorigin: 'anonymous' %>
-    <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', integrity: 'xxxx', crossorigin: 'anonymous' %>
+    <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css', integrity: 'sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9', crossorigin: 'anonymous' %>
+    <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js', integrity: 'sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm', crossorigin: 'anonymous' %>
     <!--<p class="notice"><%#= notice %></p>-->
     <!--<p class="alert"><%#= alert %></p>-->
   </head>
@@ -19,23 +19,19 @@
       <div class="alert alert-primary" role="alert"><%= value %></div>
     <% end %>
     
-   <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
       <a class="navbar-brand" href="/">Top Page</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <!--<li class="nav-item">-->
-          <!--  <a class="nav-link active" aria-current="page" href="#">Home</a>-->
-          <!--</li>-->
-          <!--<li class="nav-item">-->
-          <!--  <a class="nav-link" href="#">Link</a>-->
-          <!--</li>-->
           <li class="nav-item dropdown">
             <%= link_to 'About', about_path, class: 'nav-link' %>
-           </li>
+          </li>
+          
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               投稿を探す
@@ -62,50 +58,49 @@
           <!--    <li><a class="dropdown-item" href="#">Something else here</a></li>-->
           <!--  </ul>-->
           <!--</li>-->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              投稿作成
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/posts_region/new">地域側</a></li>
-              <li><a class="dropdown-item" href="/posts_business/new">起業希望者</a></li>
-            </ul>
-          </li>
+          <% if !admin_signed_in? %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                投稿作成
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/posts_region/new">地域側</a></li>
+                <li><a class="dropdown-item" href="/posts_business/new">起業希望者</a></li>
+              </ul>
+            </li>
+          <% end %>
           
           <li class="nav-item">
-           <% if user_signed_in? && (Message.exists?(to_id:current_user.id) || Message.exists?(from_id:current_user.id)) %>  
-            <a class="nav-link" href="/messages/all">メッセージ</a>
-           <% end %>  
+            <% if user_signed_in? && (Message.exists?(to_id:current_user.id) || Message.exists?(from_id:current_user.id)) %>  
+              <a class="nav-link" href="/messages/all">メッセージ</a>
+            <% end %>  
           </li>
-          <!--<li class="nav-item">-->
-          <!--  <a class="nav-link disabled">Disabled</a>-->
-          <!--</li>-->
           
           <% if admin_signed_in? %>
-           <li class="nav-item dropdown">
-            <%= link_to '管理画面トップ', admins_path, class: 'nav-link' %>
-           </li>
-           <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
+              <%= link_to '管理画面トップ', admins_path, class: 'nav-link' %>
+            </li>
+            <li class="nav-item dropdown">
               <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete }, class: 'nav-link'  %>
             </li>
           <% else %>
-           <% if !user_signed_in? %>
-            <li class="nav-item">
-              <a class="nav-link" href="/users/sign_in">ログイン</a>
-            </li>
-           <% else %>  
-             <% if current_user.user_profile.nil? %>  
+            <% if !user_signed_in? %>
               <li class="nav-item">
-                <%= link_to "プロフィール登録", new_name_path, class: 'nav-link' %>
+                <a class="nav-link" href="/users/sign_in">ログイン</a>
               </li>
-             <% else %>  
-              <li class="nav-item" >
-                <%= link_to "マイページ", account_path(current_user.id), class: 'nav-link' %>
+            <% else %>  
+              <% if current_user.user_profile.nil? %>  
+                <li class="nav-item">
+                  <%= link_to "プロフィール登録", new_name_path, class: 'nav-link' %>
+                </li>
+              <% else %>  
+                <li class="nav-item" >
+                  <%= link_to "マイページ", account_path(current_user.id), class: 'nav-link' %>
+                </li>
+              <% end %>  
+              <li class="nav-item">
+               <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete }, class: 'nav-link' %>
               </li>
-             <% end %>  
-             <li class="nav-item">
-              <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete }, class: 'nav-link' %>
-             </li>
             <% end %>
           <% end %>
           
@@ -119,7 +114,7 @@
     // $(function(){
     //   $(".alert").fadeOut(5000);
     // });
-    </script>
+  </script>
     
   </body>
 </html>

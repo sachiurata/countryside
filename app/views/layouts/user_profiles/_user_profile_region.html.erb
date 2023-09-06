@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row g-0">
+    <div class="col-md-10 card user-profile-area">
+      <div class="card-body">
+        <div><span class="badge text-bg-success">地域側</span></div>
+        <div class="profile-content"> 
+          <P class="label">地域について
+            <% user_profile.profile_category_about_regions.each do |profile_category_about_region| %>
+              <span class="badge rounded-pill text-bg-primary">
+                <%= profile_category_about_region.category_about_region.tag_name %>
+              </span>  
+            <% end %></P>
+          <P><%= text_url_to_link(safe_join((h(user_profile.about_region)).split("\n"),tag(:br))).html_safe %></P>
+        </div>
+        
+        <div class="profile-content"> 
+          <P class="label">地域の起業支援
+            <% user_profile.profile_category_incubations.each do |profile_category_incubation| %>
+              <span class="badge rounded-pill text-bg-secondary">
+                <%= profile_category_incubation.category_incubation.tag_name %>
+              </span>  
+            <% end %></p>
+          <P><%= text_url_to_link(safe_join((h(user_profile.incubation)).split("\n"),tag(:br))).html_safe %></P>
+        </div>
+        
+        <div class="profile-content"> 
+          <P class="label">地域の移住支援
+            <% user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>
+              <span class="badge rounded-pill text-bg-warning">
+                <%= profile_category_immigration_support.category_immigration_support.tag_name %>
+              </span>  
+            <% end %></P>
+          <p><%= text_url_to_link(safe_join((h(user_profile.immigration_support)).split("\n"),tag(:br))).html_safe %></p>
+        </div>
+        
+        <div class="profile-content"> 
+          <p class="label">その他</p>
+          <p><%= text_url_to_link(safe_join((h(user_profile.other1)).split("\n"),tag(:br))).html_safe %></p>
+        </div>
+        
+        <% if mypage_flag %>
+          <% if user_profile.public_status_region == 1 %>
+            <div class="public-status">公開中</div>
+          <% elsif user_profile.public_status_region == 2 %>
+            <div class="public-status">非公開<br>
+            <small style="font-size: small; font-weight: normal; color: grey;">※プロフィールが非公開だと投稿は公開されません。<br>※プロフィールが非公開でもコメントやメッセージを送信すると、名前やプロフィール写真は公開されます。</small></div>
+          <% end %>
+        <% end %>
+        
+        <% if user_signed_in? && user_profile.user_id == current_user.id %>
+          <%= link_to 'プロフィールの編集', edit_user_profiles_region_path(user_profile.id), class: "btn btn-secondary btn-edit" %>
+        <% end %> 
+      </div>
+    </div> 
+  </div>
+ </div>

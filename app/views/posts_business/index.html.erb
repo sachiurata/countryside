@@ -53,7 +53,7 @@
    <P><%= @posts_count %>件の投稿</P>
    <% @posts.each do |post| %>
     <% if post.public_status_id == 1  || post.public_status_id == 3 %>
-     <%= render "layouts/post_card", post: post %>
+     <%= render "layouts/posts/post_card", post: post %>
     <% end %>
    <% end %>
    <div style="margin-top: 20px;"><%= paginate @posts, theme: 'twitter-bootstrap-4' %></div>

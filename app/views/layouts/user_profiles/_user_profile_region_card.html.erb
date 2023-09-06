@@ -1,0 +1,34 @@
+<div class="user-profile-card">
+  <div class="row g-0">
+    <div class="col-md-2">
+     <%= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar" if user_profile.avatar.attached? %>
+    </div>
+    
+    <div class="col-md-10">
+      <span class="badge text-bg-success">地域側</span>
+      <p class="name"><%= user_profile.screen_name %></p>
+      <P class="place"><%= user_profile.prefecture%><%= user_profile.city %></P>
+      <small class="text-body-secondary">最終ログイン日　<%= l user_profile.user.last_sign_in_at, format: :only_date %></small></P>
+        <P class="label">地域について
+        <% user_profile.profile_category_about_regions.each do |profile_category_about_region| %>
+          <span class="badge rounded-pill text-bg-primary">
+            <%= profile_category_about_region.category_about_region.tag_name %>
+          </span>  
+        <% end %></P>
+        
+        <P class="label">地域の起業支援
+        <% user_profile.profile_category_incubations.each do |profile_category_incubation| %>
+          <span class="badge rounded-pill text-bg-secondary">
+            <%= profile_category_incubation.category_incubation.tag_name %>
+          </span>  
+        <% end %></p>
+        
+        <P class="label">地域の移住支援
+        <% user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>
+         <span class="badge rounded-pill text-bg-warning">
+           <%= profile_category_immigration_support.category_immigration_support.tag_name %>
+         </span>  
+        <% end %></P>
+      </div> 
+    </div>
+ </div>

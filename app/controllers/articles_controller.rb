@@ -9,12 +9,15 @@ class ArticlesController < ApplicationController
     if @article.save
       redirect_to @article, action: :show, id: @article.id
     else
-      render @article, action: :new
+      @article = Article.new
+      render :new, status: :unprocessable_entity
     end
   end
   
   def show
     @article = Article.find(params[:id])
+    puts "ここ"
+    p @article.thumbnail
   end
   
   def index
@@ -30,14 +33,14 @@ class ArticlesController < ApplicationController
     if @article.update(article_params)
      redirect_to @article, action: :show, id: @article.id
     else
-     render @article, action: :new  
+     render @article, action: :edit  
     end
   end
  
   def destroy
     @article = Article.find(params[:id])
     if @article.destroy
-      redirect_to root_path, notice: "記事を削除しました"
+      redirect_to @article, action: :index, notice: "記事を削除しました"
     else
       render @article, action: :show, id: @article.id
     end

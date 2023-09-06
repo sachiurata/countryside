@@ -1,17 +1,17 @@
 <div class="container">
- <div class="row">
-  <div class="col-md-8 offset-md-2">
-   <div class="title">
-    <%= @article.title %>
-   </div> 
-   <div>
-    <%= @article.content %>
-   </div>
-   <div>
-    <% if admin_signed_in? %>
-     <%= link_to "編集", edit_article_path(@article) %>
-    <% end %>
-   </div>
-  </div>
- </div> 
+  <div class="row">
+    <div class="col-md-8">
+      <div class="title">
+        <%= @article.title %>
+      </div> 
+      <div class="img-fluid" style="max-width: 100%;">
+        <%= @article.content %>
+      </div> 
+      <div>
+        <% if admin_signed_in? %>
+          <%= link_to "編集", edit_article_path(@article) %>
+        <% end %>
+      </div>
+    </div>
+  </div> 
 </div>  
