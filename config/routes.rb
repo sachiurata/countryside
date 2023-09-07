@@ -24,11 +24,17 @@ Rails.application.routes.draw do
   get "user_profiles_business/:id/edit",  to: "user_profiles_business#edit", as: "edit_user_profiles_business"
   
   resources :posts, except: [:new, :create]
-  resources :posts_region
-  resources :posts_business
+  
+  get  "/posts_region",              to: "posts_region#index",  as: "posts_region"  
+  get  "/posts_region/new",          to: "posts_region#new",    as: "new_post_region"  
+  post "/posts_region",              to: "posts_region#create"
+  
+  get  "/posts_business",            to: "posts_business#index",  as: "posts_business"  
+  get  "/posts_business/new",        to: "posts_business#new",    as: "new_post_business"  
+  post "/posts_business",            to: "posts_business#create"
   
   resources :post do
-     resources :comments, except: [:show, :index]
+    resources :comments, except: [:show, :index]
   end
   
   resources :favorites, only: [:create, :destroy]

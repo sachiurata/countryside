@@ -1,52 +1,7 @@
 class PostsBusinessController < ApplicationController
-  
   before_action :authenticate_user!, except:[:index]
   before_action :user_profile_nil?, except:[:index]
   before_action :user_profile_status, only:[:new, :create]
-  
-  
-   def new
-    @post = Post.new
-    @category_earnests = CategoryEarnest.all
-    @category_wants = CategoryWant.all
-    @user_profile = current_user.user_profile
-    @post_type_flag = 2
-    @profile_type2_flag = true
-    # @profile_type2_flag = false
-   end
-  
-  def create
-    @post = Post.new(post_params)
-    @user_profile = current_user.user_profile
-    @category_earnests = CategoryEarnest.all
-    @category_wants = CategoryWant.all
-    @user_profile = current_user.user_profile
-    @post_type_flag = 2
-    @profile_type2_flag = true
-    
-    category_wants_ids = params[:category_want_id]
-    category_earnest_ids = params[:category_earnest_id]
-    
-   if @post.save
-    if category_wants_ids.present?
-      category_wants_ids.each do |category_wants_id|
-       category_wants = @post.post_category_wants.build(category_want_id: category_wants_id)
-       category_wants.save
-      end
-    end   
-    if category_earnest_ids.present?
-     category_earnest_ids.each do |category_earnest_id|
-       category_earnest = @post.post_category_earnest.build(category_earnest_id: category_earnest_id)
-       category_earnest.save
-     end
-    end  
-    
-     redirect_to @post, action: :show, id: @post.id, notice:"登録が完了しました"
-   else
-     render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
-     #空欄以外で登録失敗ってある？空欄だと画面が遷移しない。
-   end
-  end
   
   def index
     @category_wants = CategoryWant.all
@@ -100,10 +55,10 @@ class PostsBusinessController < ApplicationController
     
     #キーワードが入力された場合　
     if @keyword.present?
-     keyword = '%' + @keyword + '%'
-     @posts_post_type_keyword = Post.where("title like ?", keyword).or(Post.where("body2 like ?", keyword)).where(id: @posts_post_type_ids)
+      keyword = '%' + @keyword + '%'
+      @posts_post_type_keyword = Post.where("title like ?", keyword).or(Post.where("body2 like ?", keyword)).where(id: @posts_post_type_ids)
     else
-     @posts_post_type_keyword = @posts_post_type
+      @posts_post_type_keyword = @posts_post_type
     end 
       
     #「都道府県」が選択された場合
@@ -138,26 +93,26 @@ class PostsBusinessController < ApplicationController
     
     #「職業」でチェックされている項目を含むプロフィール
     if category_job_ids.present?
-     category_job_ids.each do |category_job_id|
-      @category_job_profiles = UserProfile.joins(:profile_category_jobs).where(profile_category_jobs: {category_job_id: category_job_id})
-      @category_job_profiles_all.concat(@category_job_profiles)
-     end
+      category_job_ids.each do |category_job_id|
+        @category_job_profiles = UserProfile.joins(:profile_category_jobs).where(profile_category_jobs: {category_job_id: category_job_id})
+        @category_job_profiles_all.concat(@category_job_profiles)
+      end
     end
    
     #「得意なこと」でチェックされている項目を含むプロフィール
     if category_skill_ids.present?
-     category_skill_ids.each do |category_skill_id|
-      @category_skill_profiles = UserProfile.joins(:profile_category_skills).where(profile_category_skills: {category_skill_id: category_skill_id})
-      @category_skill_profiles_all.concat(@category_skill_profiles)
-     end
+      category_skill_ids.each do |category_skill_id|
+        @category_skill_profiles = UserProfile.joins(:profile_category_skills).where(profile_category_skills: {category_skill_id: category_skill_id})
+        @category_skill_profiles_all.concat(@category_skill_profiles)
+      end
     end
    
     #「興味のあること」でチェックされている項目を含むプロフィール
     if category_interest_ids.present?
-     category_interest_ids.each do |category_interest_id|
-      @category_interest_profiles = UserProfile.joins(:profile_category_interests).where(profile_category_interests: {category_interest_id: category_interest_id})
-      @category_interest_profiles_all.concat(@category_interest_profiles)
-     end
+      category_interest_ids.each do |category_interest_id|
+        @category_interest_profiles = UserProfile.joins(:profile_category_interests).where(profile_category_interests: {category_interest_id: category_interest_id})
+        @category_interest_profiles_all.concat(@category_interest_profiles)
+      end
     end
          
     #　タグ「やりたいこと」「本気度」「職業」「得意なこと」「興味のあること」の各項目についてOR検索
@@ -167,10 +122,10 @@ class PostsBusinessController < ApplicationController
         @posts = @posts_post_type_keyword_prefecture
       else
        
-       #投稿のタグでの絞り込み
-       @posts_tag.concat(@category_want_posts_all, @category_earnest_posts_all) 
+        #投稿のタグでの絞り込み
+        @posts_tag.concat(@category_want_posts_all, @category_earnest_posts_all) 
        
-       #プロフィールのタグでの絞り込み
+        #プロフィールのタグでの絞り込み
         @profiles_tag.concat(@category_job_profiles_all, @category_skill_profiles_all, @category_interest_profiles_all)
         @profile_tag_ids = @profiles_tag.pluck(:id)
         @posts_user = User.where(id: @profile_tag_ids)
@@ -187,56 +142,57 @@ class PostsBusinessController < ApplicationController
       else
         #「やりたいこと」のチェックボックスが一つでもチェックされた場合
         if category_want_ids.present?
-           @post_tag_ids = @category_want_posts_ids
+          @post_tag_ids = @category_want_posts_ids
         end
         
         #「本気度」のチェックボックスが一つでもチェックされた場合
         if category_earnest_ids.present?
-         if category_want_ids.nil?
-          @post_tag_ids = @category_earnest_posts_ids
-         else  
-          @post_tag_ids = @post_tag_ids & @category_earnest_posts_ids
-         end  
+          if category_want_ids.nil?
+            @post_tag_ids = @category_earnest_posts_ids
+          else  
+            @post_tag_ids = @post_tag_ids & @category_earnest_posts_ids
+          end  
         end
         
         #プロフィールでの絞り込み
         if category_job_ids.nil? && category_skill_ids.nil? && category_interest_ids.nil?
-         @posts_tag_ids = @posts_tag_ids
+          @posts_tag_ids = @posts_tag_ids
         else
          
-         #「職業」のチェックボックスが一つでもチェックされた場合
-         if category_job_ids.present?
-          @profiles_tag = @category_job_profiles_all
-         end
-         
-         #「得意なこと」のチェックボックスが一つでもチェックされた場合
-         if category_skill_ids.present?
-          if category_job_ids.nil?
-           @profiles_tag = @category_skill_profiles_all
-          else
-           @profiles_tag = @profiles_tag & @category_skill_profiles_all
+          #「職業」のチェックボックスが一つでもチェックされた場合
+          if category_job_ids.present?
+            @profiles_tag = @category_job_profiles_all
           end
-         end
          
-         #「興味のあること」のチェックボックスが一つでもチェックされた場合
-         if category_interest_ids.present?
-          if category_job_ids.nil? &&  category_skill_ids.nil?
-           @profiles_tag = @category_interest_profiles_all
-          else
-           @profiles_tag = @profiles_tag & @category_interest_profiles_all
+          #「得意なこと」のチェックボックスが一つでもチェックされた場合
+          if category_skill_ids.present?
+            if category_job_ids.nil?
+              @profiles_tag = @category_skill_profiles_all
+            else
+              @profiles_tag = @profiles_tag & @category_skill_profiles_all
+            end
           end
-         end  
          
-         @profile_tag_ids = @profiles_tag.pluck(:id)
-         @posts_user = User.where(id: @profile_tag_ids)
-         @posts_profile_tag = Post.where(user_id: @posts_user)
-         @post_profile_tag_ids = @posts_profile_tag.pluck(:id)
-         if @post_tag_ids.empty?
-          @post_tag_ids = @post_profile_tag_ids
-         else
-          @post_tag_ids = @post_tag_ids & @post_profile_tag_ids
-         end
+          #「興味のあること」のチェックボックスが一つでもチェックされた場合
+          if category_interest_ids.present?
+            if category_job_ids.nil? &&  category_skill_ids.nil?
+              @profiles_tag = @category_interest_profiles_all
+            else
+              @profiles_tag = @profiles_tag & @category_interest_profiles_all
+            end
+          end  
+         
+          @profile_tag_ids = @profiles_tag.pluck(:id)
+          @posts_user = User.where(id: @profile_tag_ids)
+          @posts_profile_tag = Post.where(user_id: @posts_user)
+          @post_profile_tag_ids = @posts_profile_tag.pluck(:id)
+          if @post_tag_ids.empty?
+            @post_tag_ids = @post_profile_tag_ids
+          else
+            @post_tag_ids = @post_tag_ids & @post_profile_tag_ids
+          end
         end 
+        
         @posts_tag = Post.where(id: @post_tag_ids)
         @posts = @posts_tag & @posts_post_type_keyword_prefecture
       end
@@ -252,62 +208,104 @@ class PostsBusinessController < ApplicationController
     #ページネーション
     @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
           
- # チェック済のボックスにチェックを入れて検索結果を表示するため
-   if category_want_ids.present?
-    @category_wants.each_with_index do |category_want, index|
-      if category_want_ids.include?(category_want.id.to_s)
-       @check_flags_category_wants[index] = true
-      else
-       @check_flags_category_wants[index] = false
+    # チェック済のボックスにチェックを入れて検索結果を表示するため
+    if category_want_ids.present?
+      @category_wants.each_with_index do |category_want, index|
+        if category_want_ids.include?(category_want.id.to_s)
+          @check_flags_category_wants[index] = true
+        else
+          @check_flags_category_wants[index] = false
+        end
       end
-    end
-   end 
+    end 
    
-   if category_earnest_ids.present?
-    @category_earnests.each_with_index do |category_earnest, index|
-      if category_earnest_ids.include?(category_earnest.id.to_s)
-       @check_flags_category_earnests[index] = true
-      else
-       @check_flags_category_earnests[index] = false
+    if category_earnest_ids.present?
+      @category_earnests.each_with_index do |category_earnest, index|
+        if category_earnest_ids.include?(category_earnest.id.to_s)
+          @check_flags_category_earnests[index] = true
+        else
+          @check_flags_category_earnests[index] = false
+        end
       end
     end
-   end
    
-   if category_job_ids.present?
-    @category_jobs.each_with_index do |category_job, index|
-      if category_job_ids.include?(category_job.id.to_s)
-       @check_flags_category_jobs[index] = true
-      else
-       @check_flags_category_jobs[index] = false
+    if category_job_ids.present?
+      @category_jobs.each_with_index do |category_job, index|
+        if category_job_ids.include?(category_job.id.to_s)
+          @check_flags_category_jobs[index] = true
+        else
+          @check_flags_category_jobs[index] = false
+        end
       end
     end
-   end
    
-   if category_skill_ids.present?
-     @category_skills.each_with_index do |category_skill, index|
-      if category_skill_ids.include?(category_skill.id.to_s)
-       @check_flags_category_skills[index] = true
-      else
-       @check_flags_category_skills[index] = false
+    if category_skill_ids.present?
+      @category_skills.each_with_index do |category_skill, index|
+        if category_skill_ids.include?(category_skill.id.to_s)
+          @check_flags_category_skills[index] = true
+        else
+          @check_flags_category_skills[index] = false
+        end
       end
     end
-   end
    
-   if category_interest_ids.present?
-     @category_interests.each_with_index do |category_interest, index|
-      if category_interest_ids.include?(category_interest.id.to_s)
-       @check_flags_category_interests[index] = true
-      else
-       @check_flags_category_interests[index] = false
+    if category_interest_ids.present?
+      @category_interests.each_with_index do |category_interest, index|
+        if category_interest_ids.include?(category_interest.id.to_s)
+          @check_flags_category_interests[index] = true
+        else
+          @check_flags_category_interests[index] = false
+        end
       end
     end
-   end
+  end
+  
+  def new
+    @post = Post.new
+    @category_earnests = CategoryEarnest.all
+    @category_wants = CategoryWant.all
+    @user_profile = current_user.user_profile
+    @post_type_flag = 2
+    @profile_type2_flag = true
+  end
+  
+  def create
+    @post = Post.new(post_params)
+    @user_profile = current_user.user_profile
+    @category_earnests = CategoryEarnest.all
+    @category_wants = CategoryWant.all
+    @user_profile = current_user.user_profile
+    @post_type_flag = 2
+    @profile_type2_flag = true
+    
+    category_wants_ids = params[:category_want_id]
+    category_earnest_ids = params[:category_earnest_id]
+    
+    if @post.save
+      if category_wants_ids.present?
+        category_wants_ids.each do |category_wants_id|
+          category_wants = @post.post_category_wants.build(category_want_id: category_wants_id)
+          category_wants.save
+        end
+      end
+      
+      if category_earnest_ids.present?
+        category_earnest_ids.each do |category_earnest_id|
+          category_earnest = @post.post_category_earnest.build(category_earnest_id: category_earnest_id)
+          category_earnest.save
+        end
+      end  
+    
+    redirect_to @post, action: :show, id: @post.id, notice:"登録が完了しました"
+   
+    else
+      render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
+    end
   end
   
   private
   def post_params
-   params.require(:post).permit(:user_id, :post_type, :title, :prefecture, :city, :body1, :body2, :feature, :attachment, :realizability, :earnest, :public_status_id, images: [])
-   params.permit(:public_status_region)
+    params.require(:post).permit(:user_id, :post_type, :title, :prefecture, :city, :body1, :body2, :feature, :attachment, :realizability, :earnest, :public_status_id, images: [])
   end
 
   def ensure_user
@@ -319,13 +317,13 @@ class PostsBusinessController < ApplicationController
   
   def user_profile_nil?
     if current_user.user_profile.nil?
-     redirect_to ({controller: 'user_profiles', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
+      redirect_to ({controller: 'user_profiles', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
     end 
   end  
   
   def user_profile_status
-   if current_user.user_profile.public_status_business.nil?  || current_user.user_profile.public_status_business == 2
-     redirect_to edit_user_profiles_business_path(current_user.user_profile), danger: "プロフィールを入力し、公開を選択してください"
-   end
+    if current_user.user_profile.public_status_business.nil?  || current_user.user_profile.public_status_business == 2
+      redirect_to edit_user_profiles_business_path(current_user.user_profile), danger: "プロフィールを入力し、公開を選択してください"
+    end
   end
 end

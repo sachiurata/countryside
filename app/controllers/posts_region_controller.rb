@@ -69,10 +69,10 @@ class PostsRegionController < ApplicationController
 
     #キーワードが入力された場合
     if @keyword.present?
-     keyword = '%' + @keyword + '%'
-     @posts_post_type_keyword = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @posts_post_type_ids)
+      keyword = '%' + @keyword + '%'
+      @posts_post_type_keyword = Post.where("title like ?", keyword).or(Post.where("body1 like ?", keyword)).where(id: @posts_post_type_ids)
     else
-     @posts_post_type_keyword = @posts_post_type
+      @posts_post_type_keyword = @posts_post_type
     end
       
     #「都道府県」が選択された場合
@@ -134,26 +134,26 @@ class PostsRegionController < ApplicationController
     
     #「地域について」でチェックされている項目を含む投稿
     if category_about_region_ids.present?
-     category_about_region_ids.each do |category_about_region_id|
-      @category_about_region_profiles = UserProfile.joins(:profile_category_about_regions).where(profile_category_about_regions: {category_about_region_id: category_about_region_id})
-      @category_about_region_profiles_all.concat(@category_about_region_profiles)
-     end 
+      category_about_region_ids.each do |category_about_region_id|
+        @category_about_region_profiles = UserProfile.joins(:profile_category_about_regions).where(profile_category_about_regions: {category_about_region_id: category_about_region_id})
+        @category_about_region_profiles_all.concat(@category_about_region_profiles)
+      end 
     end
     
     #「起業支援」でチェックさ���ている項目を含む投稿
     if category_incubation_ids.present?
-     category_incubation_ids.each do |category_incubation_id|
-      @category_incubation_profiles = UserProfile.joins(:profile_category_incubations).where(profile_category_incubations: {category_incubation_id: category_incubation_id})
-      @category_incubation_profiles_all.concat(@category_incubation_profiles)
-     end 
+      category_incubation_ids.each do |category_incubation_id|
+        @category_incubation_profiles = UserProfile.joins(:profile_category_incubations).where(profile_category_incubations: {category_incubation_id: category_incubation_id})
+        @category_incubation_profiles_all.concat(@category_incubation_profiles)
+      end 
     end
     
     #「移住支援」でチェックされている項目を含む投稿
     if category_immigration_support_ids.present?
-     category_immigration_support_ids.each do |category_immigration_support_id|
-      @category_immigration_support_profiles = UserProfile.joins(:profile_category_immigration_supports).where(profile_category_immigration_supports: {category_immigration_support_id: category_immigration_support_id})
-      @category_immigration_support_profiles_all.concat(@category_immigration_support_profiles)
-     end 
+      category_immigration_support_ids.each do |category_immigration_support_id|
+       @category_immigration_support_profiles = UserProfile.joins(:profile_category_immigration_supports).where(profile_category_immigration_supports: {category_immigration_support_id: category_immigration_support_id})
+       @category_immigration_support_profiles_all.concat(@category_immigration_support_profiles)
+      end 
     end
          
     #　タグ「地域資源」「地域課題」「需要」「地域の特色」「実現可能性」「地域について」「起業支援」「移住支援」の各項目についてOR検索  
@@ -162,17 +162,17 @@ class PostsRegionController < ApplicationController
       if category_resource_ids.nil? && category_issue_ids.nil? && category_market_ids.nil? && category_feature_ids.nil? && category_realizability_ids.nil? && category_about_region_ids.nil? && category_incubation_ids.nil? && category_immigration_support_ids.nil?
         @posts = @posts_post_type_keyword_prefecture
       else
-       #投稿のタグでの絞り込み
-       @posts_tag.concat(@category_resource_posts_all, @category_issue_posts_all, @category_market_posts_all, @category_feature_posts_all, @category_realizability_posts_all)
+        #投稿のタグでの絞り込み
+        @posts_tag.concat(@category_resource_posts_all, @category_issue_posts_all, @category_market_posts_all, @category_feature_posts_all, @category_realizability_posts_all)
        
-       #プロフィールのタグでの絞り込み
-       @profiles_tag.concat(@category_about_region_profiles_all, @category_incubation_profiles_all, @category_immigration_support_profiles_all)
-       @profile_tag_ids = @profiles_tag.pluck(:id)
-       @posts_user = User.where(id: @profile_tag_ids)
-       @posts_profile_tag = Post.where(user_id: @posts_user)
-       @posts_tag.concat(@posts_profile_tag)
+        #プロフィールのタグでの絞り込み
+        @profiles_tag.concat(@category_about_region_profiles_all, @category_incubation_profiles_all, @category_immigration_support_profiles_all)
+        @profile_tag_ids = @profiles_tag.pluck(:id)
+        @posts_user = User.where(id: @profile_tag_ids)
+        @posts_profile_tag = Post.where(user_id: @posts_user)
+        @posts_tag.concat(@posts_profile_tag)
        
-       @posts = @posts_tag & @posts_post_type_keyword_prefecture
+        @posts = @posts_tag & @posts_post_type_keyword_prefecture
       end       
     
     #　タグ「地域資源」「地域課題」「需要」「地域の特色」「実現可能性」「地域について」「起業支援」「移住支援」の各項目についてAND検索  
@@ -188,82 +188,81 @@ class PostsRegionController < ApplicationController
         
         #「地域課題」のチェックボックスが一つでもチェックされた場合
         if category_issue_ids.present?
-         if category_resource_ids.nil?
-          @post_tag_ids = @category_issue_posts_ids
-         else  
-          @post_tag_ids = @post_tag_ids & @category_issue_posts_ids
-         end
+          if category_resource_ids.nil?
+            @post_tag_ids = @category_issue_posts_ids
+          else  
+            @post_tag_ids = @post_tag_ids & @category_issue_posts_ids
+          end
         end
         
         #「需要」のチェックボックスが一つでもチェックされた場合
         if category_market_ids.present?
-         if category_resource_ids.nil? & category_issue_ids.nil?
-          @post_tag_ids = @category_market_posts_ids
-         else  
-          @post_tag_ids = @post_tag_ids & @category_market_posts_ids
-         end
+          if category_resource_ids.nil? & category_issue_ids.nil?
+            @post_tag_ids = @category_market_posts_ids
+          else  
+            @post_tag_ids = @post_tag_ids & @category_market_posts_ids
+          end
         end    
         
         #「地域の特色」のチェックボックスが一つでもチェックされた場合
         if category_feature_ids.present?
-         if category_resource_ids.nil? & category_issue_ids.nil? & category_market_ids.nil?
-          @post_tag_ids = @category_feature_posts_ids
-         else  
-          @post_tag_ids = @post_tag_ids & @category_feature_posts_ids
-         end
+          if category_resource_ids.nil? & category_issue_ids.nil? & category_market_ids.nil?
+            @post_tag_ids = @category_feature_posts_ids
+          else  
+            @post_tag_ids = @post_tag_ids & @category_feature_posts_ids
+          end
         end
         
         #「実現可能性」のチェックボックスが一つでもチェックされた場合
         if category_realizability_ids.present?
-         if category_resource_ids.nil? & category_issue_ids.nil? & category_market_ids.nil? & category_feature_ids.nil?
-          @post_tag_ids = @category_realizability_posts_ids
-         else  
-          @post_tag_ids = @post_tag_ids & @category_realizability_posts_ids
-         end
+          if category_resource_ids.nil? & category_issue_ids.nil? & category_market_ids.nil? & category_feature_ids.nil?
+            @post_tag_ids = @category_realizability_posts_ids
+          else  
+            @post_tag_ids = @post_tag_ids & @category_realizability_posts_ids
+          end
         end
         
         #プロフィールでの絞り込み
         if category_about_region_ids.nil? && category_incubation_ids.nil? && category_immigration_support_ids.nil?
-         @posts_tag_ids = @posts_tag_ids
+          @posts_tag_ids = @posts_tag_ids
         else
          
-         #「地域について」のチェックボックスが一つでもチェックされた場合
-         if category_about_region_ids.present?
-          @profiles_tag = @category_about_region_profiles_all
-         end
-         
-         #「起業支援」のチェックボックスが一つでもチェックされた場合
-         if category_incubation_ids.present?
-          if category_about_region_ids.nil?
-           @profiles_tag = @category_incubation_profiles_all
-          else
-           @profiles_tag = @profiles_tag & @category_incubation_profiles_all
+          #「地域について」のチェックボックスが一つでもチェックされた場合
+          if category_about_region_ids.present?
+            @profiles_tag = @category_about_region_profiles_all
           end
-         end
+         
+          #「起業支援」のチェックボックスが一つでもチェックされた場合
+          if category_incubation_ids.present?
+            if category_about_region_ids.nil?
+              @profiles_tag = @category_incubation_profiles_all
+            else
+              @profiles_tag = @profiles_tag & @category_incubation_profiles_all
+            end
+          end
          
          #「移住支援」のチェックボックスが一つでもチェックされた場合
-         if category_immigration_support_ids.present?
-          if category_about_region_ids.nil? && category_incubation_ids.nil?
-           @profiles_tag = @category_immigration_support_profiles_all
-          else
-           @profiles_tag = @profiles_tag & @category_immigration_support_profiles_all
+          if category_immigration_support_ids.present?
+            if category_about_region_ids.nil? && category_incubation_ids.nil?
+              @profiles_tag = @category_immigration_support_profiles_all
+            else
+              @profiles_tag = @profiles_tag & @category_immigration_support_profiles_all
+            end
           end
-         end
          
-         @profile_tag_ids = @profiles_tag.pluck(:id)
-         @posts_user = User.where(id: @profile_tag_ids)
-         @posts_profile_tag = Post.where(user_id: @posts_user)
-         @post_profile_tag_ids = @posts_profile_tag.pluck(:id)
-         if @post_tag_ids.empty?
-          @post_tag_ids = @post_profile_tag_ids
-         else
-          @post_tag_ids = @post_tag_ids & @post_profile_tag_ids
-         end
+          @profile_tag_ids = @profiles_tag.pluck(:id)
+          @posts_user = User.where(id: @profile_tag_ids)
+          @posts_profile_tag = Post.where(user_id: @posts_user)
+          @post_profile_tag_ids = @posts_profile_tag.pluck(:id)
+          if @post_tag_ids.empty?
+            @post_tag_ids = @post_profile_tag_ids
+          else
+            @post_tag_ids = @post_tag_ids & @post_profile_tag_ids
+          end
         end 
         
         @posts_tag = Post.where(id: @post_tag_ids)
         @posts = @posts_tag & @posts_post_type_keyword_prefecture
-        # @posts = @posts.includes(:favorite_users)
       end
        
     #検索条件をクリアした場合  
@@ -277,86 +276,86 @@ class PostsRegionController < ApplicationController
     #ページネーション
     @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
     
-  # チェック済のボックスにチェックを入れて検索結果を表示するため。
-   if category_resource_ids.present?
-    @category_resources.each_with_index do |category_resource, index|
-      if category_resource_ids.include?(category_resource.id.to_s)
-       @check_flags_category_resources[index] = true
-      else
-       @check_flags_category_resources[index] = false
+    # チェック済のボックスにチェックを入れて検索結果を表示するため。
+    if category_resource_ids.present?
+      @category_resources.each_with_index do |category_resource, index|
+        if category_resource_ids.include?(category_resource.id.to_s)
+          @check_flags_category_resources[index] = true
+        else
+          @check_flags_category_resources[index] = false
+        end
       end
     end
-   end
    
-   if category_issue_ids.present?
-    @category_issues.each_with_index do |category_issue, index|
-      if category_issue_ids.include?(category_issue.id.to_s)
-       @check_flags_category_issues[index] = true
-      else
-       @check_flags_category_issues[index] = false
+    if category_issue_ids.present?
+      @category_issues.each_with_index do |category_issue, index|
+        if category_issue_ids.include?(category_issue.id.to_s)
+          @check_flags_category_issues[index] = true
+        else
+          @check_flags_category_issues[index] = false
+        end
       end
     end
-   end
    
-   if category_market_ids.present?
-    @category_markets.each_with_index do |category_market, index|
-      if category_market_ids.include?(category_market.id.to_s)
-       @check_flags_category_markets[index] = true
-      else
-       @check_flags_category_markets[index] = false
+    if category_market_ids.present?
+      @category_markets.each_with_index do |category_market, index|
+        if category_market_ids.include?(category_market.id.to_s)
+          @check_flags_category_markets[index] = true
+        else
+          @check_flags_category_markets[index] = false
+        end
       end
     end
-   end
    
-   if category_feature_ids.present?
-     @category_features.each_with_index do |category_feature, index|
-      if category_feature_ids.include?(category_feature.id.to_s)
-       @check_flags_category_features[index] = true
-      else
-       @check_flags_category_features[index] = false
+    if category_feature_ids.present?
+      @category_features.each_with_index do |category_feature, index|
+        if category_feature_ids.include?(category_feature.id.to_s)
+          @check_flags_category_features[index] = true
+        else
+          @check_flags_category_features[index] = false
+        end
       end
     end
-   end
    
-   if category_realizability_ids.present?
-     @category_realizabilities.each_with_index do |category_realizability, index|
-      if category_realizability_ids.include?(category_realizability.id.to_s)
-       @check_flags_category_realizabilities[index] = true
-      else
-       @check_flags_category_realizabilities[index] = false
+    if category_realizability_ids.present?
+      @category_realizabilities.each_with_index do |category_realizability, index|
+        if category_realizability_ids.include?(category_realizability.id.to_s)
+          @check_flags_category_realizabilities[index] = true
+        else
+          @check_flags_category_realizabilities[index] = false
+        end
       end
     end
-   end
    
-   if category_about_region_ids.present?
-     @category_about_regions.each_with_index do |category_about_region, index|
-      if category_about_region_ids.include?(category_about_region.id.to_s)
-       @check_flags_category_about_regions[index] = true
-      else
-       @check_flags_category_about_regions[index] = false
+    if category_about_region_ids.present?
+      @category_about_regions.each_with_index do |category_about_region, index|
+        if category_about_region_ids.include?(category_about_region.id.to_s)
+          @check_flags_category_about_regions[index] = true
+        else
+          @check_flags_category_about_regions[index] = false
+        end
       end
     end
-   end
    
-   if category_incubation_ids.present?
-     @category_incubations.each_with_index do |category_incubation, index|
-      if category_incubation_ids.include?(category_incubation.id.to_s)
-       @check_flags_category_incubations[index] = true
-      else
-       @check_flags_category_incubations[index] = false
+    if category_incubation_ids.present?
+      @category_incubations.each_with_index do |category_incubation, index|
+        if category_incubation_ids.include?(category_incubation.id.to_s)
+          @check_flags_category_incubations[index] = true
+        else
+          @check_flags_category_incubations[index] = false
+        end
       end
     end
-   end
    
-   if category_immigration_support_ids.present?
-     @category_immigration_supports.each_with_index do |category_immigration_support, index|
-      if category_immigration_support_ids.include?(category_immigration_support.id.to_s)
-       @check_flags_category_immigration_supports[index] = true
-      else
-       @check_flags_category_immigration_supports[index] = false
+    if category_immigration_support_ids.present?
+      @category_immigration_supports.each_with_index do |category_immigration_support, index|
+        if category_immigration_support_ids.include?(category_immigration_support.id.to_s)
+          @check_flags_category_immigration_supports[index] = true
+        else
+          @check_flags_category_immigration_supports[index] = false
+        end
       end
     end
-   end
   end
   
   def new
@@ -367,8 +366,14 @@ class PostsRegionController < ApplicationController
     @category_features = CategoryFeature.all
     @category_realizabilities = CategoryRealizability.all
     @user_profile = current_user.user_profile
-    # @post_type_flag = 1
+    @post_type_flag = 1
     @profile_type1_flag = true
+    @check_flags_post_category_resource = []
+    @check_flags_post_category_feature = []
+    @check_flags_post_category_issue = []
+    @check_flags_post_category_market = []
+    @check_flags_post_category_want = []
+    @check_flags_post_category_realizability = []
   end
   
   def create
@@ -380,7 +385,6 @@ class PostsRegionController < ApplicationController
     @category_features = CategoryFeature.all
     @category_realizabilities = CategoryRealizability.all
     @user_profile = current_user.user_profile
-    # @post_type_flag = 1
     @profile_type1_flag = true
     
     category_resources_ids = params[:category_resource_id]
@@ -431,11 +435,9 @@ class PostsRegionController < ApplicationController
     end
   end
   
- 
-  
   private
   def post_params
-   params.require(:post).permit(:user_id, :post_type, :title, :prefecture, :city, :body1, :body2, :feature, :attachment, :realizability, :earnest, :public_status_id, images: [])
+    params.require(:post).permit(:user_id, :post_type, :title, :prefecture, :city, :body1, :body2, :feature, :attachment, :realizability, :earnest, :public_status_id, images: [])
   end
 
 
@@ -448,13 +450,13 @@ class PostsRegionController < ApplicationController
   
   def user_profile_nil?
     if current_user.user_profile.nil?
-     redirect_to ({controller: 'names', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
+      redirect_to ({controller: 'names', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
     end 
   end
   
   def user_profile_status
-   if current_user.user_profile.public_status_region.nil?  || current_user.user_profile.public_status_region == 2
-     redirect_to edit_user_profiles_region_path(current_user.user_profile), danger: "地域情報を入力し、公開を選択してください"
-   end
+    if current_user.user_profile.public_status_region.nil?  || current_user.user_profile.public_status_region == 2
+      redirect_to edit_user_profiles_region_path(current_user.user_profile), danger: "地域情報を入力し、公開を選択してください"
+    end
   end
 end

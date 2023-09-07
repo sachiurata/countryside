@@ -4,7 +4,7 @@
     <% type_flag %>
     <%#= bootstrap_form_with(model: @post, local: true, url: posts_business_path, method: "post") do |f| %>
     <%#= bootstrap_form_for(@post, url: {controller: 'posts_business', action: 'create' }, label_errors: true, html: { novalidate: true }) do |f| %>
-    <%= bootstrap_form_with(model: @post, url: posts_business_index_path, local: true, label_errors: true, html: { novalidate: true }) do |f| %>
+    <%= bootstrap_form_with(model: @post, url: posts_business_path, local: true, label_errors: true, html: { novalidate: true }) do |f| %>
       <div class="post-form">
         <%= f.hidden_field :user_id, value: current_user.id %>
         <%= f.hidden_field :post_type, value: 2 %>

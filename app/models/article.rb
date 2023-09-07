@@ -1,6 +1,7 @@
 class Article < ApplicationRecord
   has_rich_text :content
   has_one_attached :thumbnail
+  has_many_attached :images
   
   validates :content, presence: true
   

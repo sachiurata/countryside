@@ -1,6 +1,5 @@
 class UserProfilesBusinessController < ApplicationController
-  before_action :authenticate_user!, except:[:index, :show]
-  before_action :ensure_user, only:[:edit, :update]
+  before_action :ensure_user
   
   def edit
     @profile_business_flag = true

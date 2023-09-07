@@ -1,41 +1,51 @@
 <div class="container">
   <div class="row">
-   <div class="mb-3" style="max-width: 800px;"> 
-    <form action="/posts">
-     <!--<select class="form-select selectpicker" name="post_type">-->
-     <!--  <option value="0" <%= @post_type != "1" || @post_type != "2" ? "selected" : "" %>>全ての投稿</option>-->
-     <!--  <option value="1" <%= @post_type == "1" ? "selected" : "" %>>地域側投稿</option>-->
-     <!--  <option value="2" <%= @post_type == "2" ? "selected" : "" %>>起業希望者投稿</option>-->
-     <!--</select>-->
-     <div class="category"><a class="btn btn-success" href="/posts_region" role="button" style="">地域側投稿</a>
-     <a class="btn btn-danger" href="/posts_business" role="button">起業希望者投稿</a></div>
-     <div class="category"><input class="form-control" type="serch" name="keyword" placeholder="フリーキーワードを入れてください" value="<%= @keyword %>"></div> 
-     <% prefectures = ['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'] %>
-     <div class="category"><select class="form-select selectpicker" name="prefecture">
-      <option value="">都道府県</option>
-      <% prefectures.each do |prefecture| %>
-       <option value="<%= prefecture %>" <%= prefecture == @prefecture ? "selected" : "" %>><%= prefecture %></option>
-      <% end %>
-     </select></div>
-     
-     <div><input class="btn btn-secondary" type="submit" value="検索" style="margin-bottom: 20px;"></div>
-    </form>
-    <a class="btn btn-secondary" href="/posts" role="button" style="margin-bottom: 40px;">検索条件をクリア</a>
-   </div>
+    <div class="mb-3" style="max-width: 800px;">
+      <div class="category">
+        <a class="btn btn-success" href="/posts_region" role="button" style="">地域側投稿</a>
+        <a class="btn btn-danger" href="/posts_business" role="button">起業希望者投稿</a>
+      </div>
+      <div class="category">
+        <input class="form-control" type="serch" name="keyword" placeholder="フリーキーワードを入れてください" value="<892a9ec3e54d0d83c9d1173f71d5eb98 />">
+      </div>
+      <% prefectures = ['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'] %>
+      <div class="category">
+        <select class="form-select selectpicker" name="prefecture">
+          <option value="">都道府県</option>
+          <% prefectures.each do |prefecture| %>
+          <option value="<1872653492cc4da86c7f6e9b23a6977e />" 
+            <%= prefecture == @prefecture ? "selected" : "" %>>
+            <%= prefecture %>
+          </option>
+          <% end %>
+        </select>
+      </div>
+      <div>
+        <input class="btn btn-secondary" type="submit" value="検索" style="margin-bottom: 20px;">
+      </div>
+      </form>
+      <a class="btn btn-secondary" href="/posts" role="button" style="margin-bottom: 40px;">検索条件をクリア</a>
+    </div>
   </div>
   
-  <P><%= @posts_count %>件の投稿</P>
+  <P>
+    <%= @posts_count %>件の投稿
+  </P>
+  
   <div class="row">
     <% @posts.each do |post| %>
-     <% if post.public_status_id == 1 %>
-      <%= render "layouts/posts/post_card", post: post %>
-     <% end %>
-     <% if post.public_status_id == 3 %>
-      <%= render "layouts/posts/post_card", post: post %>
-     <% end %>
+      <% if post.public_status_id == 1 %>
+        <%= render "layouts/posts/post_card", post: post %>
+      <% end %>
+      <% if post.public_status_id == 3 %>
+        <%= render "layouts/posts/post_card", post: post %>
+      <% end %>
     <% end %>
- </div>
- <% if @posts.present? %>
-  <div style="margin-top: 20px;"><%= paginate @posts, theme: 'twitter-bootstrap-4' %></div>
- <% end %> 
+  </div>
+ 
+  <% if @posts.present? %>
+    <div style="margin-top: 20px;">
+      <%= paginate @posts, theme: 'twitter-bootstrap-4' %>
+    </div>
+  <% end %>
 </div>

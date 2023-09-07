@@ -1,6 +1,6 @@
 <% if user_profile.public_status_region == 2 %>
   <div class="post_error_message" style="margin-top: 40px;">
     <p>プロフィールが非公開になっています。投稿を公開するには、プロフィールを公開してください。<br>
-    <%= link_to 'プロフィールの編集', edit_user_profile_path(user_profile.id), rel: "nooper", target: "_blank" %></p>
+    <%= link_to 'プロフィールの編集', account_path(user_profile), rel: "nooper", target: "_blank" %></p>
   </div>
 <% end %>  

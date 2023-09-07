@@ -1,9 +1,11 @@
+<%= render "layouts/posts/post_form", post: @post, post_type_flag: @post_type_flag, edit_flag: @edit_flag, check_flags_post_category_resource: @check_flags_post_category_resource, check_flags_post_category_issue: @check_flags_post_category_issue, check_flags_post_category_market: @check_flags_post_category_market, check_flags_post_category_feature: @check_flags_post_category_feature, check_flags_post_category_want: @check_flags_post_category_want, check_flags_post_category_realizability: @check_flags_post_category_realizability, check_flags_post_category_earnest: @check_flags_post_category_earnest, category_resources: @category_resources, category_features: @category_features, category_issues: @category_issues, category_markets: @category_markets, category_wants: @category_wants, category_realizabilities: @category_realizabilities, category_earnests: @category_earnests %>
+
 <div class="container">
  <div class="row">
   <div class="col-md-8 offset-md-2">
     <% type_flag %>
     <%#= bootstrap_form_for(@post, url: {controller: 'posts_region', action: 'create' }) do |f| %>
-    <%= bootstrap_form_with(model: @post, url: posts_region_index_path, local: true, label_errors: true, html: { novalidate: true }) do |f| %>
+    <%= bootstrap_form_with(model: @post, url: posts_region_path, local: true, label_errors: true, html: { novalidate: true }) do |f| %>
     <%#= bootstrap_form_for(@post) do |f| %> 
     <%#= form_with model: @post do |f| %>
       <%# if @post.errors.any? %>

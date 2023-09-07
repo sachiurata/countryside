@@ -2,7 +2,7 @@
   <div class="card mb-3" style="max-width: 800px;">
     <% if @current_user_flag == true %>
       <% if post.public_status_id == 1 %>
-    　   <div class="card-header">公開中</div>
+    　   <div class="card-header">公開</div>
       <% elsif post.public_status_id == 2 %> 
     　   <div class="card-header">非公開</div>
       <% end %>　 
