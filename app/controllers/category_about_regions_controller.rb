@@ -3,9 +3,9 @@ class CategoryAboutRegionsController < ApplicationController
     @category_about_region = CategoryAboutRegion.new(category_about_region_params)
     
     if @category_about_region.save 
-    redirect_to  tag_profile_regions_path, notice:"登録が完了しました"
+    redirect_to tag_profile_regions_path, notice:"登録が完了しました"
     else
-     render new_category_about_region_path, notice:"登録に失敗しました"
+     render "edit", notice:"登録に失敗しました"
     end    
   end
   

@@ -3,15 +3,93 @@ class PostsController < ApplicationController
   
   before_action :authenticate_user!, except:[:index, :show]
   before_action :ensure_user, only:[:edit, :update]
-  before_action :all, only:[:edit, :update, :index]
+  before_action :category_all
+  before_action :check_flags_for_post_form, only:[:create, :edit, :update]
+  
+  def create
+    @post = Post.new(post_params)
+    @user_profile = current_user.user_profile
+    category_resources_ids = params[:category_resource_id]
+    category_issues_ids = params[:category_issue_id]
+    category_markets_ids = params[:category_market_id]
+    category_features_ids = params[:category_feature_id]
+    category_realizabilities_ids = params[:category_realizability_id]
+    category_wants_ids = params[:category_want_id]
+    category_earnest_ids = params[:category_earnest_id]
+    post_type = params[:post][:post_type]
+
+    if @post.save
+      if category_resources_ids.present?
+        category_resources_ids.each do |category_resources_id|
+          category_resources = @post.post_category_resources.build(category_resource_id: category_resources_id)
+          category_resources.save
+        end
+      end
+     
+      if category_issues_ids.present?
+        category_issues_ids.each do |category_issues_id|
+          category_issues = @post.post_category_issues.build(category_issue_id: category_issues_id)
+          category_issues.save
+        end
+      end
+     
+      if category_markets_ids.present?
+        category_markets_ids.each do |category_markets_id|
+          category_markets = @post.post_category_markets.build(category_market_id: category_markets_id)
+          category_markets.save
+        end  
+      end
+     
+      if category_features_ids.present?
+        category_features_ids.each do |category_features_id|
+          category_features = @post.post_category_features.build(category_feature_id: category_features_id)
+          category_features.save
+        end   
+      end
+     
+      if category_realizabilities_ids.present?
+        category_realizabilities_ids.each do |category_realizabilities_id|
+          category_realizabilities = @post.post_category_realizabilities.build(category_realizability_id: category_realizabilities_id)
+          category_realizabilities.save
+        end
+      end
+     
+      if category_wants_ids.present?
+        category_wants_ids.each do |category_wants_id|
+          category_wants = @post.post_category_wants.build(category_want_id: category_wants_id)
+          category_wants.save
+        end
+      end
+      
+      if category_earnest_ids.present?
+        category_earnest_ids.each do |category_earnest_id|
+          category_earnest = @post.post_category_earnest.build(category_earnest_id: category_earnest_id)
+          category_earnest.save
+        end
+      end  
+      
+      redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
+      
+    else
+
+      if post_type == "1"
+        @post_type_flag = 1
+        @profile_type1_flag = true
+      elsif post_type == "2"
+        @post_type_flag = 2
+        @profile_type2_flag = true
+      end  
+      
+      render "new", status: :unprocessable_entity, notice:"登録に失敗しました" 
+      
+    end
+  end
   
   def edit
     @post = Post.find(params[:id])
     @user_profile = current_user.user_profile
     @edit_flag = true
     
-    @check_flags_post_category_resource = []
-    #全カテゴリーサーチ
     @category_resources.each_with_index do |category_resource, index|
       pcr = PostCategoryResource.where(category_resource_id: category_resource.id).where(post_id: @post.id)
       if pcr.empty?
@@ -21,7 +99,6 @@ class PostsController < ApplicationController
       end  
     end
     
-    @check_flags_post_category_feature = []
     @category_features.each_with_index do |category_feature, index|
       pcf = PostCategoryFeature.where(category_feature_id: category_feature.id).where(post_id: @post.id)
       if pcf.empty?
@@ -31,7 +108,6 @@ class PostsController < ApplicationController
       end
     end  
     
-    @check_flags_post_category_issue = []
     @category_issues.each_with_index do |category_issue, index|
       pci = PostCategoryIssue.where(category_issue_id: category_issue.id).where(post_id: @post.id)
       if pci.empty?
@@ -41,7 +117,6 @@ class PostsController < ApplicationController
       end 
     end  
 
-    @check_flags_post_category_market = []
     @category_markets.each_with_index do |category_market, index|
       pcm = PostCategoryMarket.where(category_market_id: category_market.id).where(post_id: @post.id)
       if pcm.empty?
@@ -51,7 +126,6 @@ class PostsController < ApplicationController
       end
     end 
     
-    @check_flags_post_category_want = []
     @category_wants.each_with_index do |category_want, index|
       pcw = PostCategoryWant.where(category_want_id: category_want.id).where(post_id: @post.id)
       if pcw.empty?
@@ -61,7 +135,6 @@ class PostsController < ApplicationController
       end
     end  
     
-    @check_flags_post_category_realizability = []
     @category_realizabilities.each_with_index do |category_realizability, index|
       pcw = PostCategoryRealizability.where(category_realizability_id: category_realizability.id).where(post_id: @post.id)
       if pcw.empty?
@@ -71,7 +144,6 @@ class PostsController < ApplicationController
       end
     end
     
-    @check_flags_post_category_earnest = []
     @category_earnests.each_with_index do |category_earnest, index|
       pcw = PostCategoryEarnest.where(category_earnest_id: category_earnest.id).where(post_id: @post.id)
       if pcw.empty?
@@ -310,9 +382,11 @@ class PostsController < ApplicationController
     # category_skill_ids = params[:category_skill_id]
     # category_interest_ids = params[:category_interest_id]
     # @search_type = params[:search_type]
-    @posts = []
-    @posts_post_type_prefecture = []
-    @posts_post_type_prefecture_ids = []
+    
+    # @posts = []
+    # @posts_post_type_prefecture = []
+    # @posts_post_type_prefecture_ids = []
+   
     # @check_flags_category_resources = []
     # @check_flags_category_issues = []
     # @check_flags_category_markets = []
@@ -320,10 +394,10 @@ class PostsController < ApplicationController
     # @check_flags_category_incbubations =[]
     # @posts_post_type = []
     # @post_type_ids = []
-    @posts_post_type_keyword = []
-    @posts_post_type_ids = []
-    @posts_post_type_keyword_prefecture = []
-    @posts_post_type_keyword_prefecture_ids = []
+    # @posts_post_type_keyword = []
+    # @posts_post_type_ids = []
+    # @posts_post_type_keyword_prefecture = []
+    # @posts_post_type_keyword_prefecture_ids = []
     # @category_resource_posts_all = []
     # @category_issue_posts_all = []
     # @category_market_posts_all = []
@@ -331,6 +405,7 @@ class PostsController < ApplicationController
     # @category_incbubation_posts_all = []
     # @posts_tag = []
     # @post_tag_ids = []
+    @post_type_flag = 0
     
      #プロフィールが「非公開(2)」となっているユーザーの投稿または「非公開(2)」の投稿
     unpublic_user_profiles = UserProfile.where(public_status_region: 2).or(UserProfile.where(public_status_business: 2))
@@ -582,16 +657,4 @@ class PostsController < ApplicationController
       redirect_to "show", id: @post.id
     end
   end 
-  
-  def all
-    @category_resources = CategoryResource.all
-    @category_issues = CategoryIssue.all
-    @category_markets = CategoryMarket.all
-    @category_features = CategoryFeature.all
-    @category_wants = CategoryWant.all
-    @category_realizabilities = CategoryRealizability.all
-    @category_earnests = CategoryEarnest.all
-    @category_incubations = CategoryIncubation.all
-    @category_immigration_supports = CategoryImmigrationSupport.all
-  end
 end

@@ -2,9 +2,9 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
     <h1 class="text-center text-black">タグ登録（起業希望者ユーザー）</h1> 
-    <%= render partial: "layouts/tag_form", locals: { model: @category_job, url: category_jobs_path, title: "職業" } %>
-    <%= render partial: "layouts/tag_form", locals: { model: @category_skill, url: category_skills_path, title: "得意なこと" } %>
-    <%= render partial: "layouts/tag_form", locals: { model: @category_interest, url: category_interests_path, title: "興味のあること" } %>
+    <%= render partial: "layouts/tags/tag_form", locals: { model: @category_job, url: category_jobs_path, title: "職業" } %>
+    <%= render partial: "layouts/tags/tag_form", locals: { model: @category_skill, url: category_skills_path, title: "得意なこと" } %>
+    <%= render partial: "layouts/tags/tag_form", locals: { model: @category_interest, url: category_interests_path, title: "興味のあること" } %>
     </div>
   </div> 
 </div>   

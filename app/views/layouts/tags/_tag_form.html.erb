@@ -1,0 +1,15 @@
+<%= bootstrap_form_with(model: model, local: true) do |f| %>
+  <%= f.text_field :tag_name, label: title %>
+  <%= f.submit "登録" %>
+<% end %>
+
+<!--<h5 style="margin-top: 40px;">登録済のタグ</h5>-->
+<!-- <%# categories.each do |category| %>-->
+<!--  <div>-->
+<!--    <%#= category.tag_name %>-->
+    <%#= render "layouts/tag_destroy", controller: "category_about_regions", category_name: category_about_region, id: category_about_region, link: category_about_region_path(category_about_region) %> 
+    <%#= link_to "編集", ("#{category}_path") %>
+    <%#= link_to "編集", controller: controller, action: "edit", id: category %>
+    <%#= link_to "削除", url, data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+<!--  </div>  -->
+<!--<%# end %>-->

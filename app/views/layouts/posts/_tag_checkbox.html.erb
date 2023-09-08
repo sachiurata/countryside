@@ -1,0 +1,7 @@
+<!--使っていない-->
+<!--id に　category_resource_id[]　のような変数を渡せない。-->
+
+<% categories.each_with_index do |category, index| %>
+  <input class="form-check-input category-label" type="checkbox" name="<%= id %>" value="<%= category.id %>" <%= check_flags_category[index] ? 'checked' : '' %> >
+  <%= category.tag_name %>&emsp;
+<% end %>

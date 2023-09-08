@@ -2,9 +2,9 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
     <h1 class="text-center text-black">タグ登録（地域側ユーザー）</h1> 
-    <%= render partial: "layouts/tag_form", locals: { model: @category_about_region, url: category_about_regions_path, title: "地域について" } %>
-    <%= render partial: "layouts/tag_form", locals: { model: @category_incubation, url: category_incubations_path, title: "起業支援" } %>
-    <%= render partial: "layouts/tag_form", locals: { model: @category_immigration_support, url: category_immigration_supports_path, title: "移住支援" } %>
+    <%= render partial: "layouts/tags/tag_form", locals: { model: @category_about_region, url: category_about_regions_path, title: "地域について" } %>
+    <%= render partial: "layouts/tags/tag_form", locals: { model: @category_incubation, url: category_incubations_path, title: "起業支援" } %>
+    <%= render partial: "layouts/tags/tag_form", locals: { model: @category_immigration_support, url: category_immigration_supports_path, title: "移住支援" } %>
     </div>
   </div> 
 </div>   

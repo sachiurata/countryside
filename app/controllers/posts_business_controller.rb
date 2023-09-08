@@ -1,14 +1,12 @@
 class PostsBusinessController < ApplicationController
-  before_action :authenticate_user!, except:[:index]
-  before_action :user_profile_nil?, except:[:index]
-  before_action :user_profile_status, only:[:new, :create]
+  before_action :authenticate_user!,         only:[:new]
+  before_action :user_profile_nil?,          only:[:new]
+  before_action :user_profile_status,        only:[:new]
+  before_action :category_all
+  before_action :check_flags_for_post_form,  only:[:new]
+  before_action :check_flags_for_checkbox,   only:[:index]
   
   def index
-    @category_wants = CategoryWant.all
-    @category_earnests = CategoryEarnest.all
-    @category_jobs = CategoryJob.all
-    @category_skills = CategorySkill.all
-    @category_interests = CategoryInterest.all
     @post_type = params[:post_type]
     @prefecture = params[:prefecture]
     @keyword = params[:keyword]
@@ -35,15 +33,15 @@ class PostsBusinessController < ApplicationController
     @category_interest_profiles = []
     @category_interest_profiles_all = []
     @posts_tag = []
-    @post_tag_ids = []
+    #@post_tag_ids = []
     @profiles_tag = []
-    @profile_tag_ids = []
-    @post_profile_tag_ids = []
-    @check_flags_category_wants = []
-    @check_flags_category_earnests = []
-    @check_flags_category_jobs = []
-    @check_flags_category_skills = []
-    @check_flags_category_interests = []
+    #@profile_tag_ids = []
+    #@post_profile_tag_ids = []
+    # @check_flags_category_wants = []
+    # @check_flags_category_earnests = []
+    # @check_flags_category_jobs = []
+    # @check_flags_category_skills = []
+    # @check_flags_category_interests = []
     
     #プロフィールが「非公開(2)」となっているユーザーの投稿または「非公開(2)」の投稿
     unpublic_user_profiles = UserProfile.where(public_status_business: 2)
@@ -262,46 +260,42 @@ class PostsBusinessController < ApplicationController
   
   def new
     @post = Post.new
-    @category_earnests = CategoryEarnest.all
-    @category_wants = CategoryWant.all
     @user_profile = current_user.user_profile
     @post_type_flag = 2
     @profile_type2_flag = true
   end
   
-  def create
-    @post = Post.new(post_params)
-    @user_profile = current_user.user_profile
-    @category_earnests = CategoryEarnest.all
-    @category_wants = CategoryWant.all
-    @user_profile = current_user.user_profile
-    @post_type_flag = 2
-    @profile_type2_flag = true
+  # def create
+  #   @post = Post.new(post_params)
+  #   @user_profile = current_user.user_profile
+  #   @user_profile = current_user.user_profile
+  #   @post_type_flag = 2
+  #   @profile_type2_flag = true
     
-    category_wants_ids = params[:category_want_id]
-    category_earnest_ids = params[:category_earnest_id]
+  #   category_wants_ids = params[:category_want_id]
+  #   category_earnest_ids = params[:category_earnest_id]
     
-    if @post.save
-      if category_wants_ids.present?
-        category_wants_ids.each do |category_wants_id|
-          category_wants = @post.post_category_wants.build(category_want_id: category_wants_id)
-          category_wants.save
-        end
-      end
+  #   if @post.save
+  #     if category_wants_ids.present?
+  #       category_wants_ids.each do |category_wants_id|
+  #         category_wants = @post.post_category_wants.build(category_want_id: category_wants_id)
+  #         category_wants.save
+  #       end
+  #     end
       
-      if category_earnest_ids.present?
-        category_earnest_ids.each do |category_earnest_id|
-          category_earnest = @post.post_category_earnest.build(category_earnest_id: category_earnest_id)
-          category_earnest.save
-        end
-      end  
+  #     if category_earnest_ids.present?
+  #       category_earnest_ids.each do |category_earnest_id|
+  #         category_earnest = @post.post_category_earnest.build(category_earnest_id: category_earnest_id)
+  #         category_earnest.save
+  #       end
+  #     end  
     
-    redirect_to @post, action: :show, id: @post.id, notice:"登録が完了しました"
+  #   redirect_to @post, action: :show, id: @post.id, notice:"登録が完了しました"
    
-    else
-      render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
-    end
-  end
+  #   else
+  #     render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
+  #   end
+  # end
   
   private
   def post_params

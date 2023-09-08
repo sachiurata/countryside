@@ -1,17 +1,12 @@
 class PostsRegionController < ApplicationController
-  before_action :authenticate_user!, except:[:index]
-  before_action :user_profile_nil?, except:[:index]
-  before_action :user_profile_status, only:[:new, :create]
+  before_action :authenticate_user!,         only:[:new]
+  before_action :user_profile_nil?,          only:[:new]
+  before_action :user_profile_status,        only:[:new]
+  before_action :category_all
+  before_action :check_flags_for_post_form,  only:[:new]
+  before_action :check_flags_for_checkbox,   only:[:index]
   
   def index
-    @category_resources = CategoryResource.all
-    @category_issues = CategoryIssue.all
-    @category_markets = CategoryMarket.all
-    @category_features = CategoryFeature.all
-    @category_realizabilities = CategoryRealizability.all
-    @category_about_regions = CategoryAboutRegion.all
-    @category_incubations = CategoryIncubation.all
-    @category_immigration_supports = CategoryImmigrationSupport.all
     @post_type = params[:post_type]
     @prefecture = params[:prefecture]
     @keyword = params[:keyword]
@@ -29,14 +24,15 @@ class PostsRegionController < ApplicationController
     #@posts_post_type_keyword = []
     # @posts_post_type_keyword_prefecture = []
     #@posts_post_type_keyword_prefecture_ids = []
-    @category_resource_posts = []
-    @category_issue_posts = []
-    @category_market_posts = []
-    @category_feature_posts = []
-    @category_realizability_posts = []
-    @category_about_region_profiles = []
-    @category_incubation_profiles = []
-    @category_immigration_support_profiles = []
+    
+    #@category_resource_posts = []
+    # @category_issue_posts = []
+    # @category_market_posts = []
+    # @category_feature_posts = []
+    # @category_realizability_posts = []
+    # @category_about_region_profiles = []
+    # @category_incubation_profiles = []
+    # @category_immigration_support_profiles = []
     @category_resource_posts_all = []
     @category_issue_posts_all = []
     @category_market_posts_all = []
@@ -46,18 +42,19 @@ class PostsRegionController < ApplicationController
     @category_incubation_profiles_all = []
     @category_immigration_support_profiles_all = []
     @posts_tag = []
-    @post_tag_ids = []
+    # @post_tag_ids = []
     @profiles_tag = []
-    @profile_tag_ids = []
-    @post_profile_tag_ids = []
-    @check_flags_category_resources = []
-    @check_flags_category_issues = []
-    @check_flags_category_markets = []
-    @check_flags_category_features =[]
-    @check_flags_category_realizabilities =[]
-    @check_flags_category_about_regions =[]
-    @check_flags_category_incubations =[]
-    @check_flags_category_immigration_supports =[]
+    #@profile_tag_ids = []
+    #@post_profile_tag_ids = []
+    # @check_flags_category_resources = []
+    # @check_flags_category_issues = []
+    # @check_flags_category_markets = []
+    # @check_flags_category_features =[]
+    # @check_flags_category_realizabilities =[]
+    # @check_flags_category_about_regions =[]
+    # @check_flags_category_incubations =[]
+    # @check_flags_category_immigration_supports =[]
+    @post_type_flag = 1
     
     #プロフィールが「非公開(2)」となっているユーザーの投稿または「非公開(2)」の投稿
     unpublic_user_profiles = UserProfile.where(public_status_region: 2)
@@ -254,7 +251,7 @@ class PostsRegionController < ApplicationController
           @posts_user = User.where(id: @profile_tag_ids)
           @posts_profile_tag = Post.where(user_id: @posts_user)
           @post_profile_tag_ids = @posts_profile_tag.pluck(:id)
-          if @post_tag_ids.empty?
+          if @post_tag_ids.nil?
             @post_tag_ids = @post_profile_tag_ids
           else
             @post_tag_ids = @post_tag_ids & @post_profile_tag_ids
@@ -360,80 +357,64 @@ class PostsRegionController < ApplicationController
   
   def new
     @post = Post.new
-    @category_resources = CategoryResource.all
-    @category_issues = CategoryIssue.all
-    @category_markets = CategoryMarket.all
-    @category_features = CategoryFeature.all
-    @category_realizabilities = CategoryRealizability.all
     @user_profile = current_user.user_profile
     @post_type_flag = 1
     @profile_type1_flag = true
-    @check_flags_post_category_resource = []
-    @check_flags_post_category_feature = []
-    @check_flags_post_category_issue = []
-    @check_flags_post_category_market = []
-    @check_flags_post_category_want = []
-    @check_flags_post_category_realizability = []
   end
   
-  def create
-    @post = Post.new(post_params)
-    @user_profile = current_user.user_profile
-    @category_resources = CategoryResource.all
-    @category_issues = CategoryIssue.all
-    @category_markets = CategoryMarket.all
-    @category_features = CategoryFeature.all
-    @category_realizabilities = CategoryRealizability.all
-    @user_profile = current_user.user_profile
-    @profile_type1_flag = true
+  # def create
+    # @post = Post.new(post_params)
+    # @user_profile = current_user.user_profile
+    # @post_type_flag = 1
+    # @profile_type1_flag = true
     
-    category_resources_ids = params[:category_resource_id]
-    category_issues_ids = params[:category_issue_id]
-    category_markets_ids = params[:category_market_id]
-    category_features_ids = params[:category_feature_id]
-    category_realizabilities_ids = params[:category_realizability_id]
+    # category_resources_ids = params[:category_resource_id]
+    # category_issues_ids = params[:category_issue_id]
+    # category_markets_ids = params[:category_market_id]
+    # category_features_ids = params[:category_feature_id]
+    # category_realizabilities_ids = params[:category_realizability_id]
    
-    if @post.save
-      if category_resources_ids.present?
-        category_resources_ids.each do |category_resources_id|
-          category_resources = @post.post_category_resources.build(category_resource_id: category_resources_id)
-          category_resources.save
-        end
-      end
+    # if @post.save
+    #   if category_resources_ids.present?
+    #     category_resources_ids.each do |category_resources_id|
+    #       category_resources = @post.post_category_resources.build(category_resource_id: category_resources_id)
+    #       category_resources.save
+    #     end
+    #   end
      
-      if category_issues_ids.present?
-        category_issues_ids.each do |category_issues_id|
-          category_issues = @post.post_category_issues.build(category_issue_id: category_issues_id)
-          category_issues.save
-        end
-      end
+    #   if category_issues_ids.present?
+    #     category_issues_ids.each do |category_issues_id|
+    #       category_issues = @post.post_category_issues.build(category_issue_id: category_issues_id)
+    #       category_issues.save
+    #     end
+    #   end
      
-      if category_markets_ids.present?
-        category_markets_ids.each do |category_markets_id|
-          category_markets = @post.post_category_markets.build(category_market_id: category_markets_id)
-          category_markets.save
-        end  
-      end
+    #   if category_markets_ids.present?
+    #     category_markets_ids.each do |category_markets_id|
+    #       category_markets = @post.post_category_markets.build(category_market_id: category_markets_id)
+    #       category_markets.save
+    #     end  
+    #   end
      
-      if category_features_ids.present?
-        category_features_ids.each do |category_features_id|
-          category_features = @post.post_category_features.build(category_feature_id: category_features_id)
-          category_features.save
-        end   
-      end
+    #   if category_features_ids.present?
+    #     category_features_ids.each do |category_features_id|
+    #       category_features = @post.post_category_features.build(category_feature_id: category_features_id)
+    #       category_features.save
+    #     end   
+    #   end
      
-      if category_realizabilities_ids.present?
-        category_realizabilities_ids.each do |category_realizabilities_id|
-          category_realizabilities = @post.post_category_realizabilities.build(category_realizability_id: category_realizabilities_id)
-          category_realizabilities.save
-        end
-      end
+    #   if category_realizabilities_ids.present?
+    #     category_realizabilities_ids.each do |category_realizabilities_id|
+    #       category_realizabilities = @post.post_category_realizabilities.build(category_realizability_id: category_realizabilities_id)
+    #       category_realizabilities.save
+    #     end
+    #   end
      
-      redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
-    else
-      render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
-    end
-  end
+    #   redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
+    # else
+    #   render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
+    # end
+  # end
   
   private
   def post_params

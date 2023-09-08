@@ -1,0 +1,4 @@
+<h6>検索方法</6>
+<div><input class="form-check-input", type="radio", name="search_type", value="1" <%= search_type != "2" ? "checked" : "" %> >OR検索（選択したタグを含む投稿をすべて表示）</div>
+<div><input class="form-check-input", type="radio", name="search_type", value="2" <%= search_type == "2" ? "checked" : "" %>>AND検索（選択したタグをすべて含む投稿を表示）</div>
+<div><input class="btn btn-secondary" type="submit" value="検索" style="margin-top: 20px; margin-bottom: 20px;"></div>

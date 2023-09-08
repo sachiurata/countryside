@@ -1,8 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <%# type_flag %>
-      <%= bootstrap_form_with(model: post, local: true, label_errors: true, html: { novalidate: true }) do |f| %>  
+      <%= bootstrap_form_with(model: post, local: true, label_errors: true, html: { novalidate: true }) do |f| %>
         <div class="post-form">
           <%= f.hidden_field :user_id, value: current_user.id %>
           <%= f.text_field :title, label:"タイトル", required: true  %>

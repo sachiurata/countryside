@@ -4,7 +4,7 @@
      <h1 class="text-center text-black">タグ登録（地域側ユーザー）</h1>
       <div class="card">
        <div class="card-body">
-        <%= render partial: "layouts/tag_form", locals: { model: @category_about_region, url: category_about_regions_path, title: "地域について" } %>
+        <%= render partial: "layouts/tags/tag_form", locals: { model: @category_about_region, url: category_about_regions_path, title: "地域について", categories: @category_about_regions} %>
         <% @category_about_regions.each do |category_about_region| %>
          <div>
          <%= category_about_region.tag_name %>
@@ -18,7 +18,7 @@
       </div>          
       <div class="card">
        <div class="card-body">
-        <%= render partial: "layouts/tag_form", locals: { model: @category_incubation, url: category_incubations_path, title: "起業支援" } %>
+        <%= render partial: "layouts/tags/tag_form", locals: { model: @category_incubation, url: category_incubations_path, title: "起業支援", categories: @category_incubations} %>
         <% @category_incubations.each do |category_incubation| %>
          <div>
          <%= category_incubation.tag_name %>
@@ -31,7 +31,7 @@
       </div>
       <div class="card">
        <div class="card-body">
-        <%= render partial: "layouts/tag_form", locals: { model: @category_immigration_support, url: category_immigration_supports_path, title: "移住支援" } %>
+        <%= render partial: "layouts/tags/tag_form", locals: { model: @category_immigration_support, url: category_immigration_supports_path, title: "移住支援", categories: @category_immigration_supports } %>
         <% @category_immigration_supports.each do |category_immigration_support| %>
          <div>
          <%= category_immigration_support.tag_name %>
