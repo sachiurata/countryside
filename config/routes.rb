@@ -27,11 +27,9 @@ Rails.application.routes.draw do
   
   get  "/posts_region",              to: "posts_region#index",  as: "posts_region"  
   get  "/posts_region/new",          to: "posts_region#new",    as: "new_post_region"  
-  # post "/posts_region",              to: "posts_region#create"
   
   get  "/posts_business",            to: "posts_business#index",  as: "posts_business"  
   get  "/posts_business/new",        to: "posts_business#new",    as: "new_post_business"  
-  # post "/posts_business",            to: "posts_business#create"
   
   resources :post do
     resources :comments, except: [:show, :index]
@@ -42,32 +40,30 @@ Rails.application.routes.draw do
   resources :accounts, only: [:show]
 
   scope :admins do
-    resources :tag_post_regions, only: [:new, :index]
-    resources :tag_post_businesses, only: [:new, :index]
-    resources :category_resources, only: [:create, :edit, :update, :destroy]
-    resources :category_issues, only: [:create, :edit, :update, :destroy]
-    resources :category_markets, only: [:create, :edit, :update, :destroy]
-    resources :category_features, only: [:create, :edit, :update, :destroy]
-    resources :category_wants, only: [:create, :edit, :update, :destroy]
-    resources :category_realizabilities, only: [:create, :edit, :update, :destroy]
-    resources :category_earnest, only: [:create, :edit, :update, :destroy]
-    resources :tag_profile_regions, only: [:new, :index]
-    resources :tag_profile_businesses, only: [:new, :index]
-    resources :category_about_regions, only: [:create, :edit, :update, :destroy]
-    resources :category_incubations, only: [:create, :edit, :update, :destroy]
-    resources :category_immigration_supports, only: [:create, :edit, :update, :destroy]
-    resources :category_jobs, only: [:create, :edit, :update, :destroy]
-    resources :category_skills, only: [:create, :edit, :update, :destroy]
-    resources :category_interests, only: [:create, :edit, :update, :destroy]
+    resources :tag_post_regions,                only: [:new, :index]
+    resources :tag_post_businesses,             only: [:new, :index]
+    resources :category_resources,              only: [:create, :edit, :update, :destroy]
+    resources :category_issues,                 only: [:create, :edit, :update, :destroy]
+    resources :category_markets,                only: [:create, :edit, :update, :destroy]
+    resources :category_features,               only: [:create, :edit, :update, :destroy]
+    resources :category_wants,                  only: [:create, :edit, :update, :destroy]
+    resources :category_realizabilities,        only: [:create, :edit, :update, :destroy]
+    resources :category_earnest,                only: [:create, :edit, :update, :destroy]
+    resources :tag_profile_regions,             only: [:new, :index]
+    resources :tag_profile_businesses,          only: [:new, :index]
+    resources :category_about_regions,          only: [:create, :edit, :update, :destroy]
+    resources :category_incubations,            only: [:create, :edit, :update, :destroy]
+    resources :category_immigration_supports,   only: [:create, :edit, :update, :destroy]
+    resources :category_jobs,                   only: [:create, :edit, :update, :destroy]
+    resources :category_skills,                 only: [:create, :edit, :update, :destroy]
+    resources :category_interests,              only: [:create, :edit, :update, :destroy]
   end
   
-  resources :post_category_resources
-  
-  resources :messages, only: [:destroy]
+  resources :messages,  only: [:destroy]
   get 'messages/all', to: "messages#message_list"
   resources :users do
     member do
-      resources :messages, only: [:create, :index]
+      resources :messages,  only: [:create, :index]
     end
   end
   

@@ -16,12 +16,6 @@ class PostsBusinessController < ApplicationController
     category_skill_ids = params[:category_skill_id]
     category_interest_ids = params[:category_interest_id]
     @search_type = params[:search_type]
-    # @posts = []
-    # @post_type_ids = []
-    # @posts_post_type_ids = []
-    # @posts_post_type_keyword = []
-    # @posts_post_type_keyword_prefecture = []
-    # @posts_post_type_keyword_prefecture_ids = []
     @category_want_posts = []
     @category_want_posts_all = []
     @category_earnest_posts = []
@@ -33,15 +27,7 @@ class PostsBusinessController < ApplicationController
     @category_interest_profiles = []
     @category_interest_profiles_all = []
     @posts_tag = []
-    #@post_tag_ids = []
     @profiles_tag = []
-    #@profile_tag_ids = []
-    #@post_profile_tag_ids = []
-    # @check_flags_category_wants = []
-    # @check_flags_category_earnests = []
-    # @check_flags_category_jobs = []
-    # @check_flags_category_skills = []
-    # @check_flags_category_interests = []
     
     #プロフィールが「非公開(2)」となっているユーザーの投稿または「非公開(2)」の投稿
     unpublic_user_profiles = UserProfile.where(public_status_business: 2)
@@ -264,38 +250,6 @@ class PostsBusinessController < ApplicationController
     @post_type_flag = 2
     @profile_type2_flag = true
   end
-  
-  # def create
-  #   @post = Post.new(post_params)
-  #   @user_profile = current_user.user_profile
-  #   @user_profile = current_user.user_profile
-  #   @post_type_flag = 2
-  #   @profile_type2_flag = true
-    
-  #   category_wants_ids = params[:category_want_id]
-  #   category_earnest_ids = params[:category_earnest_id]
-    
-  #   if @post.save
-  #     if category_wants_ids.present?
-  #       category_wants_ids.each do |category_wants_id|
-  #         category_wants = @post.post_category_wants.build(category_want_id: category_wants_id)
-  #         category_wants.save
-  #       end
-  #     end
-      
-  #     if category_earnest_ids.present?
-  #       category_earnest_ids.each do |category_earnest_id|
-  #         category_earnest = @post.post_category_earnest.build(category_earnest_id: category_earnest_id)
-  #         category_earnest.save
-  #       end
-  #     end  
-    
-  #   redirect_to @post, action: :show, id: @post.id, notice:"登録が完了しました"
-   
-  #   else
-  #     render "new", status: :unprocessable_entity, notice:"登録に失敗しました"  
-  #   end
-  # end
   
   private
   def post_params
