@@ -31,21 +31,29 @@ class MessagesController < ApplicationController
       ids.push(message.to_id)
     end
     ids.delete(current_user.id)
-    @users = User.find(ids)
+    users = User.find(ids)
     
+    #current_userとメッセージをやりとりした相手とのスレッドの中の最後のメッセージ
     @last_messages = []
-    @users.each_with_index do |user, index|
+    users.each_with_index do |user, index|
       sql = "SELECT * FROM messages WHERE (from_id=#{current_user.id} AND to_id=#{user.id}) OR (to_id=#{current_user.id} AND from_id=#{user.id}) ORDER BY created_at DESC LIMIT 1"
       last_message = Message.find_by_sql(sql).last
       @last_messages.push(last_message)
     end
     @last_messages.sort! { |a, b| (-1) * (a.id <=> b.id) }
+    
+    #各スレッドでの最後のメッセージを送信したユーザー　および　各スレッドでのcurrent_userの相手
     @users_last_sent = []
+    @users = []
     @last_messages.each_with_index do |last_message, index|
-      @user_last_sent = User.find(last_message.from_id)
-      @users_last_sent.push(@user_last_sent)
+      user_last_sent = User.find(last_message.from_id)
+      @users_last_sent.push(user_last_sent)
+      user_last_received = User.find(last_message.to_id)
+      user_last_sent == current_user ?  user = user_last_received : user = user_last_sent
+      @users.push(user)
     end
-
+   
+    #@users = User.find(last_message.from_id) + User.find(last_message.from_id) - User.find(current_user.id)
     # @current_user_messages = Message.where(to_id: current_user.id).or(Message.where(from_id: current_user.id))
     # @current_user_to_users = @current_user_messages.pluck(:to_id)
     # @current_user_from_users = @current_user_messages.pluck(:from_id)
