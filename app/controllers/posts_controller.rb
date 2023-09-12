@@ -1,10 +1,9 @@
 class PostsController < ApplicationController
-  include PostsHelper
-  
   before_action :authenticate_user!, except:[:index, :show]
   before_action :ensure_user, only:[:edit, :update]
   before_action :category_all
   before_action :check_flags_for_post_form, only:[:create, :edit, :update]
+  before_action :non_public_posts
   
   def create
     @post = Post.new(post_params)
@@ -68,7 +67,7 @@ class PostsController < ApplicationController
         end
       end  
       
-      redirect_to @post, action: "show", id: @post.id, notice:"登録が完了しました"
+      redirect_to post_path(@post), notice:"登録が完了しました"
       
     else
 
@@ -346,7 +345,7 @@ class PostsController < ApplicationController
         end
       end
     
-     redirect_to @post, action: "show", id: @post.id, notice:"更新しました", status: :see_other
+     redirect_to post_path(@post), notice:"更新しました", status: :see_other
     else
       render "edit", status: :unprocessable_entity, notice:"登録に失敗しました"
     end
@@ -364,12 +363,12 @@ class PostsController < ApplicationController
     @keyword = params[:keyword]
     @post_type_flag = 0
     
-     #プロフィールが「非公開(2)」となっているユーザーの投稿または「非公開(2)」の投稿
-    unpublic_user_profiles = UserProfile.where(public_status_region: 2).or(UserProfile.where(public_status_business: 2))
-    @unpublic_posts = Post.where(user_id: unpublic_user_profiles.pluck(:user_id)) + Post.where(public_status_id: 2)
+    # #プロフィールが「非公開(2)」となっているユーザーの投稿または「非公開(2)」の投稿
+    # unpublic_user_profiles = UserProfile.where(public_status_region: 2).or(UserProfile.where(public_status_business: 2))
+    # @non_public_posts = Post.where(user_id: unpublic_user_profiles.pluck(:user_id)) + Post.where(public_status_id: 2)
     
     #「全ての投稿」が選択された場合
-    @posts_post_type = Post.all - @unpublic_posts
+    @posts_post_type = Post.all - @non_public_posts
     @posts_post_type_ids = @posts_post_type.pluck(:id)
     
     #キーワードが入力された場合　
@@ -399,12 +398,12 @@ class PostsController < ApplicationController
   end
   
   def destroy
-    @post_category_resource = PostCategoryResource.find(params[:id])
+    @post = Post.find(params[:id])
     
-    if @post_category_resource.destroy
-     redirect_to @post, action: "edit", id: @post_category_resource.post_id, notice:"タグを削除しました", status: :see_other
+    if @post.destroy
+     redirect_to account_path(@post.user), notice:"投稿を削除しました", status: :see_other
     else
-      render :edit
+      render "edit"
     end
         
   end
@@ -417,7 +416,7 @@ class PostsController < ApplicationController
   def ensure_user
     @post = Post.find(params[:id])
     unless @post.user_id == current_user.id
-      redirect_to "show", id: @post.id
+      redirect_back fallback_location: root_path
     end
   end 
 end

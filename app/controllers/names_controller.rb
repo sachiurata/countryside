@@ -1,5 +1,6 @@
 class NamesController < ApplicationController
   before_action :authenticate_user!
+  before_action :user_profile_present,   only:[:new]  
   
   def new
     @user_profile = UserProfile.new
@@ -21,5 +22,11 @@ class NamesController < ApplicationController
   private
   def user_profile_params
     params.require(:user_profile).permit(:user_id, :screen_name, :avatar, :prefecture, :city)
+  end
+  
+  def user_profile_present
+    if current_user.user_profile.present?
+      redirect_to edit_name_path(current_user)
+    end  
   end
 end

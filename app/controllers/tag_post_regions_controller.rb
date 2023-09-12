@@ -19,12 +19,4 @@ class TagPostRegionsController < ApplicationController
     @category_features = CategoryFeature.all
     @category_realizabilities = CategoryRealizability.all
   end
-  
-  private
-   def category_resource_params
-     params.require(:category_resource).permit(:tag_name)
-   end
-   def category_issue_params
-     params.require(:category_issue).permit(:tag_name)  
-   end
 end

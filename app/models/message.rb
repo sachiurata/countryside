@@ -4,5 +4,4 @@ class Message < ApplicationRecord
   validates :to_id, presence: true
   validates :content, presence: true, length: { maximum: 300 }
   belongs_to :user, optional: true
-  #belongs_to :user, foreign_key: "from_id"
 end

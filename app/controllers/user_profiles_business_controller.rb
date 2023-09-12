@@ -1,5 +1,5 @@
 class UserProfilesBusinessController < ApplicationController
-  before_action :ensure_user
+  before_action :ensure_user_for_user_profile
   
   def edit
     @profile_business_flag = true
@@ -50,12 +50,5 @@ class UserProfilesBusinessController < ApplicationController
   private
   def user_profile_params
     params.require(:user_profile).permit(:user_id, :profile_type2, :job, :skill, :interest, :other2, :public_status_business)
-  end
-  
-  def ensure_user
-    @user_profile = UserProfile.find(params[:id])
-    unless @user_profile.user_id == current_user.id
-      redirect_to action: :show, id: @user_profile.id
-    end
   end
 end

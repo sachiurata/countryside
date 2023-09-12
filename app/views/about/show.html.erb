@@ -5,7 +5,7 @@
     <p>投稿やコメント、メッセージの送受信にはプロフィールの登録が必要です。</p>
     
     <div class="mb-5">
-      <a href="user_profiles/new" class="btn btn-primary px-4">プロフィール登録</a>
+      <%= link_to "プロフィール登録", new_name_path, class: "btn btn-primary px-4" %>
     </div>
     
     <hr class="col-3 col-md-2 mb-5">
@@ -16,12 +16,12 @@
         <div>
           <p>地域側として、地域資源や地域課題を投稿できます。<br>地域で起業したい人や移住してきたい人のヒントになるような投稿をしましょう。</p>
           <ul class="icon-list">
-            <li><a href="posts_region/new" rel="noopener" target="_blank">投稿を作成</a></li>
+            <li><%= link_to "投稿を作成", new_post_region_path, rel: "noopener", target: "_blank" %></li>
         </div>  
         <div>
           <p>起業希望者として、自分の行いたいプロジェクトや仕事を投稿できます。<br>自分の特技や興味を活かして、地域の人に関心を持ってもらえるようなプロジェクトを投稿しましょう。</p>
           <ul class="icon-list">
-            <li><a href="posts_business/new" rel="noopener" target="_blank">投稿を作成</a></li>
+            <li><%= link_to "投稿を作成", new_post_business_path, rel: "noopener", target: "_blank" %></li>
         </div>  
       </div>
     
@@ -29,9 +29,9 @@
         <h2>探す</h2>
         <p>他の人の投稿やプロフィールが検索できます。</p>
         <ul class="icon-list">
-          <li><a href="posts">全ての投稿から探す</a></li>
-          <li><a href="posts_region">地域側の投稿から探す</a></li>
-          <li><a href="posts_business">起業希望者の投稿から探す</a></li>
+          <li><%= link_to "全ての投稿から探す", posts_path, rel: "noopener", target: "_blank" %></li>
+          <li><%= link_to "地域側の投稿から探す", posts_region_path, rel: "noopener", target: "_blank" %></li>
+          <li><%= link_to "起業希望者の投稿から探す", posts_business_path, rel: "noopener", target: "_blank" %></li>
         </ul>
       </div>
       
@@ -40,7 +40,7 @@
       <div>
         <p>他の人にメッセージを送れます。<br>各ユーザーのページにメッセージボタンがあります。</p>
         <ul class="icon-list">
-          <li><a href="user_profiles" rel="noopener" target="_blank">ユーザー一覧</a></li>
+          <li><%= link_to "ユーザー一覧", user_profiles_path, rel: "noopener", target: "_blank" %></li>
       </div>  
       <div>
         <p>投稿にコメントを残せます。</p>

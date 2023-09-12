@@ -68,7 +68,7 @@
         
         </form>
         
-        <div><a class="btn btn-secondary" href="/posts_region" role="button" style="margin-bottom: 40px;">検索条件をクリア</a></div>
+        <div><%= link_to "検索条件をクリア", posts_region_path, class: "btn btn-secondary", style: "margin-bottom: 40px;" %></div>
       
         <%= render "layouts/posts/post_list", posts_count: @posts_count, posts: @posts %> 　
      

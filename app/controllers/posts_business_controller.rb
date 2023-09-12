@@ -5,6 +5,7 @@ class PostsBusinessController < ApplicationController
   before_action :category_all
   before_action :check_flags_for_post_form,  only:[:new]
   before_action :check_flags_for_checkbox,   only:[:index]
+  before_action :non_public_posts
   
   def index
     @post_type = params[:post_type]
@@ -29,12 +30,12 @@ class PostsBusinessController < ApplicationController
     @posts_tag = []
     @profiles_tag = []
     
-    #プロフィールが「非公開(2)」となっているユーザーの投稿または「非公開(2)」の投稿
-    unpublic_user_profiles = UserProfile.where(public_status_business: 2)
-    @unpublic_posts = Post.where(user_id: unpublic_user_profiles.pluck(:user_id)) + Post.where(public_status_id: 2)
+    # #プロフィールが「非公開(2)」となっているユーザーの投稿または「非公開(2)」の投稿
+    # unpublic_user_profiles = UserProfile.where(public_status_business: 2)
+    # @non_public_posts = Post.where(user_id: unpublic_user_profiles.pluck(:user_id)) + Post.where(public_status_id: 2)
     
     #「起業希望者投稿」のみ抽出
-    @posts_post_type = Post.where(post_type: 2) - @unpublic_posts
+    @posts_post_type = Post.where(post_type: 2) - @non_public_posts
     @posts_post_type_ids = @posts_post_type.pluck(:id)
     
     #キーワードが入力された場合　
@@ -183,7 +184,7 @@ class PostsBusinessController < ApplicationController
       
     #検索条件をクリアした場合  
     else
-      @posts = Post.where(post_type: 2) - @unpublic_posts
+      @posts = Post.where(post_type: 2) - @non_public_posts
     end
     
     #件数表示
@@ -256,19 +257,6 @@ class PostsBusinessController < ApplicationController
     params.require(:post).permit(:user_id, :post_type, :title, :prefecture, :city, :body1, :body2, :feature, :attachment, :realizability, :earnest, :public_status_id, images: [])
   end
 
-  def ensure_user
-    @post = Post.find(params[:id])
-    unless @post.user_id == current_user.id
-      redirect_to action: "show", id: @post.id
-    end
-  end
-  
-  def user_profile_nil?
-    if current_user.user_profile.nil?
-      redirect_to ({controller: 'user_profiles', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
-    end 
-  end  
-  
   def user_profile_status
     if current_user.user_profile.public_status_business.nil?  || current_user.user_profile.public_status_business == 2
       redirect_to edit_user_profiles_business_path(current_user.user_profile), danger: "プロフィールを入力し、公開を選択してください"

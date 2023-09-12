@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
-  before_action :non_public_posts
   
   protect_from_forgery with: :exception
-
   add_flash_types :success, :info, :warning, :danger
   
   include ApplicationHelper
@@ -13,6 +11,19 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_in, keys: [:last_sign_in_at])
+  end
+  
+  def ensure_user_for_user_profile
+    @user_profile = UserProfile.find(params[:id])
+    unless user_signed_in? && @user_profile.user_id == current_user.id
+      redirect_to root_path
+    end
+  end
+  
+  def user_profile_nil?
+    if current_user.user_profile.nil?
+      redirect_to ({controller: 'names', action: 'new'}), notice: "先にプロフィール登録をお済ませください"
+    end 
   end
   
   def non_public_posts

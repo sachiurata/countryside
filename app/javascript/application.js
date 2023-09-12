@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   new bootstrap.Carousel(carousel);
 });
 
-//= require jquery3
+//= require jquery
 //= require popper
 //= require bootstrap-sprocketsimport "trix"
 import "trix"

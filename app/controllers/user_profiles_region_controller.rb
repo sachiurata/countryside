@@ -1,5 +1,5 @@
 class UserProfilesRegionController < ApplicationController
-  before_action :ensure_user
+  before_action :ensure_user_for_user_profile
   
   def edit
     @profile_region_flag = true
@@ -50,12 +50,5 @@ class UserProfilesRegionController < ApplicationController
   private
   def user_profile_params
     params.require(:user_profile).permit(:user_id, :profile_type1, :about_region, :incubation, :immigration_support, :other1, :public_status_region)
-  end
-  
-  def ensure_user
-    @user_profile = UserProfile.find(params[:id])
-    unless @user_profile.user_id == current_user.id
-      redirect_to action: :show, id: @user_profile.id
-    end
   end
 end
