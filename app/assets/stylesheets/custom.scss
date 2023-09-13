@@ -14,8 +14,8 @@
   margin: 20px;
 }
 .profile-avatar {
-  border-radius: 200px;
-   width: 50%;
+   border-radius: 200px;
+   width: 100%;
 }
 
 .profile-icon{
@@ -38,11 +38,35 @@
   font-weight: bold;
 }
 // 投稿のタグ選択
+.posts-show {
+  @media screen and (max-width:768px) {
+    img {
+      width: 100% !important;
+      height: auto !important;
+    }
+    .col-md-1 {
+      width: 50px !important;
+      margin: 2px;
+    }
+    .col-md-8 {
+      width: 250px !important;
+    }
+    .col-md-2 {
+      width: 50px !important;
+    }
+  }
+}
+
 .category {
   margin-bottom: 20px;
 }
 
-.post-form{
+.post-form {
+}
+
+.image_checkboxes {
+  display: flex; 
+  flex-wrap: wrap; 
 }
 
 .label {
@@ -75,17 +99,26 @@ label.required:after {
   font-size: x-small;
 }
 
-.icon-heart {
-  width: 15px;
-  height: 15px;
+.posts-profile-avatar {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
 }
 
-.icon-liked-heart {
-  width: 15px;
-  height: 15px;
-  filter: invert(15%) sepia(95%) saturate(6932%) hue-rotate(358deg) brightness(95%) contrast(112%);
+.accounts-show {
+  @media screen and (max-width:768px) {
+    img.profile-avatar {
+     width: 70% !important;
+     margin: 5px;
+    }
+    .col-md-6 {
+      width: 300px !important;
+    }
+    .btn {
+      width: 70px !important;
+    }
+  }
 }
-
 // .message_card {
 //   text-decoration: none;
 // }
@@ -220,9 +253,21 @@ a {
       height: auto;
   }  
   
- /*　画面サイズが480px以下からはここを読み込む　*/
+ /*　画面サイズが768px以下からはここを読み込む　*/
 @media screen and (max-width:768px) {
- img.profile-avatar {
-   width: 25% !important;
+  img.profile-avatar {
+    width: 25% !important;
  }
+  .col-md-1 {
+    width: 50px !important;
+    margin: 2px;
+ }
+  .col-md-8 {
+    width: 250px !important;
+ }
+  .col-md-2 {
+    width: 50px !important;
+  }
+  
 }
+

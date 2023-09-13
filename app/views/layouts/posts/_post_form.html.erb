@@ -11,7 +11,7 @@
           <%= f.file_field :images, multiple: true, label:"画像" %>
           <% if post.images.attached? %>
             <p>選択済みの画像（削除する画像にチェックをつけてください）</p>
-            <div style="display: flex; flex-wrap: wrap; width: 750px;">
+            <div class="image_checkboxes">
             <% post.images.each_with_index do |image, index| %>
               <div style="display: flex; margin:5px 5px 5px 0;">
                 <%= f.check_box :image_ids, { multiple: true, label: "画像#{index+1}" }, image.id, false %>
@@ -28,38 +28,48 @@
             <%= f.text_area :body1, label:"地域資源・地域課題など", size: "40x15", placeholder:"", required: true %>
             <div class="category">地域資源<br>
               <% category_resources.each_with_index do |category_resource, index| %>
-               <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" <%= check_flags_post_category_resource[index] ? 'checked' : '' %> >
-               <%= category_resource.tag_name %>&emsp;
+                <span style="white-space: nowrap;">
+                  <input class="form-check-input" type="checkbox" name="category_resource_id[]" value="<%= category_resource.id%>" <%= check_flags_post_category_resource[index] ? 'checked' : '' %> >
+                  <%= category_resource.tag_name %>&emsp;
+                </span>  
               <% end %> 
             </div>  
             
             <div class="category">地域課題<br>
-             <% category_issues.each_with_index do |category_issue, index| %>
-              <nobr><input class="form-check-input" type="checkbox", name="category_issue_id[]" value="<%= category_issue.id %>" <%= check_flags_post_category_issue[index] ? "checked" : "" %> >
-              <%= category_issue.tag_name %></nobr>&emsp;
+              <% category_issues.each_with_index do |category_issue, index| %>
+                <span style="white-space: nowrap;">
+                  <input class="form-check-input" type="checkbox", name="category_issue_id[]" value="<%= category_issue.id %>" <%= check_flags_post_category_issue[index] ? "checked" : "" %> >
+                  <%= category_issue.tag_name %>&emsp;
+                </span>  
              <% end %>  
             </div>
             
             <div class="category">需要<br>
-             <% category_markets.each_with_index do |category_market, index| %>
-               <nobr><input class="form-check-input" type="checkbox" name="category_market_id[]" value="<%= category_market.id %>" <%= check_flags_post_category_market[index] ? "checked" : "" %> >
-               <%= category_market.tag_name %></nobr>&emsp;
-             <% end %>
+              <% category_markets.each_with_index do |category_market, index| %>
+                <span style="white-space: nowrap;">
+                  <input class="form-check-input" type="checkbox" name="category_market_id[]" value="<%= category_market.id %>" <%= check_flags_post_category_market[index] ? "checked" : "" %> >
+                  <%= category_market.tag_name %>&emsp;
+                </span>  
+              <% end %>
             </div>
             
             <%= f.text_area :feature, label:"地域の特色", size: "40x15", placeholder:"" %>
-             <div class="category">地域の特色<br>
+            <div class="category">地域の特色<br>
               <% category_features.each_with_index do |category_feature, index| %>
-               <nobr><input class="form-check-input" type="checkbox" name="category_feature_id[]" value="<%= category_feature.id %>" <%= check_flags_post_category_feature[index] ? "checked" : "" %> >
-               <%= category_feature.tag_name %></nobr>&emsp;
+                <span style="white-space: nowrap;">
+                  <input class="form-check-input" type="checkbox" name="category_feature_id[]" value="<%= category_feature.id %>" <%= check_flags_post_category_feature[index] ? "checked" : "" %> >
+                  <%= category_feature.tag_name %>&emsp;
+                </span>  
               <% end %> 
-             </div>
+            </div>
              
             <%= f.text_field :realizability, label:"実現可能性" %>
             <div class="category">
               <% category_realizabilities.each_with_index do |category_realizability, index| %>
-               <nobr><input class="form-check-input", type="checkbox", name="category_realizability_id[]", value="<%= category_realizability.id %>" <%= check_flags_post_category_realizability[index] ? "checked" : "" %> >
-               <%= category_realizability.tag_name %></nobr>&emsp;
+                <span style="white-space: nowrap;">
+                  <input class="form-check-input", type="checkbox", name="category_realizability_id[]", value="<%= category_realizability.id %>" <%= check_flags_post_category_realizability[index] ? "checked" : "" %> >
+                  <%= category_realizability.tag_name %>&emsp;
+                </span>  
               <% end %>
             </div>
           <% end %> 
@@ -68,14 +78,18 @@
             <%= f.hidden_field :post_type, value: 2 %>
             <%= f.text_area :body2, label:"やりたいことなど", size: "40x15", placeholder:"", required: true %>
             <% category_wants.each_with_index do |category_want, index| %>
-              <nobr><input class="form-check-input" type="checkbox" name="category_want_id[]" value="<%= category_want.id %>" <%= check_flags_post_category_want[index] ? "checked" : "" %> >
-              <%= category_want.tag_name %></nobr>&emsp;
+              <span style="white-space: nowrap;">
+                <input class="form-check-input" type="checkbox" name="category_want_id[]" value="<%= category_want.id %>" <%= check_flags_post_category_want[index] ? "checked" : "" %> >
+                <%= category_want.tag_name %>&emsp;
+              </span>  
             <% end %>
             
             <%= f.text_field :earnest, label:"本気度" %>
             <% category_earnests.each_with_index do |category_earnest, index| %>
-              <nobr><input class="form-check-input" type="checkbox" name="category_earnest_id[]" value="<%= category_earnest.id %>" <%= check_flags_post_category_earnest[index] ? "checked" : "" %>  >
-              <%= category_earnest.tag_name %></nobr>&emsp;
+              <span style="white-space: nowrap;">
+                <input class="form-check-input" type="checkbox" name="category_earnest_id[]" value="<%= category_earnest.id %>" <%= check_flags_post_category_earnest[index] ? "checked" : "" %>  >
+                <%= category_earnest.tag_name %>&emsp;
+              </span>  
             <% end %>
           <% end %>    
           

@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="row g-0" style="margin-bottom: 40px;">
+<div class="container accounts-show">
+  <div class="row g-0" style="margin-bottom: 5px 5px 40px 5px;">
     <div class="col-md-2">
       <%= image_tag @user_profile.avatar.variant(:thumb), class: "profile-avatar" if @user_profile.avatar.attached? %>
       <%= image_tag "profile.png", class: "profile-icon", class: "profile-avatar" if !@user_profile.avatar.attached? %>

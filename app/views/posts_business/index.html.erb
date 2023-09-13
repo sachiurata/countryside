@@ -9,37 +9,47 @@
         <div>投稿のタグ</div>
         <div class="category"><span class="badge text-bg-primary">やりたいこと</span><br>
           <% @category_wants.each_with_index do |category_want, index| %>
-            <input class="form-check-input" type="checkbox" name="category_want_id[]" value="<%= category_want.id%>" <%= @check_flags_category_wants[index] ? 'checked' : '' %> >
-            <%= category_want.tag_name %>&emsp;
+            <span style="white-space: nowrap;">
+              <input class="form-check-input" type="checkbox" name="category_want_id[]" value="<%= category_want.id%>" <%= @check_flags_category_wants[index] ? 'checked' : '' %> >
+              <%= category_want.tag_name %>&emsp;
+            </span>  
           <% end %>
         </div>
        
         <div class="category"><span class="badge text-bg-secondary">本気度</span><br>
           <% @category_earnests.each_with_index do |category_earnest, index| %>
-            <input class="form-check-input" type="checkbox" name="category_earnest_id[]" value="<%= category_earnest.id %>" <%= @check_flags_category_earnests[index] ? 'checked' : '' %> >
-            <%= category_earnest.tag_name %>&emsp;
+            <span style="white-space: nowrap;">
+              <input class="form-check-input" type="checkbox" name="category_earnest_id[]" value="<%= category_earnest.id %>" <%= @check_flags_category_earnests[index] ? 'checked' : '' %> >
+              <%= category_earnest.tag_name %>&emsp;
+            </span>  
           <% end %>
         </div>
        
         <div>プロフィールのタグ</div> 
         <div class="category"><span class="badge rounded-pill text-bg-primary">職業</span><br>
           <% @category_jobs.each_with_index do |category_job, index| %>
-            <input class="form-check-input", type="checkbox", name="category_job_id[]", value="<%= category_job.id %>" <%= @check_flags_category_jobs[index] ? 'checked' : '' %>>
-            <%= category_job.tag_name %>&emsp;
+            <span style="white-space: nowrap;">
+              <input class="form-check-input", type="checkbox", name="category_job_id[]", value="<%= category_job.id %>" <%= @check_flags_category_jobs[index] ? 'checked' : '' %>>
+              <%= category_job.tag_name %>&emsp;
+            </span>  
           <% end %>
         </div> 
        
         <div class="category"><span class="badge rounded-pill text-bg-secondary">得意なこと</span><br>
           <% @category_skills.each_with_index do |category_skill, index| %>
-            <input class="form-check-input" type="checkbox" name="category_skill_id[]" value="<%= category_skill.id %>" <%= @check_flags_category_skills[index] ? 'checked' : '' %>>
-            <%= category_skill.tag_name %>&emsp;
+            <span style="white-space: nowrap;">
+              <input class="form-check-input" type="checkbox" name="category_skill_id[]" value="<%= category_skill.id %>" <%= @check_flags_category_skills[index] ? 'checked' : '' %>>
+              <%= category_skill.tag_name %>&emsp;
+            </span>  
           <% end %>
         </div> 
        
         <div class="category"><span class="badge rounded-pill text-bg-warning">興味のあること</span><br>
           <% @category_interests.each_with_index do |category_interest, index| %>
-            <input class="form-check-input", type="checkbox", name="category_interest_id[]", value="<%= category_interest.id %>" <%= @check_flags_category_interests[index] ? 'checked' : '' %>>
-            <%= category_interest.tag_name %>&emsp;
+            <span style="white-space: nowrap;">
+              <input class="form-check-input", type="checkbox", name="category_interest_id[]", value="<%= category_interest.id %>" <%= @check_flags_category_interests[index] ? 'checked' : '' %>>
+              <%= category_interest.tag_name %>&emsp;
+            </span>  
           <% end %>
         </div> 
        
