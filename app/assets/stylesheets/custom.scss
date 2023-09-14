@@ -1,0 +1,233 @@
+h1 {
+    color: red;
+}
+
+.container {
+  margin: 50px;
+}
+
+.popular-posts-wrapper {
+  margin-top: 50px;
+}
+
+.articles-wrapper {
+  margin-top: 50px;
+}
+
+.user-profile-card{
+  margin: 20px;
+}
+.profile-avatar {
+  border-radius: 200px;
+   width: 50%;
+}
+
+.profile-icon{
+   width: 50%;
+}
+
+.profile-avatar-small {
+  border-radius: 200px;
+  width: 100%;
+}
+
+.profile-content {
+  margin: 40px;
+}
+
+.public-status {
+  margin: 40px;
+  color: green;
+  font-size: large;
+  font-weight: bold;
+}
+// 投稿のタグ選択
+.category {
+  margin-bottom: 20px;
+}
+
+.post-form{
+}
+
+.label {
+  font-weight: bold;
+}
+
+.category-label {
+   white-space: nowrap;
+}
+
+.public_status {
+  margin: 50px;
+}
+
+.submit {
+  margin: 100px;
+}
+
+.title {
+  color: grey;
+  font-size: xx-large;
+}
+
+label.required:after {
+  content:" *";
+}
+
+.screen_name {
+  color: grey;
+  font-size: x-small;
+}
+
+.icon-heart {
+  width: 15px;
+  height: 15px;
+}
+
+.icon-liked-heart {
+  width: 15px;
+  height: 15px;
+  filter: invert(15%) sepia(95%) saturate(6932%) hue-rotate(358deg) brightness(95%) contrast(112%);
+}
+
+// .message_card {
+//   text-decoration: none;
+// }
+
+a {
+    text-decoration: none !important;
+}
+
+.card-body { 
+  color:#0000FF; text-decoration: none;
+  }
+// .article-card {
+//   float: left;
+// }
+
+// messages
+.message-avatar {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+#messages {
+  list-style: none;
+  padding: 0;
+
+  li {
+    padding: 10px 0;
+    // border-top: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .content {
+    display: inline-block;
+
+    .message {
+      padding: 20px;
+      display: inline-block;
+      // background:$gray-medium-light;
+      border-radius: 10px;
+    }
+
+    .timestamp {
+      // color: $gray-light;
+      display: block;
+      font-size: .75em;
+    }
+  }
+
+  .gravatar {
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+
+  li.my-content{
+    justify-content: flex-end;
+    text-align: right;
+    .message {
+      // background:#71151a;
+      border-radius: 10px;
+      // color: #fff;
+    }
+
+    .gravatar{
+      display: none;
+    }
+  }
+}
+
+  .message-text{
+    height: 50px;
+    // max-width: 6000px;
+    overflow: hidden;
+    // @media (max-width: 768px) {
+    // max-width: 500px;
+    // }  
+  }
+  
+  .message-card {
+    max-width: 768px;
+    height: 100px !important;
+    @media (max-width: 768px) {
+     height: 120px;
+    }  
+  } 
+  
+  .message-card-profile {
+    padding: 10px;
+    font-size: 10px;
+    @media (max-width: 768px) {
+     padding: 5px;
+    } 
+   #message-card-avatar {
+    @media (max-width: 768px) {
+     display: none;
+    }  
+  } 
+  }
+  
+  .message-content {
+    padding: 10px;
+  }
+  
+// Aboutページ  
+ .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  
+  .post_error_message {
+    color: red;
+  }  
+  
+  // users
+  .field {
+    max-width: 500px;
+  }
+  
+  .img {
+      max-width: 100%;
+      height: auto;
+  }  
+  
+ /*　画面サイズが480px以下からはここを読み込む　*/
+@media screen and (max-width:768px) {
+ img.profile-avatar {
+   width: 25% !important;
+ }
+}
+
