@@ -1,10 +1,21 @@
 <div class="container">
-  <div class="row">
-    <h1>Title</h1>
-    <div>地域で起業したい人と地域での起業や移住のヒントを持つ人をつなげるサイトです。 
-      <%= link_to "詳しくはこちら", about_path, class: "btn btn-outline-secondary btn-show-more" %>
-    </div>
+  <div class="card text-bg-dark">
+  <img src="https://bakke.jp/wp-content/uploads/2018/10/IMG_5173.jpg" class="card-img" alt="...">
+  <div class="card-img-overlay" style="color: black;" >
+    <h1 class="card-title">Title</h1>
+    <h2 class="card-text">地域でちょこっと起業したい。田舎で暮らしたい。遠くから副業で応援したい。</h2>
+    <p class="card-text">そんな地域で起業・副業したい人と地域での起業や移住のヒントを持つ人の橋渡しをします。</p>
+    <%= link_to "詳しくはこちら", about_path, class: "btn btn-outline-secondary btn-show-more" %>
   </div>
+</div>
+  <div class="row">
+    <!--<h1>Title</h1>-->
+    <!--<div>地域でちょこっと起業したい。田舎で暮らしたい。遠くから応援したい。-->
+    <!-- そんな地域で起業・副業したい人と地域での起業や移住のヒントを持つ人の橋渡しをします。-->
+
+    <!--  <%#= link_to "詳しくはこちら", about_path, class: "btn btn-outline-secondary btn-show-more" %>-->
+    <!--</div>-->
+  <!--</div>-->
       <h5>人気の投稿</h5>
       <% @posts.each do |post| %>
       <%= render "layouts/posts/post_card", post: post %>
