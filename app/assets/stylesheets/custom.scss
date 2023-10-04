@@ -2,12 +2,47 @@
   margin: 50px;
 }
 
+.top-wrapper {
+  // width: 100vw;
+  height: 70vh;
+  background-image: image-url('tree.JPG');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #464646;
+}
+
+.top-wrapper-text {
+  mergin-top: 20px;
+}
+
+.bi-emoji-smile {
+  margin-bottom: 10px !important;
+}
+
+.arrow-inner{
+  vertical-align: middle;
+}
+
 .popular-posts-wrapper {
-  margin-top: 50px;
+  padding-top: 50px;
 }
 
 .articles-wrapper {
-  margin-top: 50px;
+  padding-top: 50px;
+}
+
+.explanation {
+  margin: 20px;
+  padding: 10px;
+  background-color: #eef2ff;
+  font-size: small;
+}
+
+.form-label {
+  color: #0f4c75;
+  font-weight: bold;
 }
 
 .user-profile-card{
