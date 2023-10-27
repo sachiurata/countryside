@@ -1,13 +1,30 @@
 <% if @post.user == current_user || @post.public_status_id == 1 || @post.public_status_id == 3  %> 
   <div class="container posts-show">
     <div class="row g-0">
-      <div class="col-md-10">
+      <div class="col-md-10 offset-1">
+        
+        <% if @post.post_type == 1 %>
+          <span class="badge text-bg-success">地域側</span>
+        <% elsif @post.post_type == 2 %> 
+          <span class="badge text-bg-danger">起業希望者</span>
+        <% end %>
+          
         <h2 class="title">
           <%= @post.title %>
           <% if @post.public_status_id == 3 %>
             <span class="badge bg-secondary">終了</span>
           <% end %> 
         </h2>
+        
+        <div class="row">
+          <p class="name"><%= @post.user.user_profile.screen_name %></p>
+          <div class="col-md-9">  
+            <P class="place"><span class="material-symbols-outlined">location_on</span><%= @post.prefecture%><%= @post.city %></P>
+          </div>
+          <div class="col-md-2">
+            <%= render "layouts/posts/favorite", post: @post %>
+          </div>  
+        </div>
         
         <div class="row offset-sm-1 col-sm-10 mt-1">
           <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -30,70 +47,68 @@
             </button>
           </div>
         </div>       
-       
-        <p class="name"><%= @post.user.user_profile.screen_name %></p>
-        <P class="place"><%= @post.prefecture%><%= @post.city %></P>
         
-        <%= render "layouts/posts/favorite", post: @post %>
-       
-        <% if @post.post_type == 1 %>
-          <span class="badge text-bg-success">地域側</span><br>
-         
-          <% @post.post_category_resources.each do |post_category_resource| %>
-            <span class="badge text-bg-primary">
-              <%= post_category_resource.category_resource.tag_name %>
+        <div class="post-box">
+          <% if @post.post_type == 1 %>
+            <div class="post-item">
+              <P class="label">地域資源・地域課題</P>
+              
+              <% @post.post_category_resources.each do |post_category_resource| %>
+                <span class="badge text-bg-primary">
+                  <%= post_category_resource.category_resource.tag_name %>
+                </span>
+              <% end %>
+              
+              <% @post.post_category_issues.each do |post_category_issue| %>
+                <span class="badge text-bg-secondary">
+                  <%= post_category_issue.category_issue.tag_name %>
+                </span>
+              <% end %>
+             
+              <% @post.post_category_markets.each do |post_category_market| %>
+                <span class="badge text-bg-warning">
+                  <%= post_category_market.category_market.tag_name %>
+                </span>
+              <% end %>
+             
+              <P><%= text_url_to_link(safe_join((h(@post.body1)).split("\n"),tag(:br))).html_safe %></P>
+            </div>
+            
+            <p class="label">地域の特色 
+            <% @post.post_category_features.each do |post_category_feature| %>
+              <span class="badge text-bg-info">
+                <%= post_category_feature.category_feature.tag_name %>
+              </span>
+            <% end %></p>
+            <P><%= text_url_to_link(safe_join((h(@post.feature)).split("\n"),tag(:br))).html_safe %></P>
+            
+            <p class="label">実現可能性 
+            <% @post.post_category_realizabilities.each do |post_category_realizability| %>
+            <span class="badge text-bg-dark">
+              <%= post_category_realizability.category_realizability.tag_name %>
             </span>
+            <% end %></p>
+            <P><%= @post.realizability %></p>
+          <% end %>  
+            
+          <% if @post.post_type == 2 %>
+            <p class="label">やりたいこと</p>
+            <% @post.post_category_wants.each do |post_category_want| %>
+              <span class="badge text-bg-primary">
+                <%= post_category_want.category_want.tag_name %>
+              </span>
+            <% end %>
+            <p><%= text_url_to_link(safe_join((h(@post.body2)).split("\n"),tag(:br))).html_safe %></p>
+            
+            <p class="label">本気度 
+            <% @post.post_category_earnest.each do |post_category_earnest| %>
+              <span class="badge text-bg-secondary">
+                <%= post_category_earnest.category_earnest.tag_name %>
+              </span>
+            <% end %></p>
+            <p><%= @post.earnest %></p>
           <% end %>
-          
-          <% @post.post_category_issues.each do |post_category_issue| %>
-            <span class="badge text-bg-secondary">
-              <%= post_category_issue.category_issue.tag_name %>
-            </span>
-          <% end %>
-         
-          <% @post.post_category_markets.each do |post_category_market| %>
-            <span class="badge text-bg-warning">
-              <%= post_category_market.category_market.tag_name %>
-            </span>
-          <% end %>
-         
-          <P class="label"></P>
-          <P><%= text_url_to_link(safe_join((h(@post.body1)).split("n"),tag(:br))).html_safe %></P>
-          <p class="label">地域の特色 
-          <% @post.post_category_features.each do |post_category_feature| %>
-            <span class="badge text-bg-info">
-              <%= post_category_feature.category_feature.tag_name %>
-            </span>
-          <% end %></p>
-          <P><%= text_url_to_link(safe_join((h(@post.feature)).split("n"),tag(:br))).html_safe %></P>
-          
-          <p class="label">実現可能性 
-          <% @post.post_category_realizabilities.each do |post_category_realizability| %>
-          <span class="badge text-bg-dark">
-            <%= post_category_realizability.category_realizability.tag_name %>
-          </span>
-          <% end %></p>
-          <P><%= @post.realizability %></p>
-        <% end %>  
-          
-        <% if @post.post_type == 2 %>
-          <span class="badge text-bg-danger">起業希望者</span>
-          <p class="label">やりたいこと</p>
-          <% @post.post_category_wants.each do |post_category_want| %>
-            <span class="badge text-bg-primary">
-              <%= post_category_want.category_want.tag_name %>
-            </span>
-          <% end %>
-          <p><%= text_url_to_link(safe_join((h(@post.body2)).split("n"),tag(:br))).html_safe %></p>
-          
-          <p class="label">本気度 
-          <% @post.post_category_earnest.each do |post_category_earnest| %>
-            <span class="badge text-bg-secondary">
-              <%= post_category_earnest.category_earnest.tag_name %>
-            </span>
-          <% end %></p>
-          <p><%= @post.earnest %></p>
-        <% end %>
+        </div>
       </div>
      </div>
      
