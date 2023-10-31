@@ -1,7 +1,7 @@
 <div class="top-wrapper">
     <!--<h1 class="top-wrapper-title">Start up in the countryside!</h1>-->
     <div class="top-wrapper-text">
-        <h2>地域でちょこっと起業したい。田舎で暮らしたい。遠くから副業で応援したい。</h2>
+        <h1>地方で起業したい。田舎で暮らしたい。遠くから副業で応援したい。</h1>
         <h5>そんな地域で起業・副業したい人と地域での起業や移住のヒントを持つ人の橋渡しをします。</h5>
         <%#= link_to "詳しくはこちら", about_path, class: "btn btn-show-more" %>
     </div>
@@ -35,7 +35,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrows" viewBox="0 0 16 16">
         <path d="M1.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L2.707 7.5h10.586l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L13.293 8.5H2.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2Z"/>
       </svg>
-      <p></p><small>情報交換<br>交流<br>マッチング</small></p>
+      <p></p><small>情報交換<br>マッチング<br>支援</small></p>
     </div>
     
     <div class="col-md-4">
@@ -60,27 +60,29 @@
     
     <div class="row g-5">
       <!--<h1 class="offset-1">Ruralupでできること</h1>-->
-      <!--<div class="col-md-4 offset-1">-->
-      <div class="col-md-3">
+      <div class="col-md-4">
+      <!--<div class="col-md-3">-->
         <h2 class="how-it-works"><span class="material-symbols-outlined">record_voice_over</span>発信する</h2>
         <div>
           <p>土の人として、地域資源や地域課題を投稿できます。<br>地域で起業したい人や移住してきたい人のヒントになるような投稿をしましょう。</p>
           <ul class="icon-list">
-            <li><%= link_to "土の人として投稿を作成", new_post_region_path, rel: "noopener", target: "_blank" %></li>
             <li><%= link_to "土の人の投稿の見本", post_path(1), rel: "noopener", target: "_blank" %></li>
+            <li><%= link_to "土の人として投稿を作成", new_post_region_path, rel: "noopener", target: "_blank" %></li>
         </div>  
         <div>
           <p>風の人として、自分の行いたいプロジェクトや仕事を投稿できます。<br>自分の特技や興味を活かして、地域の人に関心を持ってもらえるようなプロジェクトを投稿しましょう。</p>
           <ul class="icon-list">
-            <li><%= link_to "風の人として投稿を作成", new_post_business_path, rel: "noopener", target: "_blank" %></li>
             <li><%= link_to "風の人の投稿の見本", post_path(2), rel: "noopener", target: "_blank" %></li>
+            <li><%= link_to "風の人として投稿を作成", new_post_business_path, rel: "noopener", target: "_blank" %></li>
         </div>  
       </div>
     
-      <!--<div class="col-md-4">-->
-      <div class="col-md-3">
+      <div class="col-md-4">
+      <!--<div class="col-md-3">-->
         <h2 class="how-it-works"><span class="material-symbols-outlined">search</span>探す</h2>
-        <p>他の人の投稿やプロフィールが検索できます。</p>
+        <p>他の人の投稿で地域資源や地域課題が検索できます。</p>
+        <p>起業したい人のアイデアが検索できます。</p>
+        <p>自治体の起業支援や移住支援が検索できます。</p>
         <ul class="icon-list">
           <li><%= link_to "全ての投稿から探す", posts_path, rel: "noopener", target: "_blank" %></li>
           <li><%= link_to "土の人の投稿から探す", posts_region_path, rel: "noopener", target: "_blank" %></li>
@@ -88,30 +90,31 @@
         </ul>
       </div>
       
-    <!--<div class="col-md-4 offset-1">-->
-      <div class="col-md-3">
-        <h2 class="how-it-works"><span class="material-symbols-outlined">communication</span>交流する</h2>
-      <div>
-        <p>他の人にメッセージを送れます。<br>各ユーザーのページにメッセージボタンがあります。</p>
-        <ul class="icon-list">
-          <li><%= link_to "ユーザー一覧", user_profiles_path, rel: "noopener", target: "_blank" %></li>
-      </div>  
-      <div>
-        <p>投稿にコメントを残せます。有用な情報、アイデア、感想などコメントしましょう。</p>
-      </div>  
+    <div class="col-md-4">
+      <!--<div class="col-md-3">-->
+        <h2 class="how-it-works"><span class="material-symbols-outlined">communication</span>支援する</h2>
+        <div>
+          <p>他の会員にメッセージを送れます。<br>各ユーザーのページにメッセージボタンがあります。</p>
+          <ul class="icon-list">
+            <li><%= link_to "ユーザー一覧", user_profiles_path, rel: "noopener", target: "_blank" %></li>
+        </div>  
+        <div>
+          <p>投稿にコメントを残せます。有用な情報、アイデア、感想などコメントしましょう。</p>
+        </div> 
+        <div>
+          <p>ボタンで投稿者を応援できます。（未実装）</p>
+        </div>  
+        <div>
+          <p>投稿者にカンパできます。（未実装）</p>
+        </div>  
       </div>
       
       <!--<div class="col-md-4">-->
-      <div class="col-md-3">  
-        <h2 class="how-it-works"><span class="material-symbols-outlined">thumb_up</span>応援する</h2>
-      <div>
-        <p>ボタンで投稿者を応援できます。（未）</p>
-      </div>  
-      <div>
-        <p>投稿者にカンパできます。（未）</p>
-      </div>  
-      </div>
-    </div>
+      <!--<div class="col-md-3">  -->
+        <!--<h2 class="how-it-works"><span class="material-symbols-outlined">thumb_up</span>応援する</h2>-->
+        
+      <!--</div>-->
+    <!--</div>-->
     
     <div class="popular-posts-wrapper">
       <h5>人気の投稿</h5>
@@ -124,17 +127,19 @@
     </div>  
   </div>
   
-  <div class="articles-wrapper">
-    <h5>地域で起業した人々</h5>
-    <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-bottom: 20px;">
-      <% @articles.each do |article| %>
-        <%= link_to article_path(article) do %>
-          <%= render "articles/article_card", article: article %>
+  <% if @articles.present? %>
+    <div class="articles-wrapper">
+      <h5>地域で起業した人々</h5>
+      <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-bottom: 20px;">
+        <% @articles.each do |article| %>
+          <%= link_to article_path(article) do %>
+            <%= render "articles/article_card", article: article %>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
+      <div class="btn-show-more">
+        <%= link_to "もっと見る", articles_path, class: "btn btn-outline-secondary" %>
+      </div>
     </div>
-    <div class="btn-show-more">
-      <%= link_to "もっと見る", articles_path, class: "btn btn-outline-secondary" %>
-    </div>
-  </div>
+  <% end %>  
 </div>

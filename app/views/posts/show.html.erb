@@ -47,8 +47,56 @@
             </button>
           </div>
         </div>       
+      
+      <% if @post.post_type == 1 %> 
+      <ul class="nav nav-tabs" style="margin-top: 20px; ">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#content">投稿</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#support">支援制度</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#comment">コメント</a>
+        </li>
+      </ul>
+      
+      <% elsif @post.post_type == 2 %> 
+      <ul class="nav nav-tabs" style="margin-top: 20px; ">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#content">投稿</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#support">プロフィール</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#comment">コメント</a>
+        </li>
+      </ul>
+      <% end %>
+      
+      <!--<ul class="nav nav-tabs" id="myTab" role="tablist">-->
+      <!--  <li class="nav-item" role="presentation">-->
+      <!--    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>-->
+      <!--  </li>-->
+      <!--  <li class="nav-item" role="presentation">-->
+      <!--    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button>-->
+      <!--  </li>-->
+      <!--  <li class="nav-item" role="presentation">-->
+      <!--    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Contact</button>-->
+      <!--  </li>-->
+      <!--  <li class="nav-item" role="presentation">-->
+      <!--    <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button>-->
+      <!--  </li>-->
+      <!--</ul>-->
+      <!--<div class="tab-content" id="myTabContent">-->
+      <!--  <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">...</div>-->
+      <!--  <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">...</div>-->
+      <!--  <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>-->
+      <!--  <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>-->
+      <!--</div>-->
         
-        <div class="post-box">
+        <div class="post-box" id="content">
           <% if @post.post_type == 1 %>
             <div class="post-item">
               <P class="label">地域資源・地域課題</P>
@@ -109,14 +157,81 @@
             <p><%= @post.earnest %></p>
           <% end %>
         </div>
-      </div>
-     </div>
+        <div style="margin-top: 20px">
+          <% if user_signed_in? && @post.user_id == current_user.id %>
+            <%= link_to "投稿の編集", edit_post_path(@post.id), class: "btn btn-secondary btn-edit" %>
+          <% end %>
+        </div>
+        
+        <% if @post.post_type == 1 %>
+          <div class="post-box" id="support">
+            <div class="profile-content"> 
+              <P class="label">地域の起業支援
+                <% @post.user.user_profile.profile_category_incubations.each do |profile_category_incubation| %>
+                  <span class="badge rounded-pill text-bg-secondary">
+                    <%= profile_category_incubation.category_incubation.tag_name %>
+                  </span>  
+                <% end %></p>
+              <P><%= text_url_to_link(safe_join((h(@post.user.user_profile.incubation)).split("\n"),tag(:br))).html_safe %></P>
+            </div>
+            
+            <div class="profile-content"> 
+              <P class="label">地域の移住支援
+                <% @post.user.user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>
+                  <span class="badge rounded-pill text-bg-warning">
+                    <%= profile_category_immigration_support.category_immigration_support.tag_name %>
+                  </span>  
+                <% end %></P>
+              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.immigration_support)).split("\n"),tag(:br))).html_safe %></p>
+            </div>
+            
+            <div class="profile-content"> 
+              <p class="label">その他</p>
+              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.other1)).split("\n"),tag(:br))).html_safe %></p>
+            </div>
+          </div>
+        <% elsif @post.post_type == 2 %>
+          <div class="post-box" id="support">
+            <div class="profile-content"> 
+              <p class="label">職業
+              <% @post.user.user_profile.profile_category_jobs.each do |profile_category_job| %>
+                <span class="badge rounded-pill text-bg-primary">
+                <%= @post.user.profile_category_job.category_job.tag_name %>
+                </span>  
+              <% end %></p>
+              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.job)).split("\n"),tag(:br))).html_safe %></p>
+            </div>
+         
+            <div class="profile-content"> 
+              <p class="label">得意なこと
+              <% @post.user.user_profile.profile_category_skills.each do |profile_category_skill| %>
+                <span class="badge rounded-pill text-bg-secondary">
+                <%= @post.user.profile_category_skill.category_skill.tag_name %>
+                </span>  
+              <% end %></p>
+              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.interest)).split("\n"),tag(:br))).html_safe %></p>
+            </div>
+            
+            <div class="profile-content"> 
+              <p class="label">興味のあること
+              <% @post.user.user_profile.profile_category_interests.each do |profile_category_interest| %>
+                <span class="badge rounded-pill text-bg-warning">
+                <%= @post.user.profile_category_interest.category_interest.tag_name %>
+                </span>  
+              <% end %></p>
+              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.interest)).split("\n"),tag(:br))).html_safe %></p>
+            </div> 
+            
+            <div class="profile-content"> 
+              <p class="label">その他</p>
+              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.other2)).split("\n"),tag(:br))).html_safe %></p>
+            </div>    
+          </div>   
+        <% end %>
+      
      
-     <% if user_signed_in? && @post.user_id == current_user.id %>
-      <%= link_to "投稿の編集", edit_post_path(@post.id), class: "btn btn-secondary btn-edit" %>
-     <% end %> 
-     
-    <div class="col-md-9" style="margin-top: 40px;">
+    
+    <div class="col-md-9 post-box" style="margin-top: 40px;" id="comment">
       <% @post.comments.each do |comment| %>
         <div class="row">
           <div class="col-md-1" style="margin: 10px;">
@@ -164,6 +279,6 @@
       <% end %>
       
     </div> 
-      <%= render "layouts/user_profiles/profile_for_posts", user_profile: @user_profile, post: @post %>
+      <%#= render "layouts/user_profiles/profile_for_posts", user_profile: @user_profile, post: @post %>
   </div>
 <% end %>

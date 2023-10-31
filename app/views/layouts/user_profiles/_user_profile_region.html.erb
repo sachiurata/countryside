@@ -1,19 +1,20 @@
 <div class="container">
   <div class="row g-0">
-    <div class="col-md-10 card user-profile-area">
-      <div class="card-body">
-        <div><span class="badge text-bg-success">地域側</span></div>
-        <div class="profile-content"> 
-          <P class="label">地域について
-            <% user_profile.profile_category_about_regions.each do |profile_category_about_region| %>
-              <span class="badge rounded-pill text-bg-primary">
-                <%= profile_category_about_region.category_about_region.tag_name %>
-              </span>  
-            <% end %></P>
-          <P><%= text_url_to_link(safe_join((h(user_profile.about_region)).split("\n"),tag(:br))).html_safe %></P>
-        </div>
+    <!--<div class="col-md-10 card user-profile-area">-->
+    <!--  <div class="card-body">-->
+    <!--    <div><span class="badge text-bg-success">地域側</span></div>-->
+        <div class="post-box" id="content"> 
+        <!--<div class="profile-content"> -->
+        <!--  <P class="label">地域について-->
+        <!--    <%# user_profile.profile_category_about_regions.each do |profile_category_about_region| %>-->
+        <!--      <span class="badge rounded-pill text-bg-primary">-->
+        <!--        <%#= profile_category_about_region.category_about_region.tag_name %>-->
+        <!--      </span>  -->
+        <!--    <%# end %></P>-->
+        <!--  <P><%#= text_url_to_link(safe_join((h(user_profile.about_region)).split("\n"),tag(:br))).html_safe %></P>-->
+        <!--</div>-->
         
-        <div class="profile-content"> 
+        <div class="profile-content" id="support"> 
           <P class="label">地域の起業支援
             <% user_profile.profile_category_incubations.each do |profile_category_incubation| %>
               <span class="badge rounded-pill text-bg-secondary">

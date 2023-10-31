@@ -1,16 +1,16 @@
 <div class="container">
   <div class="row g-0" style="margin-bottom: 40px;">
-    <div class="col-md-2">
-      <%= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar" if user_profile.avatar.attached? %>
-    </div>
+    <!--<div class="col-md-2">-->
+    <!--  <%#= image_tag user_profile.avatar.variant(:thumb), class: "profile-avatar" if user_profile.avatar.attached? %>-->
+    <!--</div>-->
     
-    <div class="col-md-6">
-      <%= link_to user_profile_path(user_profile) do %>
-        <h4><%= user_profile.screen_name %></h4>
-      <% end %> 
-      <P class="place"><%= user_profile.prefecture %><%= user_profile.city %></P>
-      <small class="text-body-secondary">最終ログイン日　<%= l user_profile.user.last_sign_in_at, format: :only_date %></small>
-    </div>  
+    <!--<div class="col-md-6">-->
+    <!--  <%#= link_to user_profile_path(user_profile) do %>-->
+    <!--    <h4><%#= user_profile.screen_name %></h4>-->
+    <!--  <%# end %> -->
+    <!--  <P class="place"><%#= user_profile.prefecture %><%#= user_profile.city %></P>-->
+    <!--  <small class="text-body-secondary">最終ログイン日　<%#= l user_profile.user.last_sign_in_at, format: :only_date %></small>-->
+    <!--</div>  -->
     
     <div class="col-md-2">
       <% if user_signed_in? && post.user_id != current_user.id %>
