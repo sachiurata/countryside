@@ -1,5 +1,5 @@
 <div class="col">
-  <%#= link_to post_path(post) do %>
+  <%= link_to post_path(post) do %>
  
     <div class="card">
       <% if post.images.attached? %>
@@ -21,7 +21,7 @@
           <span class="badge badge-business" style="margin-top: 0.5rem;">風の人</span>
         <% end %>
         <div class="post-card-favorite">
-          <%= render "layouts/posts/favorite", post: post %>
+          <%= render "layouts/posts/favorite_without_link", post: post %>
         </div>
         <div>
           <% if @current_user_flag == true %>
@@ -37,12 +37,11 @@
         </div>  
       </div>  
     
+      
       <div class="card-body">
-        
-          <!--<h5 class="card-title">-->
-            <a href="<%= "/posts/#{post.id}" %>"><%= post.title %></a>
-          <!--</h5> -->
-        
+        <h5 class="card-title">
+          <%= post.title %>
+        </h5> 
         
         <div class="card-text">
           <p><%= image_tag post.user.user_profile.avatar.variant(:thumb_s), class: "posts-card-avatar" if post.user.user_profile.avatar.attached? %>&nbsp;<%= post.user.user_profile.screen_name %></p>
@@ -125,6 +124,6 @@
               <%#= link_to "もっと見る", post_path(post), class: "btn btn-outline-secondary btn-sm", style: "margin-top: 10px;" %>
             <!--</div>-->
     </div>
-  <%# end %>
+  <% end %>
  
 </div>
