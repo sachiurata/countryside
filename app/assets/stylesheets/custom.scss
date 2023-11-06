@@ -10,19 +10,19 @@
 .top-wrapper {
   // width: 100vw;
   height: 70vh;
-  background-image: image-url('tree.JPG');
+  background-image: image-url('house.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   background-color: #464646;
   display: grid;
-  place-items: center;
+  // place-items: center;
 }
 
 .top-wrapper-text {
   // margin-top: 20px;
-  color: white;
+  // color: white;
   text-align: center;
   height: 20vh;
 }
@@ -37,6 +37,14 @@
 
 h4 {
   margin: 15px !important;
+}
+
+.color-region {
+  color: #F29492 ;
+}
+
+.color-business {
+  color: #7FC7E2
 }
 
 .how-it-works {
@@ -89,6 +97,32 @@ h4 {
   color: green;
   font-size: large;
   font-weight: bold;
+}
+
+//post_card
+.top-image {
+  background-color: lightgray;
+  height: 10rem;
+}
+
+.post-card-favorite {
+  position: absolute;
+  right: 1rem;
+  top: 8rem;
+}
+
+.post-card-public-status {
+  position: absolute;
+  top: 5rem;
+  left: 50%;
+  color: darkgrey;
+  transform: translate(-50%, -50%);
+}
+
+.posts-card-avatar {
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
 }
 // 投稿のタグ選択
 .post-box {
@@ -149,6 +183,18 @@ label.required:after {
 a {
     text-decoration: none !important;
 }
+
+
+.card-title {
+  text-decoration: none !important;
+  color: #3B5998 !important;
+}
+
+.card-title:hover {
+  color: blue !important;
+  text-decoration: underline !important;
+}
+
 
 .card-body { 
   color:#0000FF; text-decoration: none;
@@ -275,6 +321,72 @@ a {
       max-width: 100%;
       height: auto;
   }  
+  
+  // badges
+.badge-region {
+  background-color: #F29492 !important;
+}  
+
+.badge-business {
+  background-color: #7FC7E2 !important;
+}
+.tag {
+  --bs-badge-padding-x: 0.2em;
+  --bs-badge-padding-y: 0.2em;
+  --bs-badge-font-size: 0.7em;
+  --bs-badge-border-radius: var(--bs-border-radius);
+  display: inline-block;
+  padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+  font-size: var(--bs-badge-font-size);
+  font-weight: lighter;
+  line-height: 1;
+  color: black;
+  background-color: transparent !important;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--bs-badge-border-radius);
+}  
+
+.text-tag-1 {
+  border: solid 0.02rem #3F48CC;
+  color: #3F48CC;
+}
+
+.text-tag-2 {
+  border: solid 0.02rem #9C8FBC;
+  color: #9C8FBC;
+}
+
+.text-tag-3 {
+  border: solid 0.02rem #9C8FBC;
+  color: #9C8FBC;
+}
+
+.text-tag-4 {
+  border: solid 0.02rem #66C7B4;
+  color: #66C7B4;
+}
+
+.text-tag-5 {
+  border: solid 0.02rem #A2D8DD;
+  color: #A2D8DD;
+}
+
+.text-tag-6 {
+  border: solid 0.02rem #F9A7B0;
+  color: #F9A7B0;
+}
+
+.text-tag-7 {
+  border: solid 0.02rem #D1C2E9;
+  color: #D1C2E9;
+}
+
+.text-tag-8 {
+  border: solid 0.02rem #7FB3D5;
+  color: #7FB3D5;
+}
   
  /*　画面サイズが480px以下からはここを読み込む　*/
 @media screen and (max-width:768px) {

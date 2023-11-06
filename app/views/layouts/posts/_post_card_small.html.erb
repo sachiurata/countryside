@@ -1,0 +1,130 @@
+<div class="col">
+  <%#= link_to post_path(post) do %>
+ 
+    <div class="card">
+      <% if post.images.attached? %>
+        <% post.images.each_with_index do |image, index| %>
+          <% if index == 0 %>
+            <%= image_tag image, class: "card-img-top", style: "height: 10rem; object-fit: cover;" %>
+          <% end %>  
+        <% end %>
+      <% else %>
+        <div class= "card-img-top top-image">
+        &nbsp;
+        </div>
+      <% end %>
+      
+      <div class="card-img-overlay" style="padding-top:0rem;">
+        <% if post.post_type == 1 %>
+          <span class="badge badge-region" style="margin-top: 0.5rem;">土の人</span>
+        <% else %>
+          <span class="badge badge-business" style="margin-top: 0.5rem;">風の人</span>
+        <% end %>
+        <div class="post-card-favorite">
+          <%= render "layouts/posts/favorite", post: post %>
+        </div>
+        <div>
+          <% if @current_user_flag == true %>
+            <% if post.public_status_id == 1 %>
+          　  <h2 class="post-card-public-status">公開</h2>
+            <% elsif post.public_status_id == 2 %> 
+          　 <h2 class="post-card-public-status">非公開</h2>
+            <% end %>　 
+          <% end %>
+          <% if post.public_status_id == 3 %>
+          　<h2 class="post-card-public-status">終了</h2>
+          <% end %>
+        </div>  
+      </div>  
+    
+      <div class="card-body">
+        
+          <!--<h5 class="card-title">-->
+            <a href="<%= "/posts/#{post.id}" %>"><%= post.title %></a>
+          <!--</h5> -->
+        
+        
+        <div class="card-text">
+          <p><%= image_tag post.user.user_profile.avatar.variant(:thumb_s), class: "posts-card-avatar" if post.user.user_profile.avatar.attached? %>&nbsp;<%= post.user.user_profile.screen_name %></p>
+          <small class="text-body-secondary"><span class="material-symbols-outlined" style="font-size: 0.8rem">location_on</span><%= post.prefecture %><%= post.city %></small>
+          <small class="text-body-secondary" style="margin-left: 1rem"><%= l(post.updated_at, format: :short) %></small>
+        </div>
+        
+        <%#= render "layouts/posts/category_tag", post: post, post_categories: post_category_resources, badge: "badge text-bg-secondary", category: category_resource %>  
+        <% post.post_category_resources.each do |post_category_resource| %>
+          <span class="tag text-tag-1">
+            <%= post_category_resource.category_resource.tag_name %>
+          </span>
+        <% end %>
+        <% post.post_category_issues.each do |post_category_issue| %>
+          <span class="tag text-tag-2">
+            <%= post_category_issue.category_issue.tag_name %>
+          </span>   
+        <% end %>
+        <% post.post_category_markets.each do |post_category_market| %>
+          <span class="tag text-tag-3">
+            <%= post_category_market.category_market.tag_name %>
+          </span>
+        <% end %>
+        <% post.post_category_features.each do |post_category_feature| %>
+          <span class="tag text-tag-4">
+            <%= post_category_feature.category_feature.tag_name %>
+          </span>  
+        <% end %>
+        <% post.post_category_realizabilities.each do |post_category_realizability| %>
+          <span class="tag text-tag-5">
+            <%= post_category_realizability.category_realizability.tag_name %>
+          </span>  
+        <% end %>
+        <% post.post_category_wants.each do |post_category_want| %>
+          <span class="tag text-tag-1">
+            <%= post_category_want.category_want.tag_name %>
+          </span>  
+        <% end %>
+        <% post.post_category_earnest.each do |post_category_earnest| %>
+          <span class="tag text-tag-2">
+           <%= post_category_earnest.category_earnest.tag_name %>
+          </span>  
+        <% end %><br>
+        <% if post.post_type == 1 %>  
+          <% post.user.user_profile.profile_category_about_regions.each do |profile_category_about_region| %>
+            <span class="tag rounded-pill text-tag-6">
+              <%= profile_category_about_region.category_about_region.tag_name %>
+            </span>  
+          <% end %>
+          <% post.user.user_profile.profile_category_incubations.each do |profile_category_incubation| %>
+            <span class="tag rounded-pill text-tag-7">
+              <%= profile_category_incubation.category_incubation.tag_name %>
+            </span>  
+          <% end %>
+          <% post.user.user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>
+            <span class="tag rounded-pill text-tag-8">
+              <%= profile_category_immigration_support.category_immigration_support.tag_name %>
+            </span>  
+          <% end %>
+        <% else %>  
+          <% post.user.user_profile.profile_category_jobs.each do |profile_category_job| %>
+            <span class="tag rounded-pill text-tag-6">
+              <%= profile_category_job.category_job.tag_name %>
+            </span>  
+          <% end %>
+          <% post.user.user_profile.profile_category_skills.each do |profile_category_skill| %>
+            <span class="tag rounded-pill text-tag-7">
+              <%= profile_category_skill.category_skill.tag_name %>
+            </span>  
+          <% end %>
+          <% post.user.user_profile.profile_category_interests.each do |profile_category_interest| %>
+            <span class="tag rounded-pill text-tag-8">
+              <%= profile_category_interest.category_interest.tag_name %>
+            </span>  
+          <% end %>
+        <% end %>
+      </div>  
+          
+            <!--<div class="btn-show-more">-->
+              <%#= link_to "もっと見る", post_path(post), class: "btn btn-outline-secondary btn-sm", style: "margin-top: 10px;" %>
+            <!--</div>-->
+    </div>
+  <%# end %>
+ 
+</div>
