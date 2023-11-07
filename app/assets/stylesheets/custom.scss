@@ -3,7 +3,7 @@
 }
 
 .navbar-logo {
-  color: #009900;
+  color: #1BA466;
   font-size: 30px;
   font-weight: bold;
 }
@@ -44,18 +44,11 @@ h4 {
   margin: 15px !important;
 }
 
-.color-region {
-  color: #F29492 ;
-}
-
-.color-business {
-  color: #7FC7E2
-}
-
 .how-it-works {
-  color: green;
+  color: #1BA466;
   font-size: 24px;
 }
+
 .popular-posts-wrapper {
   padding-top: 50px;
 }
@@ -327,15 +320,26 @@ a {
   .img {
       max-width: 100%;
       height: auto;
-  }  
+  }
+
+// 色
+.color-region {
+  color: #D04255 ;
+}
+
+.color-business {
+  color: #4B75B9
+}  
   
   // badges
 .badge-region {
-  background-color: #F29492 !important;
+  background-color: #D04255 !important;
+  color: white !important;
 }  
 
 .badge-business {
-  background-color: #7FC7E2 !important;
+  background-color: #4B75B9 !important;
+  color: white !important;
 }
 .tag {
   --bs-badge-padding-x: 0.2em;
@@ -345,7 +349,7 @@ a {
   display: inline-block;
   padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
   font-size: var(--bs-badge-font-size);
-  font-weight: lighter;
+  font-weight: bold;
   line-height: 1;
   color: black;
   background-color: transparent !important;
@@ -355,44 +359,62 @@ a {
   border-radius: var(--bs-badge-border-radius);
 }  
 
+.tag-l {
+  --bs-badge-padding-x: 0.4em;
+  --bs-badge-padding-y: 0.2em;
+  --bs-badge-font-size: 0.7em;
+  --bs-badge-border-radius: var(--bs-border-radius);
+  display: inline-block;
+  padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+  font-weight: bold;
+  line-height: 1;
+  color: black;
+  background-color: transparent !important;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--bs-badge-border-radius);
+  border: solid 0.1 rem !important;
+}  
+
 .text-tag-1 {
-  border: solid 0.02rem #3F48CC;
-  color: #3F48CC;
+  border: solid 0.02rem #3DB680;
+  color: #3DB680;
 }
 
 .text-tag-2 {
-  border: solid 0.02rem #9C8FBC;
-  color: #9C8FBC;
+  border: solid 0.02rem#42AAC7;
+  color: #42AAC7;
 }
 
 .text-tag-3 {
-  border: solid 0.02rem #9C8FBC;
-  color: #9C8FBC;
+  border: solid 0.02rem #8B90BE;
+  color: #8B90BE;
 }
 
 .text-tag-4 {
-  border: solid 0.02rem #66C7B4;
-  color: #66C7B4;
+  border: solid 0.02rem #B75C9D;
+  color: #B75C9D;
 }
 
 .text-tag-5 {
-  border: solid 0.02rem #A2D8DD;
-  color: #A2D8DD;
+  border: solid 0.02rem #DA6272;
+  color: #DA6272;
 }
 
 .text-tag-6 {
-  border: solid 0.02rem #F9A7B0;
-  color: #F9A7B0;
+  border: solid 0.02rem #E6855E;
+  color: #E6855E;
 }
 
 .text-tag-7 {
-  border: solid 0.02rem #D1C2E9;
-  color: #D1C2E9;
+  border: solid 0.02rem #F3C759;
+  color: #F3C759;
 }
 
 .text-tag-8 {
-  border: solid 0.02rem #7FB3D5;
-  color: #7FB3D5;
+  border: solid 0.02rem #C0D860;
+  color: #C0D860;
 }
   
  /*　画面サイズが480px以下からはここを読み込む　*/

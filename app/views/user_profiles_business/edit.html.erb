@@ -1,1 +1,57 @@
-<%= render "layouts/user_profiles/user_profile_form", profile_business_flag: @profile_business_flag, user_profile: @user_profile, category_about_regions: @category_about_regions, category_incubations: @category_incubations, category_immigration_supports: @category_immigration_supports, category_jobs: @category_jobs, category_skills: @category_skills, category_interests: @category_interests, check_flags_profile_category_about_region: @check_flags_profile_category_about_region,  check_flags_profile_category_incubation: @check_flags_profile_category_incubation, check_flags_profile_category_immigration_support: @check_flags_profile_category_immigration_support, check_flags_profile_category_job: @check_flags_profile_category_job, check_flags_profile_category_skill: @check_flags_profile_category_skill, check_flags_profile_category_interest: @check_flags_profile_category_interest, profile_region_flag: @profile_region_flag, profile_business_flag: @profile_business_flag, public_status_region_flag: @public_status_region_flag, public_status_business_flag: @public_status_business_flag %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <%= bootstrap_form_with(model: @user_profile, local: true) do |f| %>
+        <%= f.hidden_field :user_id, :value => current_user.id %>
+        
+          <h1 class="text-center text-black">プロフィール情報登録</h1>
+          <%= f.hidden_field :profile_type2, value: 1 %>
+          
+          <%= f.text_area :job, label:"職業", size: "40x15", placeholder:"" %>
+          <div class="category">職業<br>
+            <% @category_jobs.each_with_index do |category_job, index| %>
+              <span style="white-space: nowrap;">
+                <input class="form-check-input", type="checkbox", name="category_job_id[]", value="<%= category_job.id %>" <%= @check_flags_profile_category_job[index] ? "checked" : "" %> >
+                <%= category_job.tag_name %>&emsp;
+              </span>  
+            <% end %>
+          </div>
+          
+          <%= f.text_area :skill, label:"得意なこと", size: "40x15", placeholder:"" %>
+          <div class="category">得意なこと<br>
+            <% @category_skills.each_with_index do |category_skill, index| %>
+              <span style="white-space: nowrap;">
+                <input class="form-check-input", type="checkbox", name="category_skill_id[]", value="<%= category_skill.id %>" <%= @check_flags_profile_category_skill[index] ? "checked" : "" %> >
+                <%= category_skill.tag_name %>&emsp;
+              </span>  
+            <% end %>
+          </div>
+          
+          <%= f.text_area :interest, label:"興味のあること", size: "40x15", placeholder:"" %>
+          <div class="category">興味のあること<br>
+            <% @category_interests.each_with_index do |category_interest, index| %>
+              <span style="white-space: nowrap;">
+                <input class="form-check-input", type="checkbox", name="category_interest_id[]", value="<%= category_interest.id %>" <%= @check_flags_profile_category_interest[index] ? "checked" : "" %> >
+                <%= category_interest.tag_name %>&emsp;
+              </span>  
+            <% end %>
+          </div>
+          
+          <%= f.text_area :other2, label:"その他", size: "40x15", placeholder:""  %>
+          <div class="public_status">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" value="1" name="user_profile[public_status_business]" id="public_status_business_1" <%= @public_status_business_flag ? checked="checked" : "" %>/>
+              <label class="form-check-label" for="public_status_business_1">公開</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" value="2" name="user_profile[public_status_business]" id="public_status_business_2" <%= @public_status_business_flag ? "" : checked="checked"%> />
+              <label class="form-check-label" for="public_status_business_2">非公開</label>
+            </div>
+          </div>
+          
+          <div class="note">※投稿を公開するにはプロフィールを公開する必要があります。<br>プロフィール非公開でもコメントやメッセージは可能ですが、その場合、名前とプロフィール写真は公開されます。</div>
+          <div class="submit"><%= f.submit %></div>
+      <% end %>
+    </div>
+  </div>
+</div>

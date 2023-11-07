@@ -1,13 +1,13 @@
 <div class="container">
   <div class="row">
     <div class="mb-3" style="max-width: 800px;"> 
-      <h2 style="margin-bottom: 50px;">地域側投稿の検索</h2>
+      <h2 style="margin-bottom: 50px;">土の人投稿の検索</h2>
         <form action="/posts_region">
           
           <%= render "layouts/posts/keyword_prefecture", keyword: @keyword, prefecture: @prefecture %>
          
-          <div>投稿のタグ</div>
-          <div class="category"><span class="badge text-bg-primary">地域資源</span><br>
+          <div style="font-weight: bold;">投稿のタグ</div>
+          <div class="category"><span class="tag-l text-tag-1">地域資源</span><br>
            
             <% @category_resources.each_with_index do |category_resource, index| %>
               <span style="white-space: nowrap;">
@@ -18,7 +18,7 @@
             
           </div>
          
-          <div class="category"><span class="badge text-bg-secondary">地域課題 </span><br>
+          <div class="category"><span class="tag-l text-tag-2">地域課題 </span><br>
             <% @category_issues.each_with_index do |category_issue, index| %>
               <span style="white-space: nowrap;">
                 <input class="form-check-input" type="checkbox" name="category_issue_id[]" value="<%= category_issue.id %>" <%= @check_flags_category_issues[index] ? 'checked' : '' %> >
@@ -27,7 +27,7 @@
             <% end %>
           </div> 
          
-          <div class="category"><span class="badge text-bg-warning">需要</span><br>
+          <div class="category"><span class="tag-l text-tag-3">需要</span><br>
             <% @category_markets.each_with_index do |category_market, index| %>
               <span style="white-space: nowrap;">
                 <input class="form-check-input" type="checkbox" name="category_market_id[]" value="<%= category_market.id %>" <%= @check_flags_category_markets[index] ? 'checked' : '' %>>
@@ -36,7 +36,7 @@
             <% end %>
           </div>
            
-          <div class="category"><span class="badge text-bg-info">地域の特色</span><br>
+          <div class="category"><span class="tag-l text-tag-4">地域の特色</span><br>
             <% @category_features.each_with_index do |category_feature, index| %>
               <span style="white-space: nowrap;">
                 <input class="form-check-input", type="checkbox", name="category_feature_id[]", value="<%= category_feature.id %>" <%= @check_flags_category_features[index] ? 'checked' : '' %>>
@@ -45,7 +45,7 @@
             <% end %>
           </div> 
          
-          <div class="category"><span class="badge text-bg-dark">実現可能性</span><br>
+          <div class="category"><span class="tag-l text-tag-5">実現可能性</span><br>
             <% @category_realizabilities.each_with_index do |category_realizability, index| %>
               <span style="white-space: nowrap;">
                 <input class="form-check-input", type="checkbox", name="category_realizability_id[]", value="<%= category_realizability.id %>" <%= @check_flags_category_realizabilities[index] ? 'checked' : '' %>>
@@ -54,8 +54,8 @@
             <% end %>
           </div>
          
-          <div>プロフィールのタグ</div>
-          <div class="category"><span class="badge rounded-pill text-bg-primary">地域について</span><br>
+          <div style="font-weight: bold;">プロフィールのタグ</div>
+          <div class="category"><span class="tag-l rounded-pill text-tag-6">地域について</span><br>
             <% @category_about_regions.each_with_index do |category_about_region, index| %>
               <span style="white-space: nowrap;">
                 <input class="form-check-input", type="checkbox", name="category_about_region_id[]", value="<%= category_about_region.id %>" <%= @check_flags_category_about_regions[index] ? 'checked' : '' %>>
@@ -64,7 +64,7 @@
             <% end %>
           </div> 
          
-          <div class="category"><span class="badge rounded-pill text-bg-secondary">地域の起業支援</span><br>
+          <div class="category"><span class="tag-l rounded-pill text-tag-7">地域の起業支援</span><br>
             <% @category_incubations.each_with_index do |category_incubation, index| %>
               <span style="white-space: nowrap;">
                 <input class="form-check-input" type="checkbox" name="category_incubation_id[]" value="<%= category_incubation.id %>" <%= @check_flags_category_incubations[index] ? 'checked' : '' %>>
@@ -73,7 +73,7 @@
             <% end %>
           </div> 
          
-          <div class="category"><span class="badge rounded-pill text-bg-warning">地域の移住支援</span><br>
+          <div class="category"><span class="tag-l rounded-pill text-tag-8">地域の移住支援</span><br>
             <% @category_immigration_supports.each_with_index do |category_immigration_support, index| %>
               <span style="white-space: nowrap;">
                 <input class="form-check-input", type="checkbox", name="category_immigration_support_id[]", value="<%= category_immigration_support.id %>" <%= @check_flags_category_immigration_supports[index] ? 'checked' : '' %>>

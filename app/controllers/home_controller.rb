@@ -6,7 +6,7 @@ class HomeController < ApplicationController
     # @posts = popular_posts - @non_public_posts
     # @posts = @posts
     # @posts = @posts.first(3)
-    @posts = Post.all
+    @posts = Post.all - @non_public_posts
     @articles = Article.order("updated_at DESC").first(3)
   end
 end

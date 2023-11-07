@@ -1,12 +1,12 @@
 <div class="container">
   <p>どちらで登録するか選択してください</p>
-  <small>登録できるプロフィールは「地域側」「起業希望者」それぞれ一つずつです。</small>
+  <small>登録できるプロフィールは「土の人」「風の人」それぞれ一つずつです。</small>
   <div>
     <%= link_to edit_user_profiles_region_path(current_user.user_profile) do  %>
-      <button class="btn btn-success" type="submit">地域側</button>
+      <button class="btn btn-success" type="submit">土の人</button>
     <% end %> 
     <%= link_to edit_user_profiles_business_path(current_user.user_profile) do  %> 
-     <button class="btn btn-danger" type="submit">起業希望者</button>
+     <button class="btn btn-danger" type="submit">風の人</button>
     <% end %>
   </div>
 </div> 

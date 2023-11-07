@@ -36,7 +36,7 @@ class PostsRegionController < ApplicationController
     # unpublic_user_profiles = UserProfile.where(public_status_region: 2)
     # @non_public_posts = Post.where(user_id: unpublic_user_profiles.pluck(:user_id)) + Post.where(public_status_id: 2)
    
-    #「地域側投稿」のみ抽出
+    #「土の人投稿」のみ抽出
     @posts_post_type = Post.where(post_type: 1) - @non_public_posts
     @posts_post_type_ids = @posts_post_type.pluck(:id)
 

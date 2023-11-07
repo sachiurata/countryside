@@ -23,9 +23,9 @@
       <div class="col-md-7">
         <div class="card-body">
           <% if post.post_type == 1 %>
-            <span class="badge badge-region">地域側</span>
+            <span class="badge badge-region">土の人</span>
           <% else %>
-            <span class="badge badge-business">起業希望者</span>
+            <span class="badge badge-business">風の人</span>
           <% end %>
           <h5 class="card-title"><%= post.title %></h5>
           <%= render "layouts/posts/favorite", post: post %>

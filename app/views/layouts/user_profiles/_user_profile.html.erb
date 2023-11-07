@@ -8,10 +8,10 @@
   <!--    <P class="place"><%#= user_profile.prefecture%><%#= user_profile.city %></P>-->
       
       <% if profile_type1_flag %>
-        <!--<span class="badge badge-region">地域側</span>-->
+        <!--<span class="badge badge-region">土の人</span>-->
         <P class="label">地域について
         <% user_profile.profile_category_about_regions.each do |profile_category_about_region| %>
-          <span class="badge rounded-pill text-bg-primary">
+          <span class="tag rounded-pill text-tag-6">
             <%= profile_category_about_region.category_about_region.tag_name %>
           </span>  
         <% end %></P>
@@ -19,7 +19,7 @@
         
         <P class="label">地域の起業支援
         <% user_profile.profile_category_incubations.each do |profile_category_incubation| %>
-          <span class="badge rounded-pill text-bg-secondary">
+          <span class="tag rounded-pill text-tag-7">
             <%= profile_category_incubation.category_incubation.tag_name %>
           </span>  
         <% end %></p>
@@ -27,7 +27,7 @@
         
         <P class="label">地域の移住支援
         <% user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>
-          <span class="badge rounded-pill text-bg-warning">
+          <span class="tag rounded-pill text-tag-8">
             <%= profile_category_immigration_support.category_immigration_support.tag_name %>
           </span>  
          <% end %></P>
@@ -38,10 +38,10 @@
       <% end %>
      
       <% if profile_type2_flag %>
-        <!--<span class="badge badge-business">起業希望者</span>-->
+        <!--<span class="badge badge-business">風の人</span>-->
         <p class="label">職業
         <% user_profile.profile_category_jobs.each do |profile_category_job| %>
-          <span class="badge rounded-pill text-bg-primary">
+          <span class="tag rounded-pill text-tag-6">
           <%= profile_category_job.category_job.tag_name %>
           </span>  
         <% end %></p>
@@ -49,7 +49,7 @@
         
         <p class="label">得意なこと
         <% user_profile.profile_category_skills.each do |profile_category_skill| %>
-          <span class="badge rounded-pill text-bg-secondary">
+          <span class="tag rounded-pill text-tag-7">
           <%= profile_category_skill.category_skill.tag_name %>
           </span>  
         <% end %></p>
@@ -57,7 +57,7 @@
         
         <p class="label">興味のあること
         <% user_profile.profile_category_interests.each do |profile_category_interest| %>
-          <span class="badge rounded-pill text-bg-warning">
+          <span class="tag rounded-pill text-tag-8">
           <%= profile_category_interest.category_interest.tag_name %>
           </span>  
         <% end %></p>

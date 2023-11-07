@@ -2,8 +2,8 @@
   <div class="row">
     <div class="mb-3" style="max-width: 800px;">
       <div class="category">
-        <%= link_to "地域側投稿", posts_region_path, class: "btn btn-success" %>
-        <%= link_to "起業希望者", posts_business_path, class: "btn btn-danger" %>
+        <%= link_to "土の人投稿", posts_region_path, class: "btn badge-region" %>
+        <%= link_to "風の人投稿", posts_business_path, class: "btn badge-business" %>
       </div>
       <form action="/posts">
         <%= render "layouts/posts/keyword_prefecture", keyword: @keyword, prefecture: @prefecture %>

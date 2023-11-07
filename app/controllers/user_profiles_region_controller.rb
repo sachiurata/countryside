@@ -23,6 +23,8 @@ class UserProfilesRegionController < ApplicationController
         @check_flags_profile_category_about_region[index] = true
       end
     end
+    puts "ここだよ"
+    p params
     
     #「地域の起業支援」のチェックボックスの選択
     @check_flags_profile_category_incubation = []

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-5">
-      <h2>土の人(地域側)</h2>
+      <h2>土の人(土の人)</h2>
       <P>土地の人のみ知る地域資源、磨くと光ると分かっていても、それを形にする人がいない。<br>
          人が減っていく中で生じた地域課題、解決するためのアイデアや人材がほしい。
       </P>
@@ -11,7 +11,7 @@
       <p>情報交換や交流の場</p>
     </div>
     <div class="col-md-5">
-      <h2>風の人（起業希望者）</h2>
+      <h2>風の人（風の人）</h2>
       <P>田舎に移住して起業したい。<br>
          今いるところから、副業として応援したい。<br>
          自分の特技を活かして地域に貢献したい。
@@ -33,13 +33,13 @@
       <div class="col-md-6">
         <h2>発信する</h2>
         <div>
-          <p>地域側として、地域資源や地域課題を投稿できます。<br>地域で起業したい人や移住してきたい人のヒントになるような投稿をしましょう。</p>
+          <p>土の人として、地域資源や地域課題を投稿できます。<br>地域で起業したい人や移住してきたい人のヒントになるような投稿をしましょう。</p>
           <ul class="icon-list">
             <li><%= link_to "投稿を作成", new_post_region_path, rel: "noopener", target: "_blank" %></li>
             <li><%= link_to "投稿の見本", post_path(1), rel: "noopener", target: "_blank" %></li>
         </div>  
         <div>
-          <p>起業希望者として、自分の行いたいプロジェクトや仕事を投稿できます。<br>自分の特技や興味を活かして、地域の人に関心を持ってもらえるようなプロジェクトを投稿しましょう。</p>
+          <p>風の人として、自分の行いたいプロジェクトや仕事を投稿できます。<br>自分の特技や興味を活かして、地域の人に関心を持ってもらえるようなプロジェクトを投稿しましょう。</p>
           <ul class="icon-list">
             <li><%= link_to "投稿を作成", new_post_business_path, rel: "noopener", target: "_blank" %></li>
             <li><%= link_to "投稿の見本", post_path(2), rel: "noopener", target: "_blank" %></li>
@@ -51,8 +51,8 @@
         <p>他の人の投稿やプロフィールが検索できます。</p>
         <ul class="icon-list">
           <li><%= link_to "全ての投稿から探す", posts_path, rel: "noopener", target: "_blank" %></li>
-          <li><%= link_to "地域側の投稿から探す", posts_region_path, rel: "noopener", target: "_blank" %></li>
-          <li><%= link_to "起業希望者の投稿から探す", posts_business_path, rel: "noopener", target: "_blank" %></li>
+          <li><%= link_to "土の人の投稿から探す", posts_region_path, rel: "noopener", target: "_blank" %></li>
+          <li><%= link_to "風の人の投稿から探す", posts_business_path, rel: "noopener", target: "_blank" %></li>
         </ul>
       </div>
       

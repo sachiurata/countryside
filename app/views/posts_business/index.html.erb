@@ -1,13 +1,13 @@
 <div class="container">
   <div class="row">
     <div class="mb-3" style="max-width: 800px;"> 
-      <h2 style="margin-bottom: 50px;">起業希望者投稿の検索</h2> 
+      <h2 style="margin-bottom: 50px;">風の人投稿の検索</h2> 
       <form action="/posts_business">
         
         <%= render "layouts/posts/keyword_prefecture", keyword: @keyword, prefecture: @prefecture %>
        
-        <div>投稿のタグ</div>
-        <div class="category"><span class="badge text-bg-primary">やりたいこと</span><br>
+        <div style="font-weight: bold;">投稿のタグ</div>
+        <div class="category"><span class="tag-l text-tag-1">やりたいこと</span><br>
           <% @category_wants.each_with_index do |category_want, index| %>
             <span style="white-space: nowrap;">
               <input class="form-check-input" type="checkbox" name="category_want_id[]" value="<%= category_want.id%>" <%= @check_flags_category_wants[index] ? 'checked' : '' %> >
@@ -16,7 +16,7 @@
           <% end %>
         </div>
        
-        <div class="category"><span class="badge text-bg-secondary">本気度</span><br>
+        <div class="category"><span class="tag-l text-tag-2">本気度</span><br>
           <% @category_earnests.each_with_index do |category_earnest, index| %>
             <span style="white-space: nowrap;">
               <input class="form-check-input" type="checkbox" name="category_earnest_id[]" value="<%= category_earnest.id %>" <%= @check_flags_category_earnests[index] ? 'checked' : '' %> >
@@ -25,8 +25,8 @@
           <% end %>
         </div>
        
-        <div>プロフィールのタグ</div> 
-        <div class="category"><span class="badge rounded-pill text-bg-primary">職業</span><br>
+        <div style="font-weight: bold;">プロフィールのタグ</div> 
+        <div class="category"><span class="tag-l rounded-pill text-tag-6">職業</span><br>
           <% @category_jobs.each_with_index do |category_job, index| %>
             <span style="white-space: nowrap;">
               <input class="form-check-input", type="checkbox", name="category_job_id[]", value="<%= category_job.id %>" <%= @check_flags_category_jobs[index] ? 'checked' : '' %>>
@@ -35,7 +35,7 @@
           <% end %>
         </div> 
        
-        <div class="category"><span class="badge rounded-pill text-bg-secondary">得意なこと</span><br>
+        <div class="category"><span class="tag-l rounded-pill text-tag-7">得意なこと</span><br>
           <% @category_skills.each_with_index do |category_skill, index| %>
             <span style="white-space: nowrap;">
               <input class="form-check-input" type="checkbox" name="category_skill_id[]" value="<%= category_skill.id %>" <%= @check_flags_category_skills[index] ? 'checked' : '' %>>
@@ -44,7 +44,7 @@
           <% end %>
         </div> 
        
-        <div class="category"><span class="badge rounded-pill text-bg-warning">興味のあること</span><br>
+        <div class="category"><span class="tag-l rounded-pill text-tag-8">興味のあること</span><br>
           <% @category_interests.each_with_index do |category_interest, index| %>
             <span style="white-space: nowrap;">
               <input class="form-check-input", type="checkbox", name="category_interest_id[]", value="<%= category_interest.id %>" <%= @check_flags_category_interests[index] ? 'checked' : '' %>>

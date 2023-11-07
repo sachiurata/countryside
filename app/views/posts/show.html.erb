@@ -4,9 +4,9 @@
       <div class="col-md-10 offset-1">
         
         <% if @post.post_type == 1 %>
-          <span class="badge badge-region">地域側</span>
+          <span class="badge badge-region">土の人</span>
         <% elsif @post.post_type == 2 %> 
-          <span class="badge badge-business">起業希望者</span>
+          <span class="badge badge-business">風の人</span>
         <% end %>
           
         <h2 class="title">
@@ -104,19 +104,19 @@
               <P class="label">地域資源・地域課題</P>
               
               <% @post.post_category_resources.each do |post_category_resource| %>
-                <span class="badge text-bg-primary">
+                <span class="tag text-tag-1">
                   <%= post_category_resource.category_resource.tag_name %>
                 </span>
               <% end %>
               
               <% @post.post_category_issues.each do |post_category_issue| %>
-                <span class="badge text-bg-secondary">
+                <span class="tag text-tag-2">
                   <%= post_category_issue.category_issue.tag_name %>
                 </span>
               <% end %>
              
               <% @post.post_category_markets.each do |post_category_market| %>
-                <span class="badge text-bg-warning">
+                <span class="tag text-tag-3">
                   <%= post_category_market.category_market.tag_name %>
                 </span>
               <% end %>
@@ -126,7 +126,7 @@
             
             <p class="label">地域の特色 
             <% @post.post_category_features.each do |post_category_feature| %>
-              <span class="badge text-bg-info">
+              <span class="tag text-tag-4">
                 <%= post_category_feature.category_feature.tag_name %>
               </span>
             <% end %></p>
@@ -134,7 +134,7 @@
             
             <p class="label">実現可能性 
             <% @post.post_category_realizabilities.each do |post_category_realizability| %>
-            <span class="badge text-bg-dark">
+            <span class="tag text-tag-5">
               <%= post_category_realizability.category_realizability.tag_name %>
             </span>
             <% end %></p>
@@ -144,7 +144,7 @@
           <% if @post.post_type == 2 %>
             <p class="label">やりたいこと</p>
             <% @post.post_category_wants.each do |post_category_want| %>
-              <span class="badge text-bg-primary">
+              <span class="tag text-tag-1">
                 <%= post_category_want.category_want.tag_name %>
               </span>
             <% end %>
@@ -152,7 +152,7 @@
             
             <p class="label">本気度 
             <% @post.post_category_earnest.each do |post_category_earnest| %>
-              <span class="badge text-bg-secondary">
+              <span class="tag text-tag-2">
                 <%= post_category_earnest.category_earnest.tag_name %>
               </span>
             <% end %></p>

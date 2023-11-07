@@ -34,7 +34,7 @@ class PostsBusinessController < ApplicationController
     # unpublic_user_profiles = UserProfile.where(public_status_business: 2)
     # @non_public_posts = Post.where(user_id: unpublic_user_profiles.pluck(:user_id)) + Post.where(public_status_id: 2)
     
-    #「起業希望者投稿」のみ抽出
+    #「風の人投稿」のみ抽出
     @posts_post_type = Post.where(post_type: 2) - @non_public_posts
     @posts_post_type_ids = @posts_post_type.pluck(:id)
     
