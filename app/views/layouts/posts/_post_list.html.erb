@@ -1,9 +1,11 @@
 <P><%= posts_count %>件の投稿</P>
 
-<% posts.each do |post| %>
-  <% if post.public_status_id == 1 || post.public_status_id == 3 %>
-    <%= render "layouts/posts/post_card", post: post %>
+<div class="row row-cols-1 row-cols-md-3 g-4" style="margin-bottom: 20px;">
+  <% posts.each do |post| %>
+    <% if post.public_status_id == 1 || post.public_status_id == 3 %>
+      <%= render "layouts/posts/post_card_small", post: post %>
+    <% end %>
   <% end %>
-<% end %>
+</div>  
 
 <div style="margin-top: 20px;"><%= paginate posts, theme: 'twitter-bootstrap-4' %></div>

@@ -1,48 +1,108 @@
-<div class="container accounts-show">
-  <div class="row g-0" style="margin-bottom: 5px 5px 40px 5px;">
-    <div class="col-md-2">
-      <%= image_tag @user_profile.avatar.variant(:thumb), class: "profile-avatar" if @user_profile.avatar.attached? %>
-      <%= image_tag "profile.png", class: "profile-icon", class: "profile-avatar" if !@user_profile.avatar.attached? %>
-    </div>
-    
-    <div class="col-md-6">
-      <h4>
-        <%= @user_profile.screen_name %>
-      </h4>
-      <P class="place">
-        <%= @user_profile.prefecture %>
-        <%= @user_profile.city %>
-      </P>
-      <small class="text-body-secondary">最終ログイン日　
-        <%= l @user_profile.user.last_sign_in_at, format: :only_date %>
-      </small>
-      <div style="margin-top: 20px;">
+<div class="container">
+  <div class="col-md-10 offset-1">
+    <div class="row g-0" style="margin-bottom: 40px;">
+      <div class="col-md-2">
+        <%= image_tag @user_profile.avatar.variant(:thumb), class: "profile-avatar" if @user_profile.avatar.attached? %>
+      </div>
+      
+      <div class="col-md-6">
+        <h4><%= @user_profile.screen_name %></h4>
+        <P class="place"><%= @user_profile.prefecture %><%= @user_profile.city %></P>
+        <small class="text-body-secondary">最終ログイン日　<%= l @user_profile.user.last_sign_in_at, format: :only_date %></small>
+        <div style="margin-top: 20px;">
         <P>
           <b>メールアドレス</b>&emsp;
           <%= current_user.email %>
         </P>
       </div>
-    </div>
+      </div>
+      
+      <div class="col-md-2">
+        <%= link_to "編集", edit_name_path(@user_profile), class: "btn btn-secondary", style: "margin-top: 20px;" %>
+      </div>
+    </div> 
     
-    <div class="col-md-2">
-      <%= link_to "編集", edit_name_path(@user_profile), class: "btn btn-secondary", style: "margin-top: 20px;" %>
+    <div class="row g-0"> 
+      <% if @user_profile.profile_type1 && @user_profile.public_status_region == 1 %>
+        <div class="post-box"> 
+          <%= render "layouts/user_profiles/user_profile", user_profile: @user_profile, profile_type1_flag: true,  profile_type2_flag: false %>
+        </div>
+        <div class="col-md-3">
+          <%= link_to "編集", edit_user_profiles_region_path(@user_profile), class: "btn btn-secondary", style: "margin: 20px;" %>
+        </div>
+      <% end %>
+    
+      <% if @user_profile.profile_type2  && @user_profile.public_status_business == 1 %>
+        <div class="post-box" style="margin-top: 20px;"> 
+          <%= render "layouts/user_profiles/user_profile", user_profile: @user_profile, profile_type1_flag: false,  profile_type2_flag: true %>
+        </div>
+        <div class="col-md-3">
+          <%= link_to "編集", edit_user_profiles_business_path(@user_profile), class: "btn btn-secondary", style: "margin: 20px;" %>
+        </div>
+      <% end %>
+     
+      <p class="profile-label" style="margin-top: 40px !important;"><%= @user_profile.screen_name %>さんの投稿</p>
+      <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-top: 0 !important; padding-top: 0 !important;">
+        <% @user_profile.posts.each do |post| %>
+          <%= render "layouts/posts/post_card_small", post: post %>
+        <% end %>
+      </div>
+      
+      <p class="profile-label" style="margin-top: 40px !important;">お気に入りの投稿</p>
+      <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-top: 0 !important; padding-top: 0 !important;">
+        <% @favorite_posts.each do |post| %>
+          <%= render "layouts/posts/post_card_small", post: post %>
+        <% end %>
+      </div>  
     </div>
   </div>
+</div> 
+
+<!--<div class="container accounts-show">-->
+<!--  <div class="row g-0" style="margin-bottom: 5px 5px 40px 5px;">-->
+<!--    <div class="col-md-2">-->
+<!--      <%= image_tag @user_profile.avatar.variant(:thumb), class: "profile-avatar" if @user_profile.avatar.attached? %>-->
+<!--      <%= image_tag "profile.png", class: "profile-icon", class: "profile-avatar" if !@user_profile.avatar.attached? %>-->
+<!--    </div>-->
+    
+<!--    <div class="col-md-6">-->
+<!--      <h4>-->
+<!--        <%= @user_profile.screen_name %>-->
+<!--      </h4>-->
+<!--      <P class="place">-->
+<!--        <%= @user_profile.prefecture %>-->
+<!--        <%= @user_profile.city %>-->
+<!--      </P>-->
+<!--      <small class="text-body-secondary">最終ログイン日　-->
+<!--        <%= l @user_profile.user.last_sign_in_at, format: :only_date %>-->
+<!--      </small>-->
+<!--      <div style="margin-top: 20px;">-->
+<!--        <P>-->
+<!--          <b>メールアドレス</b>&emsp;-->
+<!--          <%= current_user.email %>-->
+<!--        </P>-->
+<!--      </div>-->
+<!--    </div>-->
+    
+<!--    <div class="col-md-2">-->
+<!--      <%= link_to "編集", edit_name_path(@user_profile), class: "btn btn-secondary", style: "margin-top: 20px;" %>-->
+<!--    </div>-->
+<!--  </div>-->
   
-  <%= render "layouts/user_profiles/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, mypage_flag: @mypage_flag %>
-  <%= render "layouts/user_profiles/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag, mypage_flag: @mypage_flag %>
+  <%#= render "layouts/user_profiles/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, mypage_flag: @mypage_flag %>
+  <%#= render "layouts/user_profiles/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag, mypage_flag: @mypage_flag %>
   
-  <div>
-    <h4><%= current_user.user_profile.screen_name %>さんの投稿</h4>
-    <% @current_user_posts.each do |post| %>
-      <%= render "layouts/posts/post_card", post: post %>
-    <% end %>
-  </div>
+<!--  <div>-->
+<!--    <h4><%= current_user.user_profile.screen_name %>さんの投稿</h4>-->
+<!--    <% @current_user_posts.each do |post| %>-->
+<!--      <%= render "layouts/posts/post_card", post: post %>-->
+<!--    <% end %>-->
+<!--  </div>-->
   
-  <div style="margin-top: 50px;">
-    <h4>お気に入りの投稿</h4>
-    <% @favorite_posts.each do |post| %>
-      <%= render "layouts/posts/post_card", post: post %>
-    <% end %>
-  </div>
-</div>
+<!--  <div style="margin-top: 50px;">-->
+<!--    <h4>お気に入りの投稿</h4>-->
+<!--    <% @favorite_posts.each do |post| %>-->
+<!--      <%= render "layouts/posts/post_card", post: post %>-->
+<!--    <% end %>-->
+<!--  </div>-->
+<!--</div>-->

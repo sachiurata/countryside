@@ -1,41 +1,50 @@
 <div class="container">
-  <div class="row g-0" style="margin-bottom: 40px;">
-    <div class="col-md-2">
-      <%= image_tag @user_profile.avatar.variant(:thumb), class: "profile-avatar" if @user_profile.avatar.attached? %>
-    </div>
-    
-    <div class="col-md-6">
-      <h4><%= @user_profile.screen_name %></h4>
-      <P class="place"><%= @user_profile.prefecture %><%= @user_profile.city %></P>
-      <small class="text-body-secondary">最終ログイン日　<%= l @user_profile.user.last_sign_in_at, format: :only_date %></small>
-    </div>
-    
-    <div class="col-md-2">
-      <% if user_signed_in? && @user_profile.user_id != current_user.id %>
-        <%= link_to "メッセージを送る", messages_path(@user_profile.user_id), class: "btn btn-primary", style: "margin-top: 20px;" %>
-      <% end %> 
-    </div>
- </div> 
-  
-  <div class="row g-0"> 
-    <% if @user_profile.public_status_region == 1 %>
-      <% if @user_profile.profile_type1 %>
-        <%= render "layouts/user_profiles/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, mypage_flag: @mypage_flag %>
-      <% end %>
-    <% end %>
-   
-    <% if @user_profile.public_status_business == 1 %>
-      <% if @user_profile.profile_type2 %>
-       <%= render "layouts/user_profiles/user_profile_business", user_profile: @user_profile, profile_type2_flag: @profile_type2_flag, mypage_flag: @mypage_flag %>
-      <% end %>
-    <% end %> 
-    
-    <% @posts.each do |post| %>
-      <div class="row g-0">
-        <% if post.public_status_id == 1 %>
-          <%= render "layouts/posts/post_card", post: post %>
-        <% end %>
+  <div class="col-md-10 offset-1">
+    <div class="row g-0" style="margin-bottom: 40px;">
+      <div class="col-md-2">
+        <%= image_tag @user_profile.avatar.variant(:thumb), class: "profile-avatar" if @user_profile.avatar.attached? %>
       </div>
-    <% end %>
+      
+      <div class="col-md-6">
+        <h4><%= @user_profile.screen_name %></h4>
+        <P class="place"><%= @user_profile.prefecture %><%= @user_profile.city %></P>
+        <small class="text-body-secondary">最終ログイン日　<%= l @user_profile.user.last_sign_in_at, format: :only_date %></small>
+      </div>
+      
+      <div class="col-md-2">
+        <% if user_signed_in? && @user_profile.user_id != current_user.id %>
+          <%= link_to "メッセージを送る", messages_path(@user_profile.user_id), class: "btn btn-primary", style: "margin-top: 20px;" %>
+        <% end %> 
+      </div>
+    </div> 
+    
+    <div class="row g-0"> 
+      <% if @user_profile.profile_type1 && @user_profile.public_status_region == 1 %>
+        <div class="post-box"> 
+          <%= render "layouts/user_profiles/user_profile", user_profile: @user_profile, profile_type1_flag: true,  profile_type2_flag: false %>
+          <%#= render "layouts/user_profiles/user_profile_region", user_profile: @user_profile, profile_type1_flag: @profile_type1_flag, mypage_flag: @mypage_flag %>
+        </div>
+      <% end %>
+    
+      <% if @user_profile.profile_type2  && @user_profile.public_status_business == 1 %>
+        <div class="post-box" style="margin-top: 20px;"> 
+          <%= render "layouts/user_profiles/user_profile", user_profile: @user_profile, profile_type1_flag: false,  profile_type2_flag: true %>
+        </div>
+      <% end %>
+     
+      <p class="profile-label" style="margin-top: 40px !important;"><%= @user_profile.screen_name %>さんの投稿</p>
+        <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-top: 0 !important; padding-top: 0 !important;">
+          <% @posts.each do |post| %>
+            <%= render "layouts/posts/post_card_small", post: post %>
+          <% end %>
+        </div>  
+      <!--  <%# @posts.each do |post| %>-->
+      <!--  <div class="row g-0">-->
+      <!--    <%# if post.public_status_id == 1 %>-->
+      <!--      <%#= render "layouts/posts/post_card", post: post %>-->
+      <!--    <%# end %>-->
+      <!--  </div>-->
+      <!--<%# end %>-->
+    </div>
   </div>
 </div> 

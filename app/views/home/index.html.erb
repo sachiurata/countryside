@@ -113,12 +113,10 @@
     <!--</div>-->
     
     <div class="popular-posts-wrapper">
-      <h5>人気の投稿</h5>
+      <h5>最新の投稿</h5>
       <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-bottom: 20px;">
         <% @posts.each do |post| %>
-          <%#= link_to post_path(post) do %>
-            <%= render "layouts/posts/post_card_small", post: post %>
-          <% #end %>
+          <%= render "layouts/posts/post_card_small", post: post %>
         <% end %>
       </div>  
       <div class="btn-show-more">

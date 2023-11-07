@@ -4,9 +4,9 @@
       <div class="col-md-10 offset-1">
         
         <% if @post.post_type == 1 %>
-          <span class="badge text-bg-success">地域側</span>
+          <span class="badge badge-region">地域側</span>
         <% elsif @post.post_type == 2 %> 
-          <span class="badge text-bg-danger">起業希望者</span>
+          <span class="badge badge-business">起業希望者</span>
         <% end %>
           
         <h2 class="title">
@@ -17,7 +17,9 @@
         </h2>
         
         <div class="row">
-          <p class="name"><%= @post.user.user_profile.screen_name %></p>
+          <%= link_to user_profile_path(@post.user.user_profile) do %>
+            <p class="name"><%= image_tag @post.user.user_profile.avatar.variant(:thumb_s), class: "posts-card-avatar" if @post.user.user_profile.avatar.attached? %>&nbsp;<%= @post.user.user_profile.screen_name %></p>
+          <% end %>  
           <div class="col-md-9">  
             <P class="place"><span class="material-symbols-outlined">location_on</span><%= @post.prefecture%><%= @post.city %></P>
           </div>
@@ -162,91 +164,78 @@
             <%= link_to "投稿の編集", edit_post_path(@post.id), class: "btn btn-secondary btn-edit" %>
           <% end %>
         </div>
-        
-        <% if @post.post_type == 1 %>
-          <div class="post-box" id="support">
-            <div class="profile-content"> 
-              <P class="label">地域の起業支援
-                <% @post.user.user_profile.profile_category_incubations.each do |profile_category_incubation| %>
-                  <span class="badge rounded-pill text-bg-secondary">
-                    <%= profile_category_incubation.category_incubation.tag_name %>
-                  </span>  
-                <% end %></p>
-              <P><%= text_url_to_link(safe_join((h(@post.user.user_profile.incubation)).split("\n"),tag(:br))).html_safe %></P>
-            </div>
+       
+        <div class="post-box" id="support"> 
+          <% if @post.post_type == 1 %>
+            <%= render "layouts/user_profiles/user_profile", user_profile: @post.user.user_profile, profile_type1_flag: true,  profile_type2_flag: false %>
+              <!--<P class="label">地域の起業支援-->
+              <!--  <%# @post.user.user_profile.profile_category_incubations.each do |profile_category_incubation| %>-->
+              <!--    <span class="badge rounded-pill text-bg-secondary">-->
+              <!--      <%#= profile_category_incubation.category_incubation.tag_name %>-->
+              <!--    </span>  -->
+              <!--  <%# end %></p>-->
+              <!--<P><%#= text_url_to_link(safe_join((h(@post.user.user_profile.incubation)).split("\n"),tag(:br))).html_safe %></P>-->
             
-            <div class="profile-content"> 
-              <P class="label">地域の移住支援
-                <% @post.user.user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>
-                  <span class="badge rounded-pill text-bg-warning">
-                    <%= profile_category_immigration_support.category_immigration_support.tag_name %>
-                  </span>  
-                <% end %></P>
-              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.immigration_support)).split("\n"),tag(:br))).html_safe %></p>
-            </div>
+              <!--<P class="label">地域の移住支援-->
+              <!--  <%# @post.user.user_profile.profile_category_immigration_supports.each do |profile_category_immigration_support| %>-->
+              <!--    <span class="badge rounded-pill text-bg-warning">-->
+              <!--      <%#= profile_category_immigration_support.category_immigration_support.tag_name %>-->
+              <!--    </span>  -->
+              <!--  <%# end %></P>-->
+              <!--<p><%#= text_url_to_link(safe_join((h(@post.user.user_profile.immigration_support)).split("\n"),tag(:br))).html_safe %></p>-->
             
-            <div class="profile-content"> 
-              <p class="label">その他</p>
-              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.other1)).split("\n"),tag(:br))).html_safe %></p>
-            </div>
-          </div>
-        <% elsif @post.post_type == 2 %>
-          <div class="post-box" id="support">
-            <div class="profile-content"> 
-              <p class="label">職業
-              <% @post.user.user_profile.profile_category_jobs.each do |profile_category_job| %>
-                <span class="badge rounded-pill text-bg-primary">
-                <%= @post.user.profile_category_job.category_job.tag_name %>
-                </span>  
-              <% end %></p>
-              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.job)).split("\n"),tag(:br))).html_safe %></p>
-            </div>
+              <!--<p class="label">その他</p>-->
+              <!--<p><%#= text_url_to_link(safe_join((h(@post.user.user_profile.other1)).split("\n"),tag(:br))).html_safe %></p>-->
+          <% elsif @post.post_type == 2 %>
+            <%= render "layouts/user_profiles/user_profile", user_profile: @post.user.user_profile, profile_type1_flag: false, profile_type2_flag: true %>
+              <!--<p class="label">職業-->
+              <!--<%# @post.user.user_profile.profile_category_jobs.each do |profile_category_job| %>-->
+              <!--  <span class="badge rounded-pill text-bg-primary">-->
+              <!--  <%#= @post.user.profile_category_job.category_job.tag_name %>-->
+              <!--  </span>  -->
+              <!--<%# end %></p>-->
+              <!--<p><%#= text_url_to_link(safe_join((h(@post.user.user_profile.job)).split("\n"),tag(:br))).html_safe %></p>-->
          
-            <div class="profile-content"> 
-              <p class="label">得意なこと
-              <% @post.user.user_profile.profile_category_skills.each do |profile_category_skill| %>
-                <span class="badge rounded-pill text-bg-secondary">
-                <%= @post.user.profile_category_skill.category_skill.tag_name %>
-                </span>  
-              <% end %></p>
-              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.interest)).split("\n"),tag(:br))).html_safe %></p>
-            </div>
+              <!--<p class="label">得意なこと-->
+              <!--<%# @post.user.user_profile.profile_category_skills.each do |profile_category_skill| %>-->
+              <!--  <span class="badge rounded-pill text-bg-secondary">-->
+              <!--  <%#= @post.user.profile_category_skill.category_skill.tag_name %>-->
+              <!--  </span>  -->
+              <!--<%# end %></p>-->
+              <!--<p><%#= text_url_to_link(safe_join((h(@post.user.user_profile.interest)).split("\n"),tag(:br))).html_safe %></p>-->
             
-            <div class="profile-content"> 
-              <p class="label">興味のあること
-              <% @post.user.user_profile.profile_category_interests.each do |profile_category_interest| %>
-                <span class="badge rounded-pill text-bg-warning">
-                <%= @post.user.profile_category_interest.category_interest.tag_name %>
-                </span>  
-              <% end %></p>
-              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.interest)).split("\n"),tag(:br))).html_safe %></p>
-            </div> 
+              <!--<p class="label">興味のあること-->
+              <!--<%# @post.user.user_profile.profile_category_interests.each do |profile_category_interest| %>-->
+              <!--  <span class="badge rounded-pill text-bg-warning">-->
+              <!--  <%#= @post.user.profile_category_interest.category_interest.tag_name %>-->
+              <!--  </span>  -->
+              <!--<%# end %></p>-->
+              <!--<p><%#= text_url_to_link(safe_join((h(@post.user.user_profile.interest)).split("\n"),tag(:br))).html_safe %></p>-->
             
-            <div class="profile-content"> 
-              <p class="label">その他</p>
-              <p><%= text_url_to_link(safe_join((h(@post.user.user_profile.other2)).split("\n"),tag(:br))).html_safe %></p>
-            </div>    
-          </div>   
-        <% end %>
-      
+              <!--<p class="label">その他</p>-->
+              <!--<p><%#= text_url_to_link(safe_join((h(@post.user.user_profile.other2)).split("\n"),tag(:br))).html_safe %></p>-->
+            
+          <% end %>
+        </div>   
      
     
-    <div class="col-md-9 post-box" style="margin-top: 40px;" id="comment">
+    <div class="post-box" style="margin-top: 40px;" id="comment">
+      <P class="label" style="margin-bottom: 1rem;">コメント・情報提供</P>
       <% @post.comments.each do |comment| %>
         <div class="row">
           <div class="col-md-1" style="margin: 10px;">
             <%= link_to user_profile_path(comment.user.user_profile.id) do %>
-              <%= image_tag comment.user.user_profile.avatar.variant(:thumb_s), class: "posts-profile-avatar" if comment.user.user_profile.avatar.attached? %><br>
-              
+              <%= image_tag comment.user.user_profile.avatar.variant(:thumb_s), class: "message-avatar" if comment.user.user_profile.avatar.attached? %>
+              <%= image_tag "profile.png", class: "message-avatar", id: "message-card-avatar" if !comment.user.user_profile.avatar.attached? %><br>
             <% end %> 
           </div>
          
-          <div class="col-md-8 card" style="margin: 10px 0px;">
+          <div class="col-md-9 card" style="margin: 10px 0px;">
             <span class="screen_name"><%= comment.user.user_profile.screen_name %></span>
             <%= text_url_to_link(safe_join((h(comment.content)).split("\n"),tag(:br))).html_safe %>
           </div>
          
-          <div class="col-md-2">
+          <div class="col-md-1">
             <% if user_signed_in? && comment.user_id == current_user.id %> 
               <%= link_to edit_post_comment_path(@post.id, comment.id) do %>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
