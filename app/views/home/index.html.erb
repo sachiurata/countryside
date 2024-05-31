@@ -2,7 +2,6 @@
     <div class="top-wrapper-text">
         <h1 style="margin-top: 2rem;">地方で起業したい。田舎で暮らしたい。遠くから副業で応援したい。</h1>
         <h5>そんな地域で起業・副業したい人と地域での起業や移住のヒントを持つ人の橋渡しをします。</h5>
-        <%#= link_to "詳しくはこちら", about_path, class: "btn btn-show-more" %>
     </div>
 </div>
 
@@ -57,24 +56,20 @@
     
     <div class="row g-5">
       <div class="col-md-4">
-      <!--<div class="col-md-3">-->
         <h2 class="how-it-works"><span class="material-symbols-outlined">record_voice_over</span>&nbsp;発信する</h2>
         <div>
           <p>土の人として、地域資源や地域課題を投稿できます。<br>地域で起業したい人や移住してきたい人のヒントになるような投稿をしましょう。</p>
           <ul class="icon-list">
-            <li><%= link_to "土の人の投稿の見本", post_path(1), rel: "noopener", target: "_blank" %></li>
             <li><%= link_to "土の人として投稿を作成", new_post_region_path, rel: "noopener", target: "_blank" %></li>
         </div>  
         <div>
           <p>風の人として、自分の行いたいプロジェクトや仕事を投稿できます。<br>自分の特技や興味を活かして、地域の人に関心を持ってもらえるようなプロジェクトを投稿しましょう。</p>
           <ul class="icon-list">
-            <li><%= link_to "風の人の投稿の見本", post_path(2), rel: "noopener", target: "_blank" %></li>
             <li><%= link_to "風の人として投稿を作成", new_post_business_path, rel: "noopener", target: "_blank" %></li>
         </div>  
       </div>
     
       <div class="col-md-4">
-      <!--<div class="col-md-3">-->
         <h2 class="how-it-works"><span class="material-symbols-outlined">search</span>&nbsp;探す</h2>
         <p>他の人の投稿で地域資源や地域課題が検索できます。</p>
         <p>起業したい人のアイデアが検索できます。</p>
@@ -87,7 +82,6 @@
       </div>
       
     <div class="col-md-4">
-      <!--<div class="col-md-3">-->
         <h2 class="how-it-works"><span class="material-symbols-outlined">cheer</span>&nbsp;支援する</h2>
         <div>
           <p>他の会員にメッセージを送れます。<br>各ユーザーのページにメッセージボタンがあります。</p>
@@ -98,19 +92,10 @@
           <p>投稿にコメントを残せます。有用な情報、アイデア、感想などコメントしましょう。</p>
         </div> 
         <div>
-          <p>ボタンで投稿者を応援できます。（未実装）</p>
-        </div>  
-        <div>
-          <p>投稿者にカンパできます。（未実装）</p>
+          <p>いいねボタンで投稿者を応援できます。</p>
         </div>  
       </div>
       
-      <!--<div class="col-md-4">-->
-      <!--<div class="col-md-3">  -->
-        <!--<h2 class="how-it-works"><span class="material-symbols-outlined">thumb_up</span>応援する</h2>-->
-        
-      <!--</div>-->
-    <!--</div>-->
     
     <div class="popular-posts-wrapper">
       <h5>最新の投稿</h5>
